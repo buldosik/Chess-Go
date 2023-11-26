@@ -13,7 +13,6 @@ import androidx.compose.ui.text.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chessgo.frontend.registration.sign_in.SignInActivity
-import com.example.chessgo.frontend.registration.sign_up.SignUpActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChessgoTheme {
                 GreetingScreen(onLoginClick = {
-                    val intent = Intent(applicationContext, SignUpActivity::class.java)
+                    val intent = Intent(applicationContext, SignInActivity::class.java)
                     startActivity(intent)
                 },) {
                     val intent = Intent(applicationContext, SignInActivity::class.java)

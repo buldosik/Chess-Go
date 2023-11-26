@@ -23,12 +23,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".frontend.registration.sign_in.SignInActivity"
+            android:name=".frontend.registration.sign_up.SignUpActivity"
             android:label="SignIn">
 
         </activity>
         <activity
-            android:name=".frontend.registration.sign_up.SignUpActivity"
+            android:name=".frontend.registration.sign_in.SignInActivity"
             android:label="SignUp">
         </activity>
     </application>
