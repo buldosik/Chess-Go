@@ -1,4 +1,4 @@
-package com.example.chessgo.frontend.registration.sign_up
+package com.example.chessgo.backend.registration.sign_up
 
 data class SignUpUiState(
     var email: String = "",
