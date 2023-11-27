@@ -2,8 +2,6 @@ package com.example.chessgo.backend.registration.sign_up
 
 import android.content.ContentValues
 import android.util.Log
-import com.example.chessgo.backend.registration.Results
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
@@ -17,20 +15,19 @@ class SignUpManager {
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
+                if( task.isSuccessful){
                     val user = auth.currentUser
                     val profileUpdates = UserProfileChangeRequest.Builder()
                         .setDisplayName(userName)
                         .build()
-                    System.out.println("new boy")
-                    onComplete(user, profileUpdates)
-                } else {
-                    val user = auth.currentUser
-                    val profileUpdates = UserProfileChangeRequest.Builder()
-                        .setDisplayName(userName)
-                        .build()
-                    System.out.println("failed boy")
-                    onComplete(null, null)
+                    user?.sendEmailVerification()
+                        ?.addOnCompleteListener { verificationTask ->
+                            if(verificationTask.isSuccessful){
+                                onComplete(user, profileUpdates)
+                            } else {
+                                onComplete(null, null)
+                            }
+                        }
                 }
             }
     }

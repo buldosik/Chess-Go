@@ -1,11 +1,8 @@
 package com.example.chessgo.frontend.registration.sign_up
 
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.backend.registration.sign_up.SignUpUiState
-import com.example.chessgo.frontend.MainActivity
+import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 import com.example.chessgo.frontend.registration.sign_in.SignInActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
 
@@ -78,7 +75,7 @@ class SignUpActivity : ComponentActivity() {
     }
 
     private fun loginOnSuccess(){
-        val intent = Intent(applicationContext, MainActivity::class.java)
+        val intent = Intent(applicationContext, MainMenuActivity::class.java)
         startActivity(intent)
         finish()
     }

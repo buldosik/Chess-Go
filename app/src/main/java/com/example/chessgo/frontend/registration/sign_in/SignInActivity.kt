@@ -21,16 +21,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LiveData
 import com.example.chessgo.backend.registration.sign_in.SignInUiState
 import com.example.chessgo.frontend.MainActivity
-import com.example.chessgo.frontend.registration.sign_up.SignUpActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.example.chessgo.backend.registration.Results
-import com.example.chessgo.backend.registration.sign_in.SignInManager
+import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 import com.google.firebase.auth.FirebaseUser
 
 class SignInActivity: ComponentActivity() {
@@ -46,7 +41,7 @@ class SignInActivity: ComponentActivity() {
         setContent {
             ChessgoTheme {
                 LoginForm {
-                    val intent = Intent(applicationContext, SignUpActivity::class.java).apply {
+                    val intent = Intent(applicationContext, MainActivity::class.java).apply {
                         putExtra("registration", false)
                     }
                     startActivity(intent)
@@ -81,7 +76,7 @@ class SignInActivity: ComponentActivity() {
         }
     }
     private fun onLoginSuccess(user: FirebaseUser?){
-        val intent = Intent(applicationContext, MainActivity::class.java)
+        val intent = Intent(applicationContext, MainMenuActivity::class.java)
         startActivity(intent)
         finish()
     }
