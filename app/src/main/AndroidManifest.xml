@@ -11,10 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chessgo"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
         <activity
-            android:name=".frontend.MainActivity"
+            android:name=".frontend.map.MapActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_map"
             android:theme="@style/Theme.Chessgo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,14 +27,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".frontend.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Chessgo"></activity>
+        <activity
             android:name=".frontend.registration.sign_up.SignUpActivity"
-            android:label="SignIn">
-
-        </activity>
+            android:label="SignIn" />
         <activity
             android:name=".frontend.registration.sign_in.SignInActivity"
-            android:label="SignUp">
-        </activity>
+            android:label="SignUp" />
     </application>
 
 </manifest>
