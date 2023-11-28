@@ -21,83 +21,64 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.chessgo.backend.registration.sign_in.SignInUiState
 import com.example.chessgo.frontend.MainActivity
-import com.example.chessgo.frontend.registration.sign_up.SignUpActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
-import com.google.firebase.auth.FirebaseAuth
+import com.example.chessgo.backend.registration.Results
+import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
-class SignInActivity:  ComponentActivity() {
+class SignInActivity: ComponentActivity() {
 
-
-    private lateinit var auth: FirebaseAuth
     private var uiState by mutableStateOf(SignInUiState())
+    private lateinit var signInViewModel :  SignInViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = Firebase.auth
-
+        signInViewModel = SignInViewModel()
     }
-
     override fun onStart() {
         super.onStart()
         setContent {
             ChessgoTheme {
                 LoginForm {
-                    val intent = Intent(applicationContext, SignUpActivity::class.java).apply {
+                    val intent = Intent(applicationContext, MainActivity::class.java).apply {
                         putExtra("registration", false)
                     }
-
                     startActivity(intent)
                 }
             }
         }
     }
-
     private fun login() {
         if (uiState.isNotEmpty()) {
+            signInViewModel.signInWithEmailAndPassword(uiState.email, uiState.password)
+        }
 
-            auth.signInWithEmailAndPassword(uiState.email, uiState.password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(ContentValues.TAG, "createUserWithEmail:success")
-                        val user = auth.currentUser
-
-                        updateUI(user)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                        updateUI(null)
-                    }
+        signInViewModel.signInResult.observe(this){result ->
+            when(result){
+                is Results.Success -> {
+                    val user = result.data
+                    // Handle success
+                    onLoginSuccess(user)
                 }
+                is Results.Failure -> {
+                    val exception = result.exception
+
+                    // If sign in fails, display a message to the user.
+                    Log.w(ContentValues.TAG, "createUserWithEmail:failure", exception)
+                    Toast.makeText(
+                        baseContext,
+                        "Login failed.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+            }
         }
     }
-
-    private fun updateUI(user: FirebaseUser?) {
-        if(user != null){
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }
-
-    private fun getPhotoUrl(): String? {
-        val user = auth.currentUser
-        return user?.photoUrl?.toString()
-    }
-
-    private fun getUserName(): String? {
-        val user = auth.currentUser
-        return if (user != null) {
-            user.displayName
-        } else "Failed to display an user's name"
+    private fun onLoginSuccess(user: FirebaseUser?){
+        val intent = Intent(applicationContext, MainMenuActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     @Composable
