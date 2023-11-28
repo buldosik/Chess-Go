@@ -16,7 +16,7 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".frontend.map.MapActivity"
+            android:name=".frontend.irlMenu.searching.SearchingMenu"
             android:exported="true"
             android:label="@string/title_activity_map"
             android:theme="@style/Theme.Chessgo">
