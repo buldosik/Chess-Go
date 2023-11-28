@@ -11,6 +11,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chessgo"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
+        <activity
+            android:name=".frontend.irlMenu.searching.SearchingMenu"
+            android:exported="true"
+            android:label="@string/title_activity_map"
+            android:theme="@style/Theme.Chessgo">
+
+        </activity>
         <activity
             android:name=".frontend.MainActivity"
             android:exported="true"

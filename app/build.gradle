@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -53,14 +54,12 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
     implementation 'androidx.activity:activity-compose:1.8.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation 'com.google.firebase:firebase-firestore:24.9.1'
-    implementation 'androidx.compose.material3:material3:1.1.2'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
     implementation 'androidx.compose.material:material:1.5.4'
+    implementation 'androidx.compose.material3:material3:1.1.2'
+    implementation 'androidx.compose.ui:ui-graphics'
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:32.6.0')
@@ -69,8 +68,24 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database-ktx:20.3.0'
+    implementation 'com.google.firebase:firebase-firestore:24.9.1'
+
+    implementation 'com.google.android.material:material:1.10.0'
+
+    implementation 'com.google.maps.android:maps-compose:4.3.0'
+    // Optionally, you can include the Compose utils library for Clustering,
+    // Street View metadata checks, etc.
+    implementation 'com.google.maps.android:maps-compose-utils:4.3.0'
+    // Optionally, you can include the widgets library for ScaleBar, etc.
+    implementation 'com.google.maps.android:maps-compose-widgets:4.3.0'
 
     testImplementation 'junit:junit:4.13.2'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
 }
