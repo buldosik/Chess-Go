@@ -1,5 +1,6 @@
 package com.example.chessgo.frontend.mainmenu
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,10 +14,18 @@ import androidx.compose.ui.Modifier
 import com.example.chessgo.ui.theme.ChessgoTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import com.example.chessgo.frontend.mainmenu.onlinegame.OnlineGameMenuActivity
 import com.example.chessgo.frontend.mainmenu.realtimegame.RealLifeMenuActivity
+import kotlinx.coroutines.launch
 
 class MainMenuActivity : ComponentActivity(){
 
@@ -38,36 +47,93 @@ class MainMenuActivity : ComponentActivity(){
             }
         }
     }
+}
 
-    @Composable
-    fun MainScreen(onIrlClick: () -> Unit, onOnlineClick: () -> Unit) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun MainScreen(
+    onIrlClick: () -> Unit,
+    onOnlineClick: () -> Unit
+) {
+
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            AppBar(
+                onNavigationIconClick = {
+                    scope.launch {
+                        scaffoldState.drawerState.open()
+                    }
+                }
+            )
+        },
+        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+        drawerContent = {
+            DrawerHeader(modifier = Modifier)
+            DrawerBody(
+                items = listOf(
+                    MenuItem(
+                        id = "home",
+                        title = "Home",
+                        contentDescription = "Go to home screen",
+                        icon = Icons.Default.Home
+                    ),
+                    MenuItem(
+                        id = "settings",
+                        title = "Settings",
+                        contentDescription = "Go to settings screen",
+                        icon = Icons.Default.Settings
+                    ),
+                    MenuItem(
+                        id = "help",
+                        title = "Help",
+                        contentDescription = "Get help",
+                        icon = Icons.Default.Info
+                    ),
+                ),
+                onItemClick = {
+                    /*TODO*/
+                }
+            )
+        }
+    ) {
+        mainContent(onIrlClick = onIrlClick,
+            onOnlineClick = onOnlineClick
+        )
+    }
+}
+
+@Composable
+fun mainContent(onIrlClick: () -> Unit, onOnlineClick: () -> Unit){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+
         ) {
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(
-                onClick = { onIrlClick() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .padding(vertical = 8.dp)
-            ) {
-                Text(text = "Play Irl")
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(
-                onClick = { onOnlineClick() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .padding(vertical = 8.dp)
-            ) {
-                Text(text = "Play Online")
-            }
+
+        Spacer(modifier = Modifier.height(20.dp))
+        Button(
+            onClick = { onIrlClick() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Text(text = "Play Irl")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Button(
+            onClick = { onOnlineClick() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Text(text = "Play Online")
         }
     }
-
-
 }
