@@ -98,11 +98,15 @@ class SignUpActivity : ComponentActivity() {
     }
 
     private fun loginOnSuccess(){
+        // ToDo something like that
+        // ClientManager.initClient(user.uid, user.displayName ,user.email)
         val intent = Intent(applicationContext, MainMenuActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+    // ToDo put compose functions into another file, where will be only compose functions
+    // ToDo add comments to elements, for reason without reading params of object to understand what is that object
     @Composable
     fun RegistrationForm(onSignInClick: () -> Unit){
 
