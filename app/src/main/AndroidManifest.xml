@@ -23,6 +23,13 @@
 
         </activity>
         <activity
+            android:name=".frontend.registration.forgotPassword.ForgotPasswordActivity"
+            android:exported="true"
+            android:label="@string/forgot_password_activity"
+            android:theme="@style/Theme.Chessgo">
+
+        </activity>
+        <activity
             android:name=".frontend.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
