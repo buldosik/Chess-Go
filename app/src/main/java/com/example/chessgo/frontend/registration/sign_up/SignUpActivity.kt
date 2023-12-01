@@ -9,15 +9,24 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.*
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chessgo.backend.registration.Results
@@ -44,6 +53,20 @@ class SignUpActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun passwordValidator(password: String): Boolean {
+        val minLength = 8
+        val containsDigit = "(.*[0-9].*)"
+        val containsLowerCase = "(.*[a-z].*)"
+        val containsUpperCase = "(.*[A-Z].*)"
+        val containsSpecialChar = "(.*[@#$%^&+=].*)"
+
+        return password.length >= minLength &&
+                password.matches(containsDigit.toRegex()) &&
+                password.matches(containsLowerCase.toRegex()) &&
+                password.matches(containsUpperCase.toRegex()) &&
+                password.matches(containsSpecialChar.toRegex())
     }
 
     private fun createAccount() {
@@ -92,7 +115,6 @@ class SignUpActivity : ComponentActivity() {
             Text(text = "Registration", style = TextStyle(fontSize = 40.sp), modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 0.dp))
 
             Spacer(modifier = Modifier.height(20.dp))
-            //var email by remember { mutableStateOf("") }
             TextField(
                 value = uiState.email,
                 onValueChange = {email ->  uiState = uiState.copy(email = email) },
@@ -100,7 +122,6 @@ class SignUpActivity : ComponentActivity() {
             )
 
             Spacer(modifier = Modifier.height(20.dp))
-            //var userName by remember { mutableStateOf("") }
             TextField(
                 value = uiState.userName,
                 onValueChange = {userName ->  uiState = uiState.copy(userName = userName)},
@@ -108,33 +129,44 @@ class SignUpActivity : ComponentActivity() {
             )
 
             Spacer(modifier = Modifier.height(20.dp))
-            //var password by remember { mutableStateOf("") }
+            var passwordVisible: Boolean by remember { mutableStateOf(false) }
             TextField(
                 value = uiState.password,
-                onValueChange = {password -> uiState = uiState.copy(password = password) },
-                label = { Text(text = "Password") }
-            )
-            Spacer(modifier = Modifier.height(1.dp))
-
-            ClickableText(
-                text = AnnotatedString("Forgot password?"),
-                onClick = { },
-
-                modifier = Modifier
-                    .align(alignment = Alignment.End)
-                    .padding(end = 60.dp),
-                style = TextStyle(
-                    fontSize = 14.sp,
+                label = { Text(text = "Password") },
+                trailingIcon = {
+                    var image = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+                    val description = if (passwordVisible) "Hide password" else "Show password"
+                    IconButton(onClick = {
+                        println("Here")
+                        passwordVisible = !passwordVisible
+                        image = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+                    }) {
+                        Icon(imageVector = image, description)
+                    }
+                },
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                onValueChange = {password -> uiState = uiState.copy(password = password)},
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.None,
+                    autoCorrect = false,
                 ),
+            )
 
-                )
             Spacer(modifier = Modifier.height(25.dp))
 
             Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                 Button(
                     colors = ButtonDefaults.outlinedButtonColors(backgroundColor = Color.Blue),
                     onClick = {
-                        createAccount()
+                        if (passwordValidator(uiState.password)) {
+                            createAccount()
+                        } else {
+                            Toast.makeText(
+                                baseContext,
+                                "Your password doesn't meet criteria",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     },
                     shape = RoundedCornerShape(50.dp),
                     modifier = Modifier

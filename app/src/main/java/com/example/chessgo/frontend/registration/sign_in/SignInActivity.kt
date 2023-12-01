@@ -10,22 +10,31 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.*
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chessgo.backend.registration.sign_in.SignInUiState
-import com.example.chessgo.frontend.MainActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.frontend.mainmenu.MainMenuActivity
+import com.example.chessgo.frontend.registration.sign_up.SignUpActivity
 import com.google.firebase.auth.FirebaseUser
 
 class SignInActivity: ComponentActivity() {
@@ -41,7 +50,7 @@ class SignInActivity: ComponentActivity() {
         setContent {
             ChessgoTheme {
                 LoginForm {
-                    val intent = Intent(applicationContext, MainActivity::class.java).apply {
+                    val intent = Intent(applicationContext, SignUpActivity::class.java).apply {
                         putExtra("registration", false)
                     }
                     startActivity(intent)
@@ -90,7 +99,6 @@ class SignInActivity: ComponentActivity() {
             verticalArrangement = Arrangement.Center
         ) {
 
-            //var email by remember { mutableStateOf("") }
             TextField(
                 value = uiState.email,
                 label = { Text(text = "Email") },
@@ -98,11 +106,28 @@ class SignInActivity: ComponentActivity() {
             )
 
             Spacer(modifier = Modifier.height(20.dp))
-            //var password by remember { mutableStateOf("") }
+
+            var passwordVisible: Boolean by remember { mutableStateOf(false) }
             TextField(
                 value = uiState.password,
                 label = { Text(text = "Password") },
-                onValueChange = {password -> uiState = uiState.copy(password = password)}
+                trailingIcon = {
+                    var image = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+                    val description = if (passwordVisible) "Hide password" else "Show password"
+                    IconButton(onClick = {
+                        println("Here")
+                        passwordVisible = !passwordVisible
+                        image = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
+                    }) {
+                        Icon(imageVector = image, description)
+                    }
+                },
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                onValueChange = {password -> uiState = uiState.copy(password = password)},
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.None,
+                    autoCorrect = false,
+                ),
             )
 
             Spacer(modifier = Modifier.height(1.dp))

@@ -80,6 +80,8 @@ dependencies {
     implementation 'com.google.maps.android:maps-compose-widgets:4.3.0'
 
     testImplementation 'junit:junit:4.13.2'
+    // For icon in password field
+    implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
