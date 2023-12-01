@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.chessgo.backend.global.ClientManager
 import com.example.chessgo.backend.registration.sign_in.SignInUiState
 import com.example.chessgo.ui.theme.ChessgoTheme
 import com.example.chessgo.backend.registration.Results
@@ -85,11 +86,15 @@ class SignInActivity: ComponentActivity() {
         }
     }
     private fun onLoginSuccess(user: FirebaseUser?){
+        // ToDo something like that
+        // ClientManager.initClient(user.uid, user.displayName ,user.email)
         val intent = Intent(applicationContext, MainMenuActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+    // ToDo put compose functions into another file, where will be only compose functions
+    // ToDo add comments to elements, for reason without reading params of object to understand what is that object
     @Composable
     fun LoginForm(onSignUpClick: () -> Unit) {
 
