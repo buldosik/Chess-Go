@@ -35,6 +35,7 @@ import com.example.chessgo.backend.registration.sign_in.SignInUiState
 import com.example.chessgo.ui.theme.ChessgoTheme
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.frontend.mainmenu.MainMenuActivity
+import com.example.chessgo.frontend.registration.forgotPassword.ForgotPasswordActivity
 import com.example.chessgo.frontend.registration.sign_up.SignUpActivity
 import com.google.firebase.auth.FirebaseUser
 
@@ -50,8 +51,15 @@ class SignInActivity: ComponentActivity() {
         super.onStart()
         setContent {
             ChessgoTheme {
-                LoginForm {
-                    val intent = Intent(applicationContext, SignUpActivity::class.java).apply {
+                LoginForm(
+                    onSignUpClick = {
+                        val intent = Intent(applicationContext, SignUpActivity::class.java).apply {
+                            putExtra("registration", false)
+                        }
+                        startActivity(intent)
+                    }
+                ) {
+                    val intent = Intent(applicationContext, ForgotPasswordActivity::class.java).apply {
                         putExtra("registration", false)
                     }
                     startActivity(intent)
@@ -96,7 +104,10 @@ class SignInActivity: ComponentActivity() {
     // ToDo put compose functions into another file, where will be only compose functions
     // ToDo add comments to elements, for reason without reading params of object to understand what is that object
     @Composable
-    fun LoginForm(onSignUpClick: () -> Unit) {
+    fun LoginForm(
+        onSignUpClick: () -> Unit,
+        onForgotPasswordClick: () -> Unit
+    ) {
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -120,7 +131,6 @@ class SignInActivity: ComponentActivity() {
                     var image = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
                     val description = if (passwordVisible) "Hide password" else "Show password"
                     IconButton(onClick = {
-                        println("Here")
                         passwordVisible = !passwordVisible
                         image = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
                     }) {
@@ -139,7 +149,7 @@ class SignInActivity: ComponentActivity() {
 
             ClickableText(
                 text = AnnotatedString("Forgot password?"),
-                onClick = { },
+                onClick = { onForgotPasswordClick() },
 
                 modifier = Modifier
                     .align(alignment = Alignment.End)
