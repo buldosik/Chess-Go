@@ -16,15 +16,21 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".frontend.irlMenu.searching.SearchingMenu"
+            android:name=".frontend.irlMenu.creating.CreatingMenuActivity"
             android:exported="true"
-            android:label="@string/title_activity_map"
+            android:label="@string/title_activity_creating_menu"
             android:theme="@style/Theme.Chessgo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".frontend.irlMenu.searching.SearchingMenu"
+            android:exported="true"
+            android:label="@string/title_activity_map"
+            android:theme="@style/Theme.Chessgo">
         </activity>
         <activity
             android:name=".frontend.MainActivity"

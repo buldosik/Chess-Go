@@ -79,9 +79,17 @@ dependencies {
     // Optionally, you can include the widgets library for ScaleBar, etc.
     implementation 'com.google.maps.android:maps-compose-widgets:4.3.0'
 
-    testImplementation 'junit:junit:4.13.2'
     // For icon in password field
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
+
+    // Open source, with apache license, able to commercial purposes
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:core:1.2.0'
+    // CALENDAR
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:calendar:1.2.0'
+    // CLOCK
+    //implementation 'com.maxkeppeler.sheets-compose-dialogs:clock:1.2.0'
+    // Date_Time
+    implementation 'com.maxkeppeler.sheets-compose-dialogs:date-time:1.2.0'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -90,4 +98,5 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
+    testImplementation 'junit:junit:4.13.2'
 }
