@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -60,10 +59,8 @@ fun FPScreen(
                     FPActivityManager.sendResetLink(email, activity)
                 }
             },
-            shape = RoundedCornerShape(50.dp),
             modifier = Modifier
-                .width(300.dp)
-                .height(70.dp)
+                .width(250.dp)
         ) {
             Text(text = "Submit", style = TextStyle(fontSize = 25.sp), color = Color.White)
         }

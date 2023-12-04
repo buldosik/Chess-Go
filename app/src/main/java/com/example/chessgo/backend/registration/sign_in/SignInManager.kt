@@ -1,14 +1,17 @@
 package com.example.chessgo.backend.registration.sign_in
 
-import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.example.chessgo.backend.registration.Results
+import com.google.firebase.firestore.ktx.firestore
+
 class SignInManager {
     private val auth: FirebaseAuth = Firebase.auth
+    private var firestore = Firebase.firestore
     fun signInWithEmailAndPassword(email: String, password: String, onComplete: (Results<FirebaseUser?>) -> Unit){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -20,17 +23,36 @@ class SignInManager {
                 }
             }
     }
+    fun getUserFromFirebase(
+        user: FirebaseUser,
+        onSuccess: (userData: Map<String, Any>) -> Unit,
+        onFailure: (exception: Exception) -> Unit
+    ){
+        val docRef = firestore.collection("users").document(user.uid)
 
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val userData = document.data
+
+                    if (userData != null) {
+                        // Create a new map with "uid" added to userData
+                        val userDataWithUid = userData + ("uid" to user.uid)
+
+                        onSuccess(userDataWithUid)
+                    } else {
+                        // Handle the case where userData is null
+                        onFailure(NoSuchElementException("No such document"))
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                System.out.println("2")
+                Log.d(TAG, "get failed with ", exception)
+            }
+    }
     fun getPhotoUrl(): String? {
         val user = auth.currentUser
         return user?.photoUrl?.toString()
     }
-
-    fun getUserName(): String? {
-        val user = auth.currentUser
-        return if (user != null) {
-            user.displayName
-        } else "Failed to display an user's name"
-    }
-
 }

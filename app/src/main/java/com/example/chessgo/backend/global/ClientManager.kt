@@ -5,14 +5,10 @@ import com.example.chessgo.backend.User
 class ClientManager {
     companion object {
         private lateinit var client : User
-        fun initClient(uid : String, name : String, email : String) {
-            client = User(
-                userId = uid,
-                username = name,
-                email = email,
-            )
+        fun User.initClient() {
+            this@Companion.client = this
         }
-        fun getClientInfo(): User {return client}
+        fun getClient(): User {return client}
         fun setClientInfo(uid : String = client.userId,
                           name : String = client.username,
                           email : String = client.email) {
@@ -20,7 +16,6 @@ class ClientManager {
             client.username = name
             client.email = email
         }
-
     }
 }
 

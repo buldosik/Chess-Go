@@ -41,7 +41,12 @@ class MainMenuActivity : ComponentActivity(){
             }
         }
     }
-
+    override fun onBackPressed() {
+        // This will be called either automatically for you on 2.0
+        // or later, or by the code above on earlier versions of the
+        // platform.
+        return
+    }
     @Composable
     fun MainScreen(onIrlClick: () -> Unit, onOnlineClick: () -> Unit) {
         Column(

@@ -31,12 +31,12 @@
             android:name=".frontend.irlMenu.searching.SearchingMenuActivity"
             android:exported="true"
             android:label="@string/title_activity_map"
-            android:theme="@style/Theme.Chessgo"></activity>
+            android:theme="@style/Theme.Chessgo" />
         <activity
             android:name=".frontend.registration.forgotPassword.ForgotPasswordActivity"
             android:exported="true"
             android:label="@string/forgot_password_activity"
-            android:theme="@style/Theme.Chessgo"></activity>
+            android:theme="@style/Theme.Chessgo" />
         <activity
             android:name=".frontend.MainActivity"
             android:exported="true"
@@ -51,19 +51,16 @@
         </activity>
         <activity
             android:name=".frontend.registration.sign_up.SignUpActivity"
-            android:label="SignIn"></activity>
+            android:label="SignIn" />
         <activity
             android:name=".frontend.registration.sign_in.SignInActivity"
-            android:label="SignUp"></activity>
+            android:label="SignUp" />
         <activity
             android:name=".frontend.mainmenu.MainMenuActivity"
-            android:label="MainMenu"></activity>
-        <activity
-            android:name=".frontend.mainmenu.realtimegame.RealLifeMenuActivity"
-            android:label="RealLifeMenuScreen"></activity>
+            android:label="MainMenu" />
         <activity
             android:name=".frontend.mainmenu.onlinegame.OnlineGameMenuActivity"
-            android:label="OnlineMenuScreen"></activity>
+            android:label="OnlineMenuScreen" />
     </application>
 
 </manifest>

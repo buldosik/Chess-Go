@@ -10,7 +10,7 @@ import com.google.firebase.ktx.Firebase
 
 class SignUpManager {
     private var auth  = Firebase.auth
-    private var  firestore = Firebase.firestore
+    private var firestore = Firebase.firestore
     fun createUserWithEmailAndPassword(email: String, userName: String, password: String, onComplete: (FirebaseUser?, UserProfileChangeRequest?) -> Unit) {
 
         auth.createUserWithEmailAndPassword(email, password)
@@ -31,12 +31,18 @@ class SignUpManager {
                 }
             }
     }
-    fun saveUserToDatabase(userName: String?, email: String?, uid: String?){
+    fun saveUserToDatabase(userName: String?, email: String?, uid: String?, isModerator: Boolean){
 
-        val user = User(userName, email)
-        if (uid != null) {
+        val dataToAdd = mapOf(
+            "username" to userName,
+            "email" to email,
+            "isModerator" to isModerator
+
+        )
+
+        if ( uid != null){
             firestore.collection("users").document(uid)
-                .set(user)
+                .set(dataToAdd)
                 .addOnSuccessListener {
                     Log.d(ContentValues.TAG, "User data saved to Firestore")
                 }
