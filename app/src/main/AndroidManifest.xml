@@ -51,16 +51,16 @@
         </activity>
         <activity
             android:name=".frontend.registration.sign_up.SignUpActivity"
-            android:label="SignIn"></activity>
+            android:label="SignIn" />
         <activity
             android:name=".frontend.registration.sign_in.SignInActivity"
-            android:label="SignUp"></activity>
+            android:label="SignUp" />
         <activity
             android:name=".frontend.mainmenu.MainMenuActivity"
             android:label="MainMenu"></activity>
         <activity
             android:name=".frontend.mainmenu.onlinegame.OnlineGameMenuActivity"
-            android:label="OnlineMenuScreen"></activity>
+            android:label="OnlineMenuScreen" />
     </application>
 
 </manifest>
