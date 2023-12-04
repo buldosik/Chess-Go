@@ -80,7 +80,6 @@ fun PlacePicker(
         Button(
             onClick = {
                 viewModel.lastPoint = currentPoint
-                // ToDo exit
                 creatingMenuActivity.goToMenu()
             },
             modifier = Modifier

@@ -57,7 +57,7 @@
             android:label="SignUp" />
         <activity
             android:name=".frontend.mainmenu.MainMenuActivity"
-            android:label="MainMenu" />
+            android:label="MainMenu"></activity>
         <activity
             android:name=".frontend.mainmenu.onlinegame.OnlineGameMenuActivity"
             android:label="OnlineMenuScreen" />

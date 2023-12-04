@@ -5,19 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import com.example.chessgo.ui.theme.ChessgoTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
@@ -27,10 +14,14 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.chessgo.frontend.irlMenu.IRLMenuActivity
 import com.example.chessgo.frontend.mainmenu.onlinegame.OnlineGameMenuActivity
+import com.example.chessgo.ui.theme.ChessgoTheme
 import kotlinx.coroutines.launch
 
 class MainMenuActivity : ComponentActivity(){
@@ -52,6 +43,12 @@ class MainMenuActivity : ComponentActivity(){
                 }
             }
         }
+    }
+    override fun onBackPressed() {
+        // This will be called either automatically for you on 2.0
+        // or later, or by the code above on earlier versions of the
+        // platform.
+        return
     }
 }
 
