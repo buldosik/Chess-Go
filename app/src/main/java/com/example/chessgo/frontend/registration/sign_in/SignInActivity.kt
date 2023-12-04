@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -118,7 +119,8 @@ class SignInActivity: ComponentActivity() {
             TextField(
                 value = uiState.email,
                 label = { Text(text = "Email") },
-                onValueChange = {email ->  uiState = uiState.copy(email = email)}
+                onValueChange = {email ->  uiState = uiState.copy(email = email)},
+                keyboardOptions = KeyboardOptions( keyboardType = KeyboardType.Email )
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -142,6 +144,7 @@ class SignInActivity: ComponentActivity() {
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.None,
                     autoCorrect = false,
+                    keyboardType = KeyboardType.Password
                 ),
             )
 
