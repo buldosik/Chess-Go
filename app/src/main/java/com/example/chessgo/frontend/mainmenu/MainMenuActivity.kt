@@ -29,6 +29,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
+import com.example.chessgo.backend.registration.sign_in.SignInManager
+import com.example.chessgo.frontend.MainActivity
 import com.example.chessgo.frontend.irlMenu.IRLMenuActivity
 import com.example.chessgo.frontend.mainmenu.onlinegame.OnlineGameMenuActivity
 import kotlinx.coroutines.launch
@@ -43,13 +45,18 @@ class MainMenuActivity : ComponentActivity(){
         super.onStart()
         setContent {
             ChessgoTheme {
-                MainScreen(onIrlClick = {
-                    val intent = Intent(applicationContext, IRLMenuActivity::class.java)
-                    startActivity(intent)
-                },) {
-                    val intent = Intent(applicationContext, OnlineGameMenuActivity::class.java)
-                    startActivity(intent)
-                }
+                MainScreen(
+                    onSignOutClick = {
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        startActivity(intent)
+                    },
+                    onIrlClick = {
+                        val intent = Intent(applicationContext, IRLMenuActivity::class.java)
+                        startActivity(intent)
+                    },) {
+                        val intent = Intent(applicationContext, OnlineGameMenuActivity::class.java)
+                        startActivity(intent)
+                    }
             }
         }
     }
@@ -59,6 +66,7 @@ class MainMenuActivity : ComponentActivity(){
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
+    onSignOutClick: () -> Unit,
     onIrlClick: () -> Unit,
     onOnlineClick: () -> Unit
 ) {
@@ -106,14 +114,16 @@ fun MainScreen(
             )
         }
     ) {
-        mainContent(onIrlClick = onIrlClick,
+        mainContent(
+            onSignOutClick = onSignOutClick,
+            onIrlClick = onIrlClick,
             onOnlineClick = onOnlineClick
         )
     }
 }
 
 @Composable
-fun mainContent(onIrlClick: () -> Unit, onOnlineClick: () -> Unit){
+fun mainContent(onSignOutClick: () -> Unit, onIrlClick: () -> Unit, onOnlineClick: () -> Unit){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -140,6 +150,19 @@ fun mainContent(onIrlClick: () -> Unit, onOnlineClick: () -> Unit){
                 .padding(vertical = 8.dp)
         ) {
             Text(text = "Play Online")
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        val signInManager = SignInManager()
+        Button(
+            onClick = {
+                signInManager.signOut()
+                onSignOutClick()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Text(text = "Sign Out")
         }
     }
 }
