@@ -21,4 +21,5 @@ class SignUpActivity : ComponentActivity() {
             }
         }
     }
+
 }
