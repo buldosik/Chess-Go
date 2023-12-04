@@ -189,11 +189,12 @@ fun CreatingMenu(
                 Text("Edit")
             }
         }
-
+        // Create button
         Button(
             onClick = {
-                // ToDo sent to db info
-
+                // Sending to db
+                creatingMenuActivity.createEvent(description, pickedDate, pickedTime, viewModel.lastPoint)
+                // Back to main menu
                 creatingMenuActivity.goToMainMenu()
             },
             modifier = Modifier

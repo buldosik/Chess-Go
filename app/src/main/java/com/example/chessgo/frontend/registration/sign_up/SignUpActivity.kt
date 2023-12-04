@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -82,7 +83,7 @@ class SignUpActivity : ComponentActivity() {
                         "Account creation success: ",
                         Toast.LENGTH_SHORT
                     ).show()
-                    loginOnSuccess()
+                    toLogin()
                 }
                 is Results.Failure -> {
                     // Account creation failed, handle the error or provide feedback to the user
@@ -97,10 +98,10 @@ class SignUpActivity : ComponentActivity() {
         }
     }
 
-    private fun loginOnSuccess(){
+    private fun toLogin(){
         // ToDo something like that
         // ClientManager.initClient(user.uid, user.displayName ,user.email)
-        val intent = Intent(applicationContext, MainMenuActivity::class.java)
+        val intent = Intent(applicationContext, SignInActivity::class.java)
         startActivity(intent)
         finish()
     }
@@ -129,7 +130,8 @@ class SignUpActivity : ComponentActivity() {
             TextField(
                 value = uiState.userName,
                 onValueChange = {userName ->  uiState = uiState.copy(userName = userName)},
-                label = { Text(text = "Username") }
+                label = { Text(text = "Username") },
+                keyboardOptions = KeyboardOptions( keyboardType = KeyboardType.Email )
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -153,6 +155,7 @@ class SignUpActivity : ComponentActivity() {
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.None,
                     autoCorrect = false,
+                    keyboardType = KeyboardType.Password
                 ),
             )
 
