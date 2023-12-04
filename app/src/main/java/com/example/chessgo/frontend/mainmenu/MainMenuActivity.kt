@@ -10,6 +10,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
@@ -19,6 +20,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.chessgo.backend.registration.sign_in.SignInManager
+import com.example.chessgo.frontend.MainActivity
 import com.example.chessgo.frontend.irlMenu.IRLMenuActivity
 import com.example.chessgo.frontend.mainmenu.onlinegame.OnlineGameMenuActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
@@ -34,13 +37,18 @@ class MainMenuActivity : ComponentActivity(){
         super.onStart()
         setContent {
             ChessgoTheme {
-                MainScreen(onIrlClick = {
-                    val intent = Intent(applicationContext, IRLMenuActivity::class.java)
-                    startActivity(intent)
-                },) {
-                    val intent = Intent(applicationContext, OnlineGameMenuActivity::class.java)
-                    startActivity(intent)
-                }
+                MainScreen(
+                    onSignOutClick = {
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        startActivity(intent)
+                    },
+                    onIrlClick = {
+                        val intent = Intent(applicationContext, IRLMenuActivity::class.java)
+                        startActivity(intent)
+                    },) {
+                        val intent = Intent(applicationContext, OnlineGameMenuActivity::class.java)
+                        startActivity(intent)
+                    }
             }
         }
     }
@@ -56,12 +64,14 @@ class MainMenuActivity : ComponentActivity(){
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
+    onSignOutClick: () -> Unit,
     onIrlClick: () -> Unit,
     onOnlineClick: () -> Unit
 ) {
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val signInManager = SignInManager()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -96,14 +106,24 @@ fun MainScreen(
                         contentDescription = "Get help",
                         icon = Icons.Default.Info
                     ),
+                    MenuItem(
+                        id = "signOut",
+                        title = "Sign Out",
+                        contentDescription = "signOut",
+                        icon = Icons.Default.ExitToApp
+                    ),
                 ),
                 onItemClick = {
-                    /*TODO*/
+                    if (it.id == "signOut") {
+                        signInManager.signOut()
+                        onSignOutClick()
+                    }
                 }
             )
         }
     ) {
-        mainContent(onIrlClick = onIrlClick,
+        mainContent(
+            onIrlClick = onIrlClick,
             onOnlineClick = onOnlineClick
         )
     }

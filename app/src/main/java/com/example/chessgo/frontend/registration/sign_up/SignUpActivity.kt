@@ -83,7 +83,7 @@ class SignUpActivity : ComponentActivity() {
                         "Account creation success: ",
                         Toast.LENGTH_SHORT
                     ).show()
-                    loginOnSuccess()
+                    toLogin()
                 }
                 is Results.Failure -> {
                     // Account creation failed, handle the error or provide feedback to the user
@@ -98,10 +98,10 @@ class SignUpActivity : ComponentActivity() {
         }
     }
 
-    private fun loginOnSuccess(){
+    private fun toLogin(){
         // ToDo something like that
         // ClientManager.initClient(user.uid, user.displayName ,user.email)
-        val intent = Intent(applicationContext, MainMenuActivity::class.java)
+        val intent = Intent(applicationContext, SignInActivity::class.java)
         startActivity(intent)
         finish()
     }
