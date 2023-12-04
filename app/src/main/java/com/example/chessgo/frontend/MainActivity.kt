@@ -21,11 +21,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        // This will be called either automatically for you on 2.0
-//        // or later, or by the code above on earlier versions of the
-//        // platform.
-//        return
-//    }
 }
