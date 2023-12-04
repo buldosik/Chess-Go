@@ -59,9 +59,6 @@
             android:name=".frontend.mainmenu.MainMenuActivity"
             android:label="MainMenu"></activity>
         <activity
-            android:name=".frontend.mainmenu.realtimegame.RealLifeMenuActivity"
-            android:label="RealLifeMenuScreen"></activity>
-        <activity
             android:name=".frontend.mainmenu.onlinegame.OnlineGameMenuActivity"
             android:label="OnlineMenuScreen"></activity>
     </application>
