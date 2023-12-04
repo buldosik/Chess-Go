@@ -10,9 +10,9 @@ import com.google.firebase.ktx.Firebase
 import java.time.LocalDate
 import java.time.LocalTime
 
-val TAG = "CreatingManager"
+private const val TAG = "CreatingManager"
 
-class CreatingManager {
+class CreatingIRLManager {
     private val firestore = Firebase.firestore
     fun addNewEventToFirestore(description : String = "", date : LocalDate, time : LocalTime, position : LatLng) {
         val newEvent = GameIRL(

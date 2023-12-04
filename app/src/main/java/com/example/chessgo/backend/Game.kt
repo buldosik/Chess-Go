@@ -3,6 +3,7 @@ package com.example.chessgo.backend
 import java.util.Date
 
 open class Game(
+    // ToDo add spectators
     val gid : String = "",
     val date : Date,
     val host : String = "",

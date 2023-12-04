@@ -1,5 +1,6 @@
 package com.example.chessgo.frontend.irlMenu.searching
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -10,12 +11,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
 import androidx.compose.material.TextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.chessgo.backend.EventIRL
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -33,14 +31,14 @@ import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import kotlin.random.Random
 
 private const val TAG = "AdvancedMarkersActivity"
 
 // toRemove
-private val center = LatLng(-18.000, -58.000)
+private val center = LatLng(51.0,17.0)
 private val defaultCameraPosition1 = CameraPosition.fromLatLngZoom(center, 2f)
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun MapScreen(
     viewModel: MapViewModel
@@ -56,7 +54,7 @@ fun MapScreen(
         mutableStateOf(false)
     }
     var chosenMarker by remember {
-        mutableFloatStateOf(0.0f)
+        mutableStateOf("")
     }
 
     // toRemove
@@ -83,12 +81,13 @@ fun MapScreen(
         ) {
             // Adding all markers to map
             viewModel.points.forEach { point ->
+                Log.d(TAG, "Marker Spawned: ${point.position}")
                 Marker(
                     state = MarkerState(position = point.position),
                     title = point.gui,
                     onClick = {
-                        Log.d(TAG, "Marker Clicked: ${it.zIndex}")
-                        chosenMarker = it.zIndex
+                        Log.d(TAG, "Marker Clicked: ${it.title}")
+                        chosenMarker = it.title.toString()
                         isInfoBoxVisible = true
                         true
                     }
@@ -97,26 +96,26 @@ fun MapScreen(
         }
         // ToRemove
         // Button to add a new point
-        Button(
-            onClick = {
-                // Handle button click to add a new point
-                val newPoint = LatLng(
-                    Random.nextDouble(-90.0, 90.0),
-                    Random.nextDouble(-180.0, 180.0)
-                )
-                id++
-                val eventIRL = EventIRL(
-                    //gid = id,
-                    position = newPoint,
-                )
-                viewModel.points.add(eventIRL)
-            },
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(16.dp)
-        ) {
-            Text("Add Point")
-        }
+//        Button(
+//            onClick = {
+//                // Handle button click to add a new point
+//                val newPoint = LatLng(
+//                    Random.nextDouble(-90.0, 90.0),
+//                    Random.nextDouble(-180.0, 180.0)
+//                )
+//                id++
+//                val eventIRL = EventIRL(
+//                    //gid = id,
+//                    position = newPoint,
+//                )
+//                viewModel.points.add(eventIRL)
+//            },
+//            modifier = Modifier
+//                .align(Alignment.TopStart)
+//                .padding(16.dp)
+//        ) {
+//            Text("Add Point")
+//        }
 
         // InfoBox of events
         Box(
@@ -143,7 +142,7 @@ fun MapScreen(
 }
 
 @Composable
-fun InfoAboutEvent(chosenMarkerGID : Float) {
+fun InfoAboutEvent(chosenMarkerGID : String) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)

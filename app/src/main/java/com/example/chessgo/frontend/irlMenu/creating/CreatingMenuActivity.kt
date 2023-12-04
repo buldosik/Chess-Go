@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.chessgo.backend.irl.CreatingManager
+import com.example.chessgo.backend.irl.CreatingIRLManager
 import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ktx.firestore
@@ -15,7 +15,7 @@ import java.time.LocalTime
 
 class CreatingMenuActivity : ComponentActivity() {
     private val viewModel = CreatingViewModel()
-    private val creatingManager = CreatingManager()
+    private val creatingIRLManager = CreatingIRLManager()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val firestore = Firebase.firestore
@@ -42,6 +42,6 @@ class CreatingMenuActivity : ComponentActivity() {
     }
 
     fun createEvent(description : String = "", date : LocalDate, time : LocalTime, position : LatLng) {
-        creatingManager.addNewEventToFirestore(description, date, time, position)
+        creatingIRLManager.addNewEventToFirestore(description, date, time, position)
     }
 }
