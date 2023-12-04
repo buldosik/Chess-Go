@@ -2,6 +2,7 @@ package com.example.chessgo.backend.irl
 
 import android.util.Log
 import com.example.chessgo.backend.EventIRL
+import com.example.chessgo.backend.GameIRL
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -28,4 +29,25 @@ class SearchingIRLManager {
                 callback(mutableListOf<EventIRL>())
             }
     }
+    fun getInfoAboutEvent(gid: String, callback: (GameIRL?) -> Unit) {
+        firestore.collection("events").document(gid)
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    // Document exists, extract data and invoke the callback
+                    val gameIRL = GameIRL.toGameIRL(documentSnapshot)
+                    // Invoke the callback
+                    callback(gameIRL)
+                } else {
+                    // Document does not exist, invoke the callback with a default value
+                    Log.w(TAG, "Document do not exist")
+                    callback(null)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+                callback(null)
+            }
+    }
+
 }

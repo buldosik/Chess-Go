@@ -8,11 +8,16 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.TextField
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.chessgo.backend.GameIRL
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -31,6 +37,7 @@ import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import java.util.Date
 
 private const val TAG = "AdvancedMarkersActivity"
 
@@ -41,7 +48,7 @@ private val defaultCameraPosition1 = CameraPosition.fromLatLngZoom(center, 2f)
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun MapScreen(
-    viewModel: MapViewModel
+    searchingMenuActivity: SearchingMenuActivity
 ) {
     // Observing and controlling the camera's state can be done with a CameraPositionState
     val cameraPositionState = rememberCameraPositionState {
@@ -56,9 +63,6 @@ fun MapScreen(
     var chosenMarker by remember {
         mutableStateOf("")
     }
-
-    // toRemove
-    var id = 0f
 
     Box(Modifier.fillMaxSize()) {
         // Adding map on full field
@@ -80,7 +84,7 @@ fun MapScreen(
             }
         ) {
             // Adding all markers to map
-            viewModel.points.forEach { point ->
+            searchingMenuActivity.viewModel.points.forEach { point ->
                 Log.d(TAG, "Marker Spawned: ${point.position}")
                 Marker(
                     state = MarkerState(position = point.position),
@@ -94,35 +98,13 @@ fun MapScreen(
                 )
             }
         }
-        // ToRemove
-        // Button to add a new point
-//        Button(
-//            onClick = {
-//                // Handle button click to add a new point
-//                val newPoint = LatLng(
-//                    Random.nextDouble(-90.0, 90.0),
-//                    Random.nextDouble(-180.0, 180.0)
-//                )
-//                id++
-//                val eventIRL = EventIRL(
-//                    //gid = id,
-//                    position = newPoint,
-//                )
-//                viewModel.points.add(eventIRL)
-//            },
-//            modifier = Modifier
-//                .align(Alignment.TopStart)
-//                .padding(16.dp)
-//        ) {
-//            Text("Add Point")
-//        }
 
         // InfoBox of events
         Box(
             modifier = Modifier
                 .background(Color.Transparent)
                 .align(Alignment.BottomCenter)
-                .size(200.dp)
+                .size(450.dp, 300.dp)
         ) {
             AnimatedVisibility(
                 visible = isInfoBoxVisible,
@@ -135,30 +117,100 @@ fun MapScreen(
                     animationSpec = tween(durationMillis = 250)
                 )
             ) {
-                InfoAboutEvent(chosenMarker)
+                InfoAboutEvent(chosenMarker, searchingMenuActivity)
             }
         }
     }
 }
 
 @Composable
-fun InfoAboutEvent(chosenMarkerGID : String) {
+fun InfoAboutEvent(chosenMarkerGID: String, searchingMenuActivity: SearchingMenuActivity) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
     ) {
-        // ToDo add request to db depending on GID
-        // ToDo make nice info about event
-        // ToDo add button to apply to that event
+        var gameIrl by remember { mutableStateOf(GameIRL(
+            position = LatLng(0.0, 0.0),
+            date = Date(),
+        )) }
 
-        // example
-        TextField(
-            value = "Some name",
-            onValueChange = { },
-            label = { Text("Field 1") },
+        searchingMenuActivity.searchingIRLManager.getInfoAboutEvent(chosenMarkerGID) {
+            if (it != null) {
+                gameIrl = it
+            }
+        }
+
+        Column(
             modifier = Modifier
-                .size(100.dp)
-                .padding(8.dp)
-        )
+                .fillMaxSize()
+                .padding(2.dp)
+        ) {
+            OutlinedTextField(
+                value = gameIrl.gid,
+                onValueChange = {  },
+                label = { Text("GID") },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 1.dp),
+                enabled = false
+            )
+            OutlinedTextField(
+                value = gameIrl.description,
+                onValueChange = {  },
+                label = { Text("Description") },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 1.dp),
+                enabled = false
+            )
+            OutlinedTextField(
+                value = gameIrl.date.toString(), // assuming date is a Date or a String
+                onValueChange = { },
+                label = { Text("Date") },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 1.dp),
+                enabled = false
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 1.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Assuming LatLng is a data class with two Double properties: latitude and longitude
+                OutlinedTextField(
+                    value = gameIrl.position.latitude.toString(),
+                    onValueChange = { /* update view model or handle change */ },
+                    label = { Text("Latitude") },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 1.dp),
+                    enabled = false
+                )
+
+                OutlinedTextField(
+                    value = gameIrl.position.longitude.toString(),
+                    onValueChange = { /* update view model or handle change */ },
+                    label = { Text("Longitude") },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 1.dp),
+                    enabled = false
+                )
+
+            }
+            Button(
+                onClick = {
+                    // ToDo apply to event
+                    searchingMenuActivity.goToMainMenu()
+                },
+                modifier = Modifier
+                    .height(12.dp)
+            ) {
+                Text("+")
+            }
+        }
     }
 }
