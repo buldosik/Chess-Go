@@ -1,6 +1,5 @@
 package com.example.chessgo.frontend.irlMenu.searching
 
-import androidx.compose.ui.graphics.Color
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -16,12 +15,15 @@ import androidx.compose.material.TextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.chessgo.backend.EventIRL
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -32,8 +34,6 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlin.random.Random
-import androidx.compose.runtime.*
-import com.example.chessgo.backend.EventIRL
 
 private const val TAG = "AdvancedMarkersActivity"
 
@@ -85,7 +85,7 @@ fun MapScreen(
             viewModel.points.forEach { point ->
                 Marker(
                     state = MarkerState(position = point.position),
-                    zIndex = point.gid,
+                    title = point.gui,
                     onClick = {
                         Log.d(TAG, "Marker Clicked: ${it.zIndex}")
                         chosenMarker = it.zIndex
@@ -106,7 +106,7 @@ fun MapScreen(
                 )
                 id++
                 val eventIRL = EventIRL(
-                    gid = id,
+                    //gid = id,
                     position = newPoint,
                 )
                 viewModel.points.add(eventIRL)

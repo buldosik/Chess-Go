@@ -4,17 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.example.chessgo.backend.irl.CreatingManager
 import com.example.chessgo.frontend.mainmenu.MainMenuActivity
+import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.time.LocalDate
+import java.time.LocalTime
 
 
 class CreatingMenuActivity : ComponentActivity() {
     private val viewModel = CreatingViewModel()
+    private val creatingManager = CreatingManager()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // ToDo something like that
-        // viewModel.GetPoints()
+        val firestore = Firebase.firestore
         setContent {
-            //PlacePicker(viewModel = viewModel)
             CreatingMenu(viewModel = viewModel, this)
         }
     }
@@ -34,5 +39,9 @@ class CreatingMenuActivity : ComponentActivity() {
         val intent = Intent(applicationContext, MainMenuActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    fun createEvent(description : String = "", date : LocalDate, time : LocalTime, position : LatLng) {
+        creatingManager.addNewEventToFirestore(description, date, time, position)
     }
 }

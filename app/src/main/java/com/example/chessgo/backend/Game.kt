@@ -1,11 +1,16 @@
 package com.example.chessgo.backend
 
-open class Game() {
-    open val id = Int
-    open val status = Boolean
-    open val users = mutableListOf<User>()
-    open val result = null
-    open val date = null
+import java.util.Date
+
+open class Game(
+    val gid : String = "",
+    val date : Date,
+    val host : String = "",
+    val enemy : String = "",
+    val typeOfGame : String = "",
+    val result : String = "",
+    val status : String = "",
+) {
 
     // TODO implementation of Game class
 

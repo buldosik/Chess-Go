@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.LatLng
  * @param gid Unique identifier for the event.
  * @param position Geographic position of the event specified as a LatLng object.
  */
-data class EventIRL(
-    val gid: Float,
+class EventIRL(
+    val gui: String = "",
     val position: LatLng,
 )
