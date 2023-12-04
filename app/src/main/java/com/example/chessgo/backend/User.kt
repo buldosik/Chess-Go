@@ -1,11 +1,14 @@
 package com.example.chessgo.backend
 
-class User() {
-    private val user_id = Int
-    private val name = String
-    private val email = String
-    private val personal_raiting = Int
-    private val tournament_rating = Int
+const val initRating = 1000
+
+data class User(
+    var userId : String,
+    var username : String,
+    var email : String,
+) {
+    val personalRating = initRating
+    val tournamentRating = initRating
 
     // TODO implementation of User class
 
