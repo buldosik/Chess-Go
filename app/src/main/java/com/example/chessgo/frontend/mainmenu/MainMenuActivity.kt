@@ -23,6 +23,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
@@ -73,6 +74,7 @@ fun MainScreen(
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val signInManager = SignInManager()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -107,15 +109,23 @@ fun MainScreen(
                         contentDescription = "Get help",
                         icon = Icons.Default.Info
                     ),
+                    MenuItem(
+                        id = "signOut",
+                        title = "Sign Out",
+                        contentDescription = "signOut",
+                        icon = Icons.Default.ExitToApp
+                    ),
                 ),
                 onItemClick = {
-                    /*TODO*/
+                    if (it.id == "signOut") {
+                        signInManager.signOut()
+                        onSignOutClick()
+                    }
                 }
             )
         }
     ) {
         mainContent(
-            onSignOutClick = onSignOutClick,
             onIrlClick = onIrlClick,
             onOnlineClick = onOnlineClick
         )
@@ -123,7 +133,7 @@ fun MainScreen(
 }
 
 @Composable
-fun mainContent(onSignOutClick: () -> Unit, onIrlClick: () -> Unit, onOnlineClick: () -> Unit){
+fun mainContent(onIrlClick: () -> Unit, onOnlineClick: () -> Unit){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -150,19 +160,6 @@ fun mainContent(onSignOutClick: () -> Unit, onIrlClick: () -> Unit, onOnlineClic
                 .padding(vertical = 8.dp)
         ) {
             Text(text = "Play Online")
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        val signInManager = SignInManager()
-        Button(
-            onClick = {
-                signInManager.signOut()
-                onSignOutClick()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        ) {
-            Text(text = "Sign Out")
         }
     }
 }
