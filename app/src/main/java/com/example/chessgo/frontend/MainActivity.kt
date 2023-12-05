@@ -4,21 +4,33 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import com.example.chessgo.frontend.registration.sign_in.SignInActivity
-import com.example.chessgo.frontend.registration.sign_up.SignUpActivity
+import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
 
-    private val authViewModel by viewModels<AuthViewModel>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            ChessgoTheme {
-                MainApp(authViewModel = authViewModel, activity = this)
+
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            goToMainMenu()
+            // User is signed in, navigate to the main screen
+        } else {
+            // No user is signed in, navigate to the auth screen
+            setContent {
+                ChessgoTheme {
+                    MainApp(activity = this)
+                }
             }
         }
+    }
+    fun goToMainMenu() {
+        val intent = Intent(applicationContext, MainMenuActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

@@ -10,34 +10,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 import com.example.chessgo.frontend.registration.sign_in.SignInActivity
 import com.example.chessgo.frontend.registration.sign_up.SignUpActivity
 
 
 @Composable
-fun MainApp(authViewModel: AuthViewModel, activity: ComponentActivity) {
-    val user by authViewModel.signInManager.curUser.collectAsState()
-    if (user != null) {
-        val intent = Intent(activity.applicationContext, MainMenuActivity::class.java)
-        activity.startActivity(intent)
-    } else {
-        GreetingScreen(
-            onLoginClick = {
-                val intent = Intent(activity.applicationContext, SignInActivity::class.java)
-                activity.startActivity(intent)
-            },
-        ) {
-            val intent = Intent(activity.applicationContext, SignUpActivity::class.java)
+fun MainApp(activity: ComponentActivity) {
+    GreetingScreen(
+        onLoginClick = {
+            val intent = Intent(activity.applicationContext, SignInActivity::class.java)
             activity.startActivity(intent)
-        }
+        },
+    ) {
+        val intent = Intent(activity.applicationContext, SignUpActivity::class.java)
+        activity.startActivity(intent)
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.chessgo.frontend.mainmenu
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,11 +21,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.chessgo.backend.global.UserAuthenticationData
 import com.example.chessgo.backend.registration.sign_in.SignInManager
 import com.example.chessgo.frontend.MainActivity
 import com.example.chessgo.frontend.irlMenu.IRLMenuActivity
 import com.example.chessgo.frontend.mainmenu.onlinegame.OnlineGameMenuActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class MainMenuActivity : ComponentActivity(){
@@ -45,13 +48,21 @@ class MainMenuActivity : ComponentActivity(){
                     onIrlClick = {
                         val intent = Intent(applicationContext, IRLMenuActivity::class.java)
                         startActivity(intent)
-                    },) {
+                    },
+                    onOnlineClick = {
                         val intent = Intent(applicationContext, OnlineGameMenuActivity::class.java)
                         startActivity(intent)
-                    }
+                    },
+                    signOut = { signOut() })
             }
         }
     }
+
+    fun signOut() {
+        UserAuthenticationData.removeAuthenticationData(context = this.baseContext)
+        FirebaseAuth.getInstance().signOut()
+    }
+
     override fun onBackPressed() {
         // This will be called either automatically for you on 2.0
         // or later, or by the code above on earlier versions of the
@@ -66,12 +77,12 @@ class MainMenuActivity : ComponentActivity(){
 fun MainScreen(
     onSignOutClick: () -> Unit,
     onIrlClick: () -> Unit,
-    onOnlineClick: () -> Unit
+    onOnlineClick: () -> Unit,
+    signOut: () -> Unit
 ) {
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
-    val signInManager = SignInManager()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -115,7 +126,7 @@ fun MainScreen(
                 ),
                 onItemClick = {
                     if (it.id == "signOut") {
-                        signInManager.signOut()
+                        signOut()
                         onSignOutClick()
                     }
                 }
