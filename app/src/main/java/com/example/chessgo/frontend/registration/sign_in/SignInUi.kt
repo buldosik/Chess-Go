@@ -24,7 +24,6 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -55,50 +54,38 @@ fun LoginForm(
     onLoginSuccess: () -> Unit,
 ) {
 
-    val uiState = remember {
+    val uiData = remember {
         mutableStateOf(SignInUiState())
     }
     val signInViewModel = remember { SignInViewModel() }
     val context = LocalContext.current
 
     LoginContent(
-        uiState = uiState,
+        uiState = uiData,
         onLoginClick = {
-            if (uiState.value.isNotEmpty()) {
-                signInViewModel.signInWithEmailAndPassword(uiState.value.email, uiState.value.password)
+            if (uiData.value.isNotEmpty()) {
+                signInViewModel.signInWithEmailAndPassword(uiData.value.email, uiData.value.password) { result ->
+                    when(result){
+                        is Results.Success -> {
+                            onLoginSuccess()
+                        }
+                        is Results.Failure -> {
+                            val exception = result.exception
+                            // If sign in fails, display a message to the user.
+                            Log.w(ContentValues.TAG, "createUserWithEmail:failure", exception)
+                            Toast.makeText(
+                                context,
+                                "Login failed.",
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
+                }
             }
         },
         onForgotPasswordClick = onForgotPasswordClick,
         onSignUpClick = onSignUpClick
     )
-
-    signInViewModel.signInResult.observeAsState().value?.let { result ->
-        when(result){
-            is Results.Success -> {
-
-                val user = result.data
-                signInViewModel.initClient(user!!)
-
-                onLoginSuccess()
-
-                Toast.makeText(
-                    context,
-                    "Login success.",
-                    Toast.LENGTH_SHORT,
-                ).show()
-            }
-            is Results.Failure -> {
-                val exception = result.exception
-                // If sign in fails, display a message to the user.
-                Log.w(ContentValues.TAG, "createUserWithEmail:failure", exception)
-                Toast.makeText(
-                    context,
-                    "Login failed.",
-                    Toast.LENGTH_SHORT,
-                ).show()
-            }
-        }
-    }
 }
 
 /*
@@ -170,7 +157,7 @@ fun LoginContent(
 
         LogInButton(
             onClick = onLoginClick,
-            modifier =  Modifier
+            modifier = Modifier
                 .padding(0.dp, 0.dp, 0.dp, 16.dp)
                 .width(250.dp)
         )
