@@ -75,6 +75,7 @@ class MainMenuActivity : ComponentActivity(){
             ) {
                 Text(text = "Play Online")
             }
-
+        }
+    }
 }
 
