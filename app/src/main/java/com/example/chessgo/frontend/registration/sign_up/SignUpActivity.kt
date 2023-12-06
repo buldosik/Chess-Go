@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 import com.example.chessgo.frontend.registration.sign_in.SignInActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
 
@@ -27,9 +26,4 @@ class SignUpActivity : ComponentActivity() {
         }
         startActivity(intent)
     }
-    private fun toMainMenu() {
-        val intent = Intent(applicationContext, MainMenuActivity::class.java)
-        startActivity(intent)
-    }
-
 }
