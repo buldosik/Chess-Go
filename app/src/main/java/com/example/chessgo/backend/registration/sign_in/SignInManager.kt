@@ -60,4 +60,11 @@ class SignInManager {
         val user = auth.currentUser
         return user?.photoUrl?.toString()
     }
+
+    fun getUserName(): String? {
+        val user = auth.currentUser
+        return if (user != null) {
+            user.displayName
+        } else "Failed to display an user's name"
+    }
 }
