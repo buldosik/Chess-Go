@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chessgo.backend.User
-import com.example.chessgo.backend.global.ClientManager.Companion.initClient
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.backend.registration.sign_up.SignUpManager
 import com.google.firebase.auth.FirebaseUser
@@ -48,7 +47,7 @@ class SignUpViewModel : ViewModel(){
                 if (profileUpdateTask.isSuccessful) {
                     signUpManager.saveUserToDatabase(user.displayName, user.email, user.uid, false)
                     val client = User(userId = user.uid, username = user.displayName!!, email = user.email!!, isModerator = false)
-                    client.initClient()
+                    //client.initClient()
                 }
             }
         }

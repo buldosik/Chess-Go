@@ -1,12 +1,16 @@
 package com.example.chessgo.backend.global
 
+import android.util.Log
 import com.example.chessgo.backend.User
+
+private const val TAG = "ClientManager"
 
 class ClientManager {
     companion object {
         private lateinit var client : User
-        fun User.initClient() {
-            this@Companion.client = this
+        fun initClient(user: User) {
+            this.client = user
+            Log.d(TAG, "User init successful")
         }
         fun getClient(): User {return client}
         fun setClientInfo(uid : String = client.userId,
