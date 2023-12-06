@@ -1,6 +1,5 @@
 package com.example.chessgo.frontend.registration.sign_up
 
-import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.backend.registration.sign_up.SignUpUiState
-import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 
 /*
 * head logic ui function which is invoked in SignInActivity
@@ -76,7 +74,7 @@ fun RegistrationForm(
                     "Account creation success: ",
                     Toast.LENGTH_SHORT
                 ).show()
-                OnSignUpSuccess()
+                onSignInClick()
             }
             is Results.Failure -> {
                 Toast.makeText(
@@ -205,10 +203,4 @@ fun SignInLink(onClick: () -> Unit) {
         onClick = { onClick() },
         modifier = Modifier.padding(0.dp, 16.dp, 0.dp, 0.dp)
     )
-}
-
-@Composable
-fun OnSignUpSuccess() {
-    val intent = Intent(LocalContext.current, MainMenuActivity::class.java)
-    LocalContext.current.startActivity(intent)
 }

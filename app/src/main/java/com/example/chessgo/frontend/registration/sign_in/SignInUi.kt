@@ -54,6 +54,7 @@ import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 fun LoginForm(
     onSignUpClick: () -> Unit,
     onForgotPasswordClick: () -> Unit,
+    onLoginSuccess: () -> Unit,
 ) {
 
     val uiState = remember {

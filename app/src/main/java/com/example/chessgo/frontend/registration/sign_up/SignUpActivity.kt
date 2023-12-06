@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 import com.example.chessgo.frontend.registration.sign_in.SignInActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
 
@@ -14,12 +15,21 @@ class SignUpActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChessgoTheme {
-                RegistrationForm {
-                    val intent = Intent(applicationContext, SignInActivity::class.java)
-                    startActivity(intent)
-                }
+                RegistrationForm (
+                    onSignInClick = { toSignIn() },
+                )
             }
         }
+    }
+    private fun toSignIn() {
+        val intent = Intent(applicationContext, SignInActivity::class.java).apply {
+            putExtra("registration", false)
+        }
+        startActivity(intent)
+    }
+    private fun toMainMenu() {
+        val intent = Intent(applicationContext, MainMenuActivity::class.java)
+        startActivity(intent)
     }
 
 }
