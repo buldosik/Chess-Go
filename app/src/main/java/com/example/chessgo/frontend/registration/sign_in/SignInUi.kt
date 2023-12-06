@@ -1,7 +1,6 @@
 package com.example.chessgo.frontend.registration.sign_in
 
 import android.content.ContentValues
-import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -45,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.backend.registration.sign_in.SignInUiState
-import com.example.chessgo.frontend.mainmenu.MainMenuActivity
 
 /*
 * head logic ui function which is invoked in SignInActivity
@@ -81,7 +79,7 @@ fun LoginForm(
                 val user = result.data
                 signInViewModel.initClient(user!!)
 
-                OnLoginSuccess()
+                onLoginSuccess()
 
                 Toast.makeText(
                     context,
@@ -230,10 +228,4 @@ fun PasswordField(
             autoCorrect = false,
         ),
     )
-}
-
-@Composable
-fun OnLoginSuccess(){
-    val intent = Intent(LocalContext.current, MainMenuActivity::class.java)
-    LocalContext.current.startActivity(intent)
 }
