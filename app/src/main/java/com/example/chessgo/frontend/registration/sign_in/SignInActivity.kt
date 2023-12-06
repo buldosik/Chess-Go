@@ -23,15 +23,11 @@ class SignInActivity: ComponentActivity() {
         }
     }
     private fun toSignUp() {
-        val intent = Intent(applicationContext, SignUpActivity::class.java).apply {
-            putExtra("registration", false)
-        }
+        val intent = Intent(applicationContext, SignUpActivity::class.java)
         startActivity(intent)
     }
     private fun toForgotPassword() {
-        val intent = Intent(applicationContext, ForgotPasswordActivity::class.java).apply {
-            putExtra("registration", false)
-        }
+        val intent = Intent(applicationContext, ForgotPasswordActivity::class.java)
         startActivity(intent)
     }
     private fun toMainMenu() {

@@ -36,7 +36,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chessgo.backend.registration.Results
-import com.example.chessgo.backend.registration.sign_up.SignUpUiState
+import com.example.chessgo.backend.registration.sign_up.SignUpUiDate
 
 /*
 * head logic ui function which is invoked in SignInActivity
@@ -45,7 +45,7 @@ import com.example.chessgo.backend.registration.sign_up.SignUpUiState
 fun RegistrationForm(
     onSignInClick: () -> Unit
 ) {
-    val uiState = remember { mutableStateOf(SignUpUiState()) }
+    val uiState = remember { mutableStateOf(SignUpUiDate()) }
     val signUpViewModel = remember { SignUpViewModel() }
     val context = LocalContext.current
 
@@ -89,7 +89,7 @@ fun RegistrationForm(
 
 @Composable
 fun SignUpContent(
-    uiState: MutableState<SignUpUiState>,
+    uiState: MutableState<SignUpUiDate>,
     onSignInClick: () -> Unit,
     onSignUpClick: () -> Unit
 ) {

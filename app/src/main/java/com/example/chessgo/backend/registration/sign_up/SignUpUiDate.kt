@@ -1,6 +1,6 @@
 package com.example.chessgo.backend.registration.sign_up
 
-data class SignUpUiState(
+data class SignUpUiDate(
     var email: String = "",
     var password: String = "",
     var userName: String = "",

@@ -42,7 +42,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chessgo.backend.registration.Results
-import com.example.chessgo.backend.registration.sign_in.SignInUiState
+import com.example.chessgo.backend.registration.sign_in.SignInUiDate
 
 /*
 * head logic ui function which is invoked in SignInActivity
@@ -55,13 +55,13 @@ fun LoginForm(
 ) {
 
     val uiData = remember {
-        mutableStateOf(SignInUiState())
+        mutableStateOf(SignInUiDate())
     }
     val signInViewModel = remember { SignInViewModel() }
     val context = LocalContext.current
 
     LoginContent(
-        uiState = uiData,
+        uiDate = uiData,
         onLoginClick = {
             if (uiData.value.isNotEmpty()) {
                 signInViewModel.signInWithEmailAndPassword(uiData.value.email, uiData.value.password) { result ->
@@ -93,7 +93,7 @@ fun LoginForm(
  */
 @Composable
 fun LoginContent(
-    uiState: MutableState<SignInUiState>,
+    uiDate: MutableState<SignInUiDate>,
     onLoginClick: () -> Unit,
     onForgotPasswordClick: () -> Unit,
     onSignUpClick: () -> Unit
@@ -111,15 +111,15 @@ fun LoginContent(
 
         TextField(
             modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 16.dp),
-            value = uiState.value.email,
+            value = uiDate.value.email,
             label = { Text(text = "Email") },
-            onValueChange = { email -> uiState.value = uiState.value.copy(email = email) }
+            onValueChange = { email -> uiDate.value = uiDate.value.copy(email = email) }
         )
         // password ui function
         PasswordField(
-            value = uiState.value.password,
+            value = uiDate.value.password,
             onValueChange = { password ->
-                uiState.value = uiState.value.copy(password = password)
+                uiDate.value = uiDate.value.copy(password = password)
             },
             onToggleClick = { passwordVisible = !passwordVisible },
             passwordVisible = passwordVisible,
