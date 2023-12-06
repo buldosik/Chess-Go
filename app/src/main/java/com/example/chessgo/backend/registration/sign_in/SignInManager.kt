@@ -17,15 +17,15 @@ private const val TAG = "SignInManager"
 class SignInManager {
     private val auth: FirebaseAuth = Firebase.auth
     private var firestore = Firebase.firestore
-    fun signInWithEmailAndPassword(email: String, password: String, onComplete: (Results<FirebaseUser?>) -> Unit){
+    fun signInWithEmailAndPassword(email: String, password: String, callback: (Results<FirebaseUser?>) -> Unit){
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 val user = auth.currentUser
                 initClient(user!!)
-                onComplete(Results.Success(user))
+                callback(Results.Success(user))
             }
             .addOnFailureListener {exception ->
-                onComplete(Results.Failure(exception))
+                callback(Results.Failure(exception))
             }
     }
     private fun FirebaseUser.toUser(): Task<User> {
@@ -40,7 +40,7 @@ class SignInManager {
                 val email = userData?.get("email") as? String ?: ""
                 val isModerator = userData?.get("isModerator") as? Boolean ?: false
 
-                return@continueWithTask Tasks.forResult(User(userId = userId, username = username, email = email, isModerator = isModerator))
+                return@continueWithTask Tasks.forResult(User(uid = userId, username = username, email = email, isModerator = isModerator))
             } else {
                 throw task.exception ?: Exception("Error fetching user data")
             }

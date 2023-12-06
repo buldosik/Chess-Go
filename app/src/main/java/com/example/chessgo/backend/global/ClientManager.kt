@@ -13,10 +13,10 @@ class ClientManager {
             Log.d(TAG, "User init successful")
         }
         fun getClient(): User {return client}
-        fun setClientInfo(uid : String = client.userId,
+        fun setClientInfo(uid : String = client.uid,
                           name : String = client.username,
                           email : String = client.email) {
-            client.userId = uid
+            client.uid = uid
             client.username = name
             client.email = email
         }
