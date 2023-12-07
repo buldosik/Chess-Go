@@ -29,15 +29,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.chessgo.backend.global.UserAuthenticationData
 import com.example.chessgo.backend.registration.sign_in.SignInManager
-import com.example.chessgo.frontend.MainActivity
 import com.example.chessgo.frontend.irlMenu.IRLMenuActivity
 import com.example.chessgo.frontend.mainmenu.onlinegame.OnlineGameMenuActivity
+import com.example.chessgo.frontend.registration.enterApp.EnterActivity
 import com.example.chessgo.ui.theme.ChessgoTheme
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -55,7 +52,7 @@ class MainMenuActivity : ComponentActivity(){
             ChessgoTheme {
                 MainScreen(
                     onSignOutClick = {
-                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        val intent = Intent(applicationContext, EnterActivity::class.java)
                         startActivity(intent)
                     },
                     onIrlClick = {
@@ -184,5 +181,4 @@ fun mainContent(onIrlClick: () -> Unit, onOnlineClick: () -> Unit){
                 Text(text = "Play Online")
             }
         }
-    }
 }
