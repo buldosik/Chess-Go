@@ -40,7 +40,6 @@
         <activity
             android:name=".frontend.registration.enterApp.EnterActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Chessgo">
 
             <intent-filter>
@@ -57,9 +56,9 @@
             android:label="SignUp" />
         <activity
             android:name=".frontend.mainmenu.MainMenuActivity"
-            android:label="MainMenu"></activity>
+            android:label="MainMenu" />
         <activity
-            android:name=".frontend.mainmenu.onlinegame.OnlineGameMenuActivity"
+            android:name=".frontend.onlinegame.OnlineGameMenuActivity"
             android:label="OnlineMenuScreen" />
     </application>
 
