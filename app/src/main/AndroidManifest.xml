@@ -39,7 +39,7 @@
             android:label="@string/forgot_password_activity"
             android:theme="@style/Theme.Chessgo"/>
         <activity
-            android:name=".frontend.MainActivity"
+            android:name=".frontend.registration.enterApp.EnterActivity"
             android:exported="true"
             android:theme="@style/Theme.Chessgo">
 
@@ -57,12 +57,10 @@
             android:label="SignUp"/>
         <activity
             android:name=".frontend.mainmenu.MainMenuActivity"
-            android:label="MainMenu"/>
-
+            android:label="MainMenu" />
         <activity
-            android:name=".frontend.mainmenu.onlinegame.OnlineGameMenuActivity"
-            android:label="OnlineMenuScreen"/>
-
+            android:name=".frontend.onlinegame.OnlineGameMenuActivity"
+            android:label="OnlineMenuScreen" />
     </application>
 
 </manifest>

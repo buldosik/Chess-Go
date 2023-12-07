@@ -1,4 +1,4 @@
-package com.example.chessgo.frontend.mainmenu.onlinegame
+package com.example.chessgo.frontend.onlinegame
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

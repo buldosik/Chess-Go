@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -24,11 +23,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.chessgo.backend.registration.forgotPassword.FPActivityManager
 
 @Composable
 fun FPScreen(
-    activity: ForgotPasswordActivity,
+    forgotPasswordActivity: ForgotPasswordActivity,
 ) {
     Column (
         modifier = Modifier.fillMaxSize(),
@@ -57,13 +55,11 @@ fun FPScreen(
             colors = ButtonDefaults.outlinedButtonColors(backgroundColor = Color.Blue),
             onClick = {
                 if (email.isNotEmpty()) {
-                    FPActivityManager.sendResetLink(email, activity)
+                    forgotPasswordActivity.sendResetLink(email)
                 }
             },
-            shape = RoundedCornerShape(50.dp),
             modifier = Modifier
-                .width(300.dp)
-                .height(70.dp)
+                .width(250.dp)
         ) {
             Text(text = "Submit", style = TextStyle(fontSize = 25.sp), color = Color.White)
         }

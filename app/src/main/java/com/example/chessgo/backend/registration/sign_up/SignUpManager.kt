@@ -1,49 +1,41 @@
 package com.example.chessgo.backend.registration.sign_up
 
-import android.content.ContentValues
 import android.util.Log
+import com.example.chessgo.backend.User
+import com.example.chessgo.backend.registration.Results
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+private const val TAG = "SignUpManager"
+
 class SignUpManager {
     private var auth  = Firebase.auth
-    private var  firestore = Firebase.firestore
-    fun createUserWithEmailAndPassword(email: String, userName: String, password: String, onComplete: (FirebaseUser?, UserProfileChangeRequest?) -> Unit) {
-
+    private var firestore = Firebase.firestore
+    fun createUserWithEmailAndPassword(email: String, password: String, callback: (Results<FirebaseUser?>) -> Unit) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if( task.isSuccessful){
+            .addOnSuccessListener {
                     val user = auth.currentUser
-                    val profileUpdates = UserProfileChangeRequest.Builder()
-                        .setDisplayName(userName)
-                        .build()
-                    user?.sendEmailVerification()
-                        ?.addOnCompleteListener { verificationTask ->
-                            if(verificationTask.isSuccessful){
-                                onComplete(user, profileUpdates)
-                            } else {
-                                onComplete(null, null)
-                            }
+                    user!!.sendEmailVerification()
+                        .addOnFailureListener {
+                            callback(Results.Failure(it))
                         }
-                }
+                    callback(Results.Success(user))
+            }
+            .addOnFailureListener {
+                callback(Results.Failure(it))
             }
     }
-    fun saveUserToDatabase(userName: String?, email: String?, uid: String?){
-
-        val user = User(userName, email)
-        if (uid != null) {
-            firestore.collection("users").document(uid)
-                .set(user)
-                .addOnSuccessListener {
-                    Log.d(ContentValues.TAG, "User data saved to Firestore")
-                }
-                .addOnFailureListener { e ->
-                    Log.e(ContentValues.TAG, "Error saving user data to Firestore: $e")
-                }
-        }
+    fun saveUserToDatabase(user: User){
+        firestore.collection("users").document(user.uid)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d(TAG, "User data saved to Firestore")
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Error saving user data to Firestore: $e")
+            }
     }
 }
 
