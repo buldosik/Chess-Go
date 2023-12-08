@@ -8,6 +8,8 @@ data class User(
     var email : String,
     var isModerator: Boolean
 ) {
+    val upcoming_events = listOf<String>()
+    val history_games = listOf<String>()
     val personalRating = initRating
     val tournamentRating = initRating
 
