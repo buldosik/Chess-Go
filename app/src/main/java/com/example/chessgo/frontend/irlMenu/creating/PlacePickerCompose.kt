@@ -79,7 +79,7 @@ fun PlacePicker(
         // Button to confirm point
         Button(
             onClick = {
-                viewModel.lastPoint = currentPoint
+                viewModel.pickedPoint = currentPoint
                 creatingMenuActivity.goToMenu()
             },
             modifier = Modifier
