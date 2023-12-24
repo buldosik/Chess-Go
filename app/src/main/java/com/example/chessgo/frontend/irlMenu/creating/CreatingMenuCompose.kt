@@ -1,11 +1,13 @@
 package com.example.chessgo.frontend.irlMenu.creating
 
+import android.app.TimePickerDialog
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.LatLng
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
@@ -20,8 +23,6 @@ import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.calendar.models.CalendarStyle
-import com.maxkeppeler.sheets.date_time.DateTimeDialog
-import com.maxkeppeler.sheets.date_time.models.DateTimeSelection
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -46,6 +47,8 @@ fun CreatingMenu(
     var pickedPoint by remember {
         mutableStateOf(viewModel.pickedPoint)
     }
+
+
 
     Column(
         modifier = Modifier
@@ -93,6 +96,7 @@ fun CreatingMenu(
                 creatingMenuActivity.goToMainMenu()
             })
     }
+
 }
 
 @Composable
@@ -158,12 +162,22 @@ fun DateRow(date: LocalDate, onValueChange: (LocalDate) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeRow(time: LocalTime, onValueChange: (LocalTime) -> Unit) {
-    val timePickerState = rememberUseCaseState()
-    DateTimeDialog(
-        state = timePickerState,
-        selection = DateTimeSelection.Time {newTime -> onValueChange(newTime) })
+    val timePickerState = rememberTimePickerState(LocalTime.now().hour, LocalTime.now().minute, true)
+    val context = LocalContext.current
+
+    val timePickerDialog = TimePickerDialog(
+        context,
+        { view, hourOfDay, minute ->
+            var newDate = LocalTime.of(hourOfDay, minute)
+            onValueChange(newDate)
+        },
+        timePickerState.hour,
+        timePickerState.minute,
+        timePickerState.is24hour
+    )
 
     Row(
         modifier = Modifier
@@ -182,7 +196,7 @@ fun TimeRow(time: LocalTime, onValueChange: (LocalTime) -> Unit) {
         )
 
         Button(
-            onClick = { timePickerState.show() },
+            onClick = { timePickerDialog.show() },
             modifier = Modifier
                 .height(48.dp)
         ) {
