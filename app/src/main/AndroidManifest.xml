@@ -51,16 +51,20 @@
         </activity>
         <activity
             android:name=".frontend.registration.sign_up.SignUpActivity"
-            android:label="SignIn"/>
+            android:label="SignIn"
+            android:theme="@style/Theme.Chessgo" />
         <activity
             android:name=".frontend.registration.sign_in.SignInActivity"
-            android:label="SignUp"/>
+            android:label="SignUp"
+            android:theme="@style/Theme.Chessgo" />
         <activity
             android:name=".frontend.mainmenu.MainMenuActivity"
-            android:label="MainMenu" />
+            android:label="MainMenu"
+            android:theme="@style/Theme.Chessgo"/>
         <activity
             android:name=".frontend.onlinegame.OnlineGameMenuActivity"
-            android:label="OnlineMenuScreen" />
+            android:label="OnlineMenuScreen"
+            android:theme="@style/Theme.Chessgo" />
     </application>
 
 </manifest>

@@ -6,4 +6,8 @@
     <string name="title_activity_map_compose">MapCompose</string>
     <string name="title_activity_creating_menu">CreatingMenu</string>
     <string name="title_activity_irlmenu">IRLMenuActivity</string>
+
+    <string name="enter_line">Chessgo</string>
+    <string name="log_in">Log In</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
