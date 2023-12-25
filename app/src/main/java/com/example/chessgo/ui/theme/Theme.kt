@@ -67,7 +67,7 @@ fun ChessgoTheme(
     }
 
     MaterialTheme(
-        colorScheme = DarkColorScheme,
+        colorScheme = ColorScheme,
         typography = Typography,
         shapes = shapes,
         content = content
