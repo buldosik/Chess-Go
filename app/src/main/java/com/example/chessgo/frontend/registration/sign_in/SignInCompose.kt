@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -27,6 +28,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.chessgo.frontend.navigation.navigateToForgotPassword
+import com.example.chessgo.frontend.navigation.navigateToSignUp
 import com.example.chessgo.frontend.registration.EmailField
 import com.example.chessgo.frontend.registration.PasswordField
 
@@ -34,7 +38,9 @@ import com.example.chessgo.frontend.registration.PasswordField
 * head logic ui function which is invoked in SignInActivity
  */
 @Composable
-fun LoginForm(signInActivity: SignInActivity) {
+fun SignInScreen(navController: NavHostController) {
+    val context = LocalContext.current
+    val viewModel  = remember { SignInViewModel(navController, context) }
 
     var email: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
@@ -55,7 +61,7 @@ fun LoginForm(signInActivity: SignInActivity) {
             }
             ClickableText(
                 text = AnnotatedString("Forgot password?"),
-                onClick = { signInActivity.toForgotPassword() },
+                onClick = { navController.navigateToForgotPassword() },
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(end = 60.dp),
@@ -64,10 +70,10 @@ fun LoginForm(signInActivity: SignInActivity) {
             Spacer(Modifier.size(16.dp))
 
             LogInButton(
-                onClick = { signInActivity.onLoginClick(email, password, isRemember) },
+                onClick = { viewModel.onLoginClick(email, password, isRemember) },
             )
             SignUpLink(
-                onClick = { signInActivity.toSignUp() }
+                onClick = { navController.navigateToSignUp() }
             )
         }
     }

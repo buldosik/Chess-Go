@@ -30,6 +30,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.chessgo.frontend.navigation.navigateToSignIn
 import com.example.chessgo.frontend.registration.EmailField
 import com.example.chessgo.frontend.registration.PasswordField
 
@@ -39,17 +41,14 @@ private const val TAG = "SignInUI"
 * head logic ui function which is invoked in SignInActivity
  */
 @Composable
-fun RegistrationForm(
-    signUpActivity: SignUpActivity
-) {
+fun SignUpScreen(navController: NavHostController) {
     var email: String by remember { mutableStateOf("") }
     var username: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
     var isRemember: Boolean by remember { mutableStateOf(false) }
 
-    val signUpViewModel = remember { SignUpViewModel() }
-
     val context = LocalContext.current
+    val viewModel = remember { SignUpViewModel(navController, context) }
 
     Surface {
         Column(
@@ -77,8 +76,8 @@ fun RegistrationForm(
 
             SignUpButton(
                 onClick = {
-                    if (signUpViewModel.passwordValidator(password)) {
-                        signUpActivity.onSignUpClick(email, username, password, isRemember)
+                    if (viewModel.passwordValidator(password)) {
+                        viewModel.onSignUpClick(email, username, password, isRemember)
                     } else {
                         // ToDo Trello -> Update password creation
                         Toast.makeText(
@@ -95,7 +94,7 @@ fun RegistrationForm(
             )
 
             SignInLink(
-                onClick = { signUpActivity.toSignIn() }
+                onClick = { navController.navigateToSignIn() }
             )
         }
     }
