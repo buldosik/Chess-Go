@@ -38,7 +38,8 @@ fun GreetingScreen(navController: NavHostController) {
                 modifier = Modifier.padding(bottom = 32.dp)
             )
 
-            val imagePainter = painterResource(id = R.drawable.figure)
+
+            val imagePainter = painterResource(id = R.drawable.enter_screen_figures)
             Image(
                 painter = imagePainter,
                 contentDescription = null,

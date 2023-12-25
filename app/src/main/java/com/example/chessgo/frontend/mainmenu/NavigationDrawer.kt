@@ -41,6 +41,9 @@ fun AppBar(
 ) {
     TopAppBar(
         title = {
+            val iconPainter = painterResource(id = R.drawable.pawn_icon)
+            //ToDo set nice size
+            Image(painter = iconPainter, contentDescription = null)
             Text(text = stringResource(id = R.string.app_name))
         },
         backgroundColor = MaterialTheme.colors.primary,
