@@ -39,7 +39,7 @@
             android:label="@string/forgot_password_activity"
             android:theme="@style/Theme.Chessgo"/>
         <activity
-            android:name=".frontend.registration.enterApp.EnterActivity"
+            android:name=".frontend.EnterActivity"
             android:exported="true"
             android:theme="@style/Theme.Chessgo">
 

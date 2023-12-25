@@ -9,23 +9,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.chessgo.frontend.navigation.navigateToCreatingMenu
+import com.example.chessgo.frontend.navigation.navigateToMyEventsMenu
+import com.example.chessgo.frontend.navigation.navigateToSearchingMenu
 
 @Composable
-fun IRLMenu(irlMenuActivity: IRLMenuActivity) {
+fun IRLMenuScreen(navController: NavHostController) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Button(onClick = { irlMenuActivity.goToCreating() }) {
+        Button(onClick = { navController.navigateToCreatingMenu() }) {
             Text(text = "Create Event", fontSize = 16.sp)
         }
 
-        Button(onClick = { irlMenuActivity.goToSearching() }) {
+        Button(onClick = { navController.navigateToSearchingMenu() }) {
             Text(text = "Search Events", fontSize = 16.sp)
         }
 
-        Button(onClick = { irlMenuActivity.goToMyEvents() }) {
+        Button(onClick = { navController.navigateToMyEventsMenu() }) {
             Text(text = "My Events", fontSize = 16.sp)
         }
     }

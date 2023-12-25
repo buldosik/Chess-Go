@@ -33,7 +33,7 @@ private val defaultCameraPosition1 = CameraPosition.fromLatLngZoom(center, 2f)
 @Composable
 fun PlacePicker(
     viewModel: CreatingViewModel,
-    creatingMenuActivity: CreatingMenuActivity
+    onPlacePickerVisibilityChanged: () -> Unit
 ) {
     // Observing and controlling the camera's state can be done with a CameraPositionState
     val cameraPositionState = rememberCameraPositionState {
@@ -80,7 +80,7 @@ fun PlacePicker(
         Button(
             onClick = {
                 viewModel.pickedPoint = currentPoint
-                creatingMenuActivity.goToMenu()
+                onPlacePickerVisibilityChanged()
             },
             modifier = Modifier
                 .align(Alignment.TopEnd)

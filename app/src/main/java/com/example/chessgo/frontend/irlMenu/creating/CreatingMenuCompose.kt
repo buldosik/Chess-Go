@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.chessgo.frontend.navigation.navigateToMainMenu
 import com.google.android.gms.maps.model.LatLng
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
@@ -30,10 +32,8 @@ import java.time.format.DateTimeFormatter
 private const val TAG = "CreatingMenuCompose"
 
 @Composable
-fun CreatingMenu(
-    viewModel: CreatingViewModel,
-    creatingMenuActivity: CreatingMenuActivity
-) {
+fun CreatingMenu(navController: NavHostController) {
+    val viewModel = remember { CreatingViewModel() }
 
     var description by remember {
         mutableStateOf(viewModel.description)
@@ -48,15 +48,21 @@ fun CreatingMenu(
         mutableStateOf(viewModel.pickedPoint)
     }
 
-
+    var isPlacePickerVisible by remember {
+        mutableStateOf(false)
+    }
+    // Function to show/hide the PlacePicker
+    val togglePlacePicker: () -> Unit = {
+        isPlacePickerVisible = !isPlacePickerVisible
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Row 1: Description field & "edit" button
 
+        // Row 1: Description field & "edit" button
         Description(
             description = description,
             onValueChange = {newDescription ->
@@ -84,17 +90,20 @@ fun CreatingMenu(
 
         // Row 4: LatLng fields & "edit" button
         Position(position = pickedPoint) {
-            creatingMenuActivity.goToPlacePicker()
+            togglePlacePicker()
         }
 
         // Create button
         CreateButton(
             onClick = {
                 // Sending to db
-                creatingMenuActivity.createEvent()
+                viewModel.createEvent()
                 // Back to main menu
-                creatingMenuActivity.goToMainMenu()
+                navController.navigateToMainMenu()
             })
+    }
+    if (isPlacePickerVisible) {
+        PlacePicker(viewModel = viewModel, onPlacePickerVisibilityChanged = { togglePlacePicker() })
     }
 
 }

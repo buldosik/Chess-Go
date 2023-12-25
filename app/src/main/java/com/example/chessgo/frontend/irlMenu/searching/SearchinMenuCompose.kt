@@ -27,7 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.chessgo.backend.GameIRL
+import com.example.chessgo.frontend.navigation.navigateToMainMenu
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -47,9 +49,10 @@ private val defaultCameraPosition1 = CameraPosition.fromLatLngZoom(center, 2f)
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
-fun MapScreen(
-    searchingMenuActivity: SearchingMenuActivity
-) {
+fun SearchingScreen(navController: NavHostController) {
+    val viewModel = remember { SearchingMenuViewModel() }
+    viewModel.getPoints()
+
     // Observing and controlling the camera's state can be done with a CameraPositionState
     val cameraPositionState = rememberCameraPositionState {
         position = defaultCameraPosition1
@@ -84,7 +87,7 @@ fun MapScreen(
             }
         ) {
             // Adding all markers to map
-            searchingMenuActivity.viewModel.points.forEach { point ->
+            viewModel.points.forEach { point ->
                 Log.d(TAG, "Marker Spawned: ${point.position}")
                 Marker(
                     state = MarkerState(position = point.position),
@@ -117,14 +120,14 @@ fun MapScreen(
                     animationSpec = tween(durationMillis = 250)
                 )
             ) {
-                InfoAboutEvent(chosenMarker, searchingMenuActivity)
+                InfoAboutEvent(chosenMarker, viewModel, navController)
             }
         }
     }
 }
 
 @Composable
-fun InfoAboutEvent(chosenMarkerGID: String, searchingMenuActivity: SearchingMenuActivity) {
+fun InfoAboutEvent(chosenMarkerGID: String, viewModel: SearchingMenuViewModel, navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
@@ -134,7 +137,7 @@ fun InfoAboutEvent(chosenMarkerGID: String, searchingMenuActivity: SearchingMenu
             date = Date(),
         )) }
 
-        searchingMenuActivity.searchingIRLManager.getInfoAboutEvent(chosenMarkerGID) {
+        viewModel.searchingIRLManager.getInfoAboutEvent(chosenMarkerGID) {
             if (it != null) {
                 gameIrl = it
             }
@@ -204,7 +207,7 @@ fun InfoAboutEvent(chosenMarkerGID: String, searchingMenuActivity: SearchingMenu
             Button(
                 onClick = {
                     // ToDo apply to event
-                    searchingMenuActivity.goToMainMenu()
+                    navController.navigateToMainMenu()
                 },
                 modifier = Modifier
                     .height(12.dp)
