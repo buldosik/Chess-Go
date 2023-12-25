@@ -46,6 +46,4 @@ class EnterActivity : ComponentActivity() {
         startActivity(Intent(this, MainMenuActivity::class.java))
         finish()
     }
-
-
 }

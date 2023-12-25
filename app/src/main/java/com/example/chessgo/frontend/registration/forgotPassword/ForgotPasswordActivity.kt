@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.chessgo.backend.registration.forgotPassword.FPActivityManager
+import com.example.chessgo.ui.theme.ChessgoTheme
 
 
 class ForgotPasswordActivity: ComponentActivity() {
@@ -12,7 +13,9 @@ class ForgotPasswordActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            FPScreen(this)
+            ChessgoTheme {
+                FPScreen(this)
+            }
         }
     }
     fun sendResetLink(email: String) {

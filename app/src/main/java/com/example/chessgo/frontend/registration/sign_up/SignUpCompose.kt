@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,51 +51,53 @@ fun RegistrationForm(
 
     val context = LocalContext.current
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Registration",
-            style = TextStyle(fontSize = 40.sp),
-            modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 16.dp)
-        )
-        EmailField(email) { updated ->
-            email = updated
-        }
-        UsernameField(username) { updated ->
-            username = updated
-        }
-        PasswordField(password) { updatedPassword ->
-            password = updatedPassword
-        }
-        Spacer(Modifier.size(16.dp))
-
-        SignUpButton(
-            onClick = {
-                if(signUpViewModel.passwordValidator(password)) {
-                    signUpActivity.onSignUpClick(email, username, password, isRemember)
-                } else {
-                    // ToDo Trello -> Update password creation
-                    Toast.makeText(
-                        context,
-                        "Your password doesn't meet criteria",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            },
+    Surface {
+        Column(
             modifier = Modifier
-                .padding(0.dp, 0.dp, 0.dp, 16.dp)
-                .width(250.dp)
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Registration",
+                style = TextStyle(fontSize = 40.sp),
+                modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 16.dp)
+            )
+            EmailField(email) { updated ->
+                email = updated
+            }
+            UsernameField(username) { updated ->
+                username = updated
+            }
+            PasswordField(password) { updatedPassword ->
+                password = updatedPassword
+            }
+            Spacer(Modifier.size(16.dp))
 
-        )
+            SignUpButton(
+                onClick = {
+                    if (signUpViewModel.passwordValidator(password)) {
+                        signUpActivity.onSignUpClick(email, username, password, isRemember)
+                    } else {
+                        // ToDo Trello -> Update password creation
+                        Toast.makeText(
+                            context,
+                            "Your password doesn't meet criteria",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                },
+                modifier = Modifier
+                    .padding(0.dp, 0.dp, 0.dp, 16.dp)
+                    .width(250.dp)
 
-        SignInLink(
-            onClick = { signUpActivity.toSignIn() }
-        )
+            )
+
+            SignInLink(
+                onClick = { signUpActivity.toSignIn() }
+            )
+        }
     }
 }
 
