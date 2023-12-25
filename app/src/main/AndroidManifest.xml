@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/enter_screen_figures"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chessgo"
         android:screenOrientation="portrait"
         tools:targetApi="31">
+        <provider
+            android:name=".backend.global.PhotoPickerManager"
+            android:authorities="com.example.chessgo.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
-        <activity
-            android:name=".frontend.irlMenu.IRLMenuActivity"
-            android:exported="false"
-            android:label="@string/title_activity_irlmenu"
-            android:theme="@style/Theme.Chessgo"
-            />
-
-        <activity
-            android:name=".frontend.irlMenu.creating.CreatingMenuActivity"
-            android:exported="true"
-            android:label="@string/title_activity_creating_menu"
-            android:theme="@style/Theme.Chessgo"/>
-        <activity
-            android:name=".frontend.irlMenu.searching.SearchingMenuActivity"
-            android:exported="true"
-            android:label="@string/title_activity_map"
-            android:theme="@style/Theme.Chessgo"/>
-        <activity
-            android:name=".frontend.registration.forgotPassword.ForgotPasswordActivity"
-            android:exported="true"
-            android:label="@string/forgot_password_activity"
-            android:theme="@style/Theme.Chessgo"/>
         <activity
             android:name=".frontend.EnterActivity"
             android:exported="true"
@@ -49,22 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".frontend.registration.sign_up.SignUpActivity"
-            android:label="SignIn"
-            android:theme="@style/Theme.Chessgo" />
-        <activity
-            android:name=".frontend.registration.sign_in.SignInActivity"
-            android:label="SignUp"
-            android:theme="@style/Theme.Chessgo" />
-        <activity
-            android:name=".frontend.mainmenu.MainMenuActivity"
-            android:label="MainMenu"
-            android:theme="@style/Theme.Chessgo"/>
-        <activity
-            android:name=".frontend.onlinegame.OnlineGameMenuActivity"
-            android:label="OnlineMenuScreen"
-            android:theme="@style/Theme.Chessgo" />
+
     </application>
 
 </manifest>

@@ -20,7 +20,7 @@ fun AppNavHost(isLogged: Boolean) {
 fun SetupNavigation(navController: NavHostController, isLogged: Boolean) {
     var initScreen = screens.first().route
     if(isLogged){
-        initScreen = screens[4].route
+        initScreen = screens[0].route
     }
     NavHost(
         navController = navController,
