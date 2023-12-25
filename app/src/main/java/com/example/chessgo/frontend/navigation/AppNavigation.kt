@@ -32,7 +32,7 @@ sealed class Screen(val route: String) {
     object CreatingMenu : Screen("CreatingMenuScreen")
     object SearchingMenu : Screen("SearchingScreen")
     object MyEventsMenu : Screen("MyEventsScreen")
-    object OnlineMenu : Screen("MyEventsScreen")
+    object OnlineMenu : Screen("OnlineMenuScreen")
 }
 
 val screens = listOf(
@@ -98,5 +98,5 @@ fun NavController.navigateToMyEventsMenu() {
 }
 
 fun NavController.navigateToOnlineMenu() {
-    navigate("MainMenuScreen")
+    navigate("OnlineMenuScreen")
 }
