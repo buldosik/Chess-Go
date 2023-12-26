@@ -36,16 +36,16 @@ fun CreatingMenu(navController: NavHostController) {
     val viewModel = remember { CreatingViewModel() }
 
     var description by remember {
-        mutableStateOf(viewModel.description)
+        mutableStateOf("")
     }
     var pickedDate by remember {
-        mutableStateOf(viewModel.pickedDate)
+        mutableStateOf(LocalDate.now())
     }
     var pickedTime by remember {
-        mutableStateOf(viewModel.pickedTime)
+        mutableStateOf(LocalTime.now())
     }
     var pickedPoint by remember {
-        mutableStateOf(viewModel.pickedPoint)
+        mutableStateOf(LatLng(0.0,0.0))
     }
 
     var isPlacePickerVisible by remember {
@@ -67,7 +67,6 @@ fun CreatingMenu(navController: NavHostController) {
             description = description,
             onValueChange = {newDescription ->
                 description = newDescription
-                viewModel.description = newDescription
             })
 
         // Row 2: Date field & "edit" button
@@ -76,7 +75,6 @@ fun CreatingMenu(navController: NavHostController) {
             onValueChange = { newDate ->
                 Log.d(TAG, "Selected date: $newDate")
                 pickedDate = newDate
-                viewModel.pickedDate = newDate
         })
 
         // Row 3: Time field & "edit" button
@@ -85,7 +83,6 @@ fun CreatingMenu(navController: NavHostController) {
             onValueChange = {newTime ->
                 Log.d(TAG, "Selected time: $newTime")
                 pickedTime = newTime
-                viewModel.pickedTime = newTime
             })
 
         // Row 4: LatLng fields & "edit" button
@@ -97,13 +94,19 @@ fun CreatingMenu(navController: NavHostController) {
         CreateButton(
             onClick = {
                 // Sending to db
-                viewModel.createEvent()
+                viewModel.createEvent(
+                    description = description,
+                    date = pickedDate,
+                    time = pickedTime,
+                    position = pickedPoint)
                 // Back to main menu
                 navController.navigateToMainMenu()
             })
     }
     if (isPlacePickerVisible) {
-        PlacePicker(viewModel = viewModel, onPlacePickerVisibilityChanged = { togglePlacePicker() })
+        PlacePicker(onPlacePickerVisibilityChanged = {newPickedPoint->
+            pickedPoint = newPickedPoint
+            togglePlacePicker() })
     }
 
 }
