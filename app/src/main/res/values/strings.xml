@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">chessgo</string>
+    <string name="app_name">ChessGo</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="forgot_password_activity">ForgotPasswordActivity</string>
     <string name="title_activity_map">MapActivity</string>
