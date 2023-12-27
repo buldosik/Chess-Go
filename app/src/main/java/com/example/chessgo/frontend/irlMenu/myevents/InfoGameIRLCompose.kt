@@ -64,6 +64,7 @@ fun InfoGameIRLCompose(
             }
             Button(modifier = Modifier.padding(top = 10.dp), onClick = {
                 viewModel.listingIRLManager.signOffGame(viewModel.currentGame)
+                viewModel.games.remove(viewModel.currentGame)
                 Log.d(TAG, viewModel.games.toString())
                 Thread.sleep(1_00)
                 toggleGameInfo() /* Go to my events menu */
