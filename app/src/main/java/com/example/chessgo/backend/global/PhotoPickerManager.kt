@@ -1,8 +1,6 @@
 package com.example.chessgo.backend.global
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +12,10 @@ import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.util.UUID
 
+/**
+ * PhotoPickerManager is a utility class for managing image-related operations, such as getting image URIs,
+ * uploading images to Firebase Storage, and retrieving the URI of the last selected image.
+ */
 class PhotoPickerManager : FileProvider(
     R.xml.filepaths
 ) {
@@ -21,6 +23,12 @@ class PhotoPickerManager : FileProvider(
         private val imageUris: MutableState<Uri?> = mutableStateOf(null)
         private val storage = Firebase.storage
         private val storageRef = storage.reference
+        /**
+         * Gets a temporary image URI for capturing an image using the device's camera.
+         *
+         * @param context The application context.
+         * @return The temporary image URI.
+         */
         fun getImageUri(context: Context): Uri? {
             // Get the path where the file will be stored
             val directory = File(context.cacheDir, "images")
@@ -42,15 +50,19 @@ class PhotoPickerManager : FileProvider(
                 authority,
                 file
             )
-            imageUris.value = (uri)
+            imageUris.value = uri
             return uri
 
         }
-        fun getLastImageUri(): Uri? {
-            return imageUris.value
-        }
+        /**
+         * Uploads the specified image URI to Firebase Storage.
+         *
+         * @param uri The URI of the image to be uploaded.
+         * @param context The application context.
+         * @param callback Callback function to handle the result of the upload operation.
+         */
         fun uploadImageToStorage(uri: Uri?, context: Context, callback: (Results<Uri>) -> Unit) {
-            //should be changed based on event uid
+            //TODO change to event uid wh
             val uniqueImageName = UUID.randomUUID()
 
             val pictureName = "gameresult"
@@ -67,7 +79,7 @@ class PhotoPickerManager : FileProvider(
             byteArray?.let{
                 val uploadTask = imagePathRef.putBytes(byteArray)
                 uploadTask
-                    .addOnSuccessListener { taskSnapshot ->
+                    .addOnSuccessListener { _->
                         // Image uploaded successfully
                         // Get the download URL and include it in the success result
                         imagePathRef.downloadUrl.addOnSuccessListener { downloadUri ->
@@ -78,6 +90,14 @@ class PhotoPickerManager : FileProvider(
                         callback(Results.Failure(exception))
                 }
             }
+        }
+        /**
+         * Gets the URI of the last selected image.
+         *
+         * @return The URI of the last selected image.
+         */
+        fun getLastImageUri(): Uri? {
+            return imageUris.value
         }
     }
 }

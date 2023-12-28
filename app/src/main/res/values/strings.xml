@@ -11,4 +11,12 @@
     <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>
     <string name="take_photo">Take Photo</string>
+    <string name="added_img_success">Result successfully added!</string>
+    <string name="added_img_fail">Result successfully added!</string>
+    <string name="unable_to_safe">Capture and confirm a new photo to save your result!</string>
+    <string name="default_picture">Default picture</string>
+    <string name="selected_image">Selected image</string>
+    <string name="last_taken_image">Last taken image</string>
+    <string name="rejected_permission_info">Grant camera permission in settings to capture and add results.</string>
+
 </resources>
