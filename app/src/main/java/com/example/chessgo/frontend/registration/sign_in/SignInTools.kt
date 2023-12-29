@@ -25,6 +25,19 @@ class SignInTools(
 
     fun onLoginClick(email: String, password: String) {
         if (email.isEmpty() || password.isEmpty()) {
+            Log.w(ContentValues.TAG, "createUserWithEmail:no password or email")
+            var info = ""
+            if (email.isEmpty() && password.isEmpty())
+                info += "Enter email\nEnter password"
+            else if (email.isEmpty())
+                info += "Enter email"
+            else if (password.isEmpty())
+                info += "Enter password"
+            Toast.makeText(
+                context,
+                info,
+                Toast.LENGTH_SHORT,
+            ).show()
             return
         }
         signInWithEmailAndPassword(email, password) { result ->

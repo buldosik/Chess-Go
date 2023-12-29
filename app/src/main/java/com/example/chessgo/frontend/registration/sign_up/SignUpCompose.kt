@@ -48,7 +48,7 @@ fun SignUpScreen(navController: NavHostController) {
     var isRemember: Boolean by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
-    val viewModel = remember { SignUpViewModel(navController, context) }
+    val viewModel = remember { SignUpTools(navController, context) }
 
     Surface {
         Column(
