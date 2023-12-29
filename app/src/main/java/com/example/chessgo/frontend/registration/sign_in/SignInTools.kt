@@ -5,17 +5,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.backend.registration.sign_in.SignInManager
 import com.example.chessgo.frontend.navigation.navigateToMainMenu
 import com.google.firebase.auth.FirebaseUser
 
-class SignInViewModel(
+class SignInTools(
     val navController: NavHostController,
     val context: Context
-) : ViewModel(){
+) {
     private val signInManager: SignInManager = SignInManager()
 
     private fun signInWithEmailAndPassword(email: String, password: String, callback: (Results<FirebaseUser?>) -> Unit) {
@@ -24,8 +23,21 @@ class SignInViewModel(
         }
     }
 
-    fun onLoginClick(email: String, password: String, isRemember: Boolean) {
+    fun onLoginClick(email: String, password: String) {
         if (email.isEmpty() || password.isEmpty()) {
+            Log.w(ContentValues.TAG, "createUserWithEmail:no password or email")
+            var info = ""
+            if (email.isEmpty() && password.isEmpty())
+                info += "Enter email\nEnter password"
+            else if (email.isEmpty())
+                info += "Enter email"
+            else if (password.isEmpty())
+                info += "Enter password"
+            Toast.makeText(
+                context,
+                info,
+                Toast.LENGTH_SHORT,
+            ).show()
             return
         }
         signInWithEmailAndPassword(email, password) { result ->
@@ -46,6 +58,4 @@ class SignInViewModel(
             }
         }
     }
-
-
 }
