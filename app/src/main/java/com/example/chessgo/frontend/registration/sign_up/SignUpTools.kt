@@ -14,13 +14,13 @@ import com.google.firebase.auth.FirebaseUser
 
 private const val TAG = "SignUpViewModel"
 
-class SignUpViewModel(
+class SignUpTools(
     val navController: NavHostController,
     val context: Context
 ) : ViewModel(){
     private val signUpManager = SignUpManager()
 
-    fun onSignUpClick(email: String, username: String, password: String, isRemember: Boolean) {
+    fun onSignUpClick(email: String, username: String, password: String) {
         signUpManager.createUserWithEmailAndPassword(email, password) { result ->
             when (result) {
                 is Results.Success -> {
