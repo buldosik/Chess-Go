@@ -63,13 +63,13 @@ fun SignUpScreen(navController: NavHostController) {
                 style = TextStyle(fontSize = 40.sp),
                 modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 16.dp)
             )
-            EmailField(email) { updated ->
+            EmailField(email = email) { updated ->
                 email = updated
             }
             UsernameField(username) { updated ->
                 username = updated
             }
-            PasswordField(password) { updatedPassword ->
+            PasswordField(password = password) { updatedPassword ->
                 password = updatedPassword
             }
             Spacer(Modifier.size(16.dp))
