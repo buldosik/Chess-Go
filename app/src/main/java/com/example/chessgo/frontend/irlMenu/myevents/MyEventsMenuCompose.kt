@@ -182,10 +182,9 @@ fun GameItem(
                     Spacer(modifier = Modifier.height(30.dp))
                     val geocoder = Geocoder(context)
                     val arrAddress = geocoder.getFromLocation(viewModel.currentGame.position.latitude, viewModel.currentGame.position.longitude, 1)
-                    arrAddress?.get(0)?.countryName
                     //ToDo add street to description
                     Text(
-                        text = "Country: ${arrAddress?.get(0)?.countryName}, city: ${arrAddress?.get(0)?.locality}, postal code: ${arrAddress?.get(0)?.adminArea}",
+                        text = "Address: ${arrAddress?.get(0)?.getAddressLine(0)}",
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleLarge
