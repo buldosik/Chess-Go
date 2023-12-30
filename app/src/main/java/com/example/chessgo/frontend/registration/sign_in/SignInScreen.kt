@@ -55,11 +55,11 @@ fun SignInScreen(navController: NavHostController = rememberNavController()) {
     val context = LocalContext.current
     val viewModel  = remember { SignInTools(navController, context) }
 
-    val isKeyboardOpen by keyboardAsState() // true or false
 
     var email: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
 
+    val isKeyboardOpen by keyboardAsState() // true or false
     // Create an animated offset state for the InputTextFields
     val offsetState by animateFloatAsState(
         targetValue = if (!isKeyboardOpen) 0f else (-LocalDensity.current.density * 36), // Adjust the offset value as needed
