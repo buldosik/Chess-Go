@@ -15,6 +15,8 @@ private val DarkColorScheme  = darkColorScheme(
     onPrimary = Platinum,
     secondary = AmethystSecondary,
     onSecondary = Platinum,
+    tertiary = Flame,
+    onTertiary = FlameBrighter,
     background = RaisinBlack,
     onBackground = Platinum,
     /*
@@ -58,7 +60,7 @@ fun ChessgoTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val ColorScheme = when {
+    val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -68,7 +70,7 @@ fun ChessgoTheme(
     }
 
     MaterialTheme(
-        colorScheme = ColorScheme,
+        colorScheme = colorScheme,
         typography = Typography,
         shapes = shapes,
         content = content

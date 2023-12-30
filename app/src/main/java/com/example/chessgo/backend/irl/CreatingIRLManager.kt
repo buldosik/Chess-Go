@@ -46,4 +46,17 @@ class CreatingIRLManager {
             }
     }
 
+    fun getListOfDisabledDates(): List<LocalDate> {
+        val firstDateInCalendar = LocalDate.of(1980, 1, 1)
+        val today = LocalDate.now().minusDays(1)
+        val listOfBlockedDates = mutableListOf<LocalDate>()
+
+        var currentDate = firstDateInCalendar
+        while (currentDate.isBefore(today) || currentDate.isEqual(today)) {
+            listOfBlockedDates.add(currentDate)
+            currentDate = currentDate.plusDays(1)
+        }
+
+        return listOfBlockedDates
+    }
 }

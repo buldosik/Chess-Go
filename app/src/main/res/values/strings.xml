@@ -12,7 +12,16 @@
     <string name="sign_up">Sign Up</string>
     <string name="welcome_back">Welcome Back</string>
     <string name="forgot_password_tooltip">Please, enter your email and we will send you link for password reset</string>
-    <string name="forgot_password_Meme">Forgot password?</string>
+    <string name="forgot_password_message">Forgot password?</string>
     <string name="send_link">Send link</string>
     <string name="create_account">Create Account</string>
+    <string name="passed_time_message">You can\'t chose time in the past! </string>
+    <string name="description">Description </string>
+    <string name="date">Date </string>
+    <string name="time">Time </string>
+    <string name="edit">Edit </string>
+    <string name="latitude">Latitude </string>
+    <string name="longitude">Longitude </string>
+    <string name="create_event">Create Event </string>
+    <string name="time_pattern">HH:mm</string>
 </resources>

@@ -12,4 +12,7 @@ class CreatingViewModel : ViewModel() {
     fun createEvent(description : String = "", date : LocalDate, time : LocalTime, position : LatLng) {
         creatingIRLManager.addNewEventToFirestore(description, date, time, position)
     }
+    fun getListOfDisabledDates(): List<LocalDate> {
+        return creatingIRLManager.getListOfDisabledDates()
+    }
 }
