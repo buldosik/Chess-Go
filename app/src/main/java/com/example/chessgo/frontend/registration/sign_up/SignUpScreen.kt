@@ -55,7 +55,7 @@ fun SignUpScreen(navController: NavHostController = rememberNavController()) {
     var password: String by remember { mutableStateOf("") }
 
     val context = LocalContext.current
-    val viewModel = remember { SignUpTools(navController, context) }
+    val assistant = remember { SignUpTools(navController, context) }
 
     val isKeyboardOpen by keyboardAsState() // true or false
     val offsetState by animateFloatAsState(
@@ -110,8 +110,8 @@ fun SignUpScreen(navController: NavHostController = rememberNavController()) {
             SignUpButton(
                 offset = offsetState,
                 onClick = {
-                    if (viewModel.passwordValidator(password)) {
-                        viewModel.onSignUpClick(email, username, password)
+                    if (assistant.passwordValidator(password)) {
+                        assistant.onSignUpClick(email, username, password)
                     } else {
                         Toast.makeText(
                             context,
