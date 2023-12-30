@@ -27,7 +27,11 @@ class SignUpManager {
                 callback(Results.Failure(it))
             }
     }
-    fun saveUserToDatabase(user: User){
+    fun createUserData(user: FirebaseUser?, email: String, userName: String){
+        val client = User(uid = user!!.uid, username = userName, email = email, isModerator = false)
+        saveUserToDatabase(client)
+    }
+    private fun saveUserToDatabase(user: User){
         firestore.collection("users").document(user.uid)
             .set(user)
             .addOnSuccessListener {
@@ -36,6 +40,9 @@ class SignUpManager {
             .addOnFailureListener { e ->
                 Log.e(TAG, "Error saving user data to Firestore: $e")
             }
+    }
+    fun signOut() {
+        auth.signOut()
     }
 }
 
