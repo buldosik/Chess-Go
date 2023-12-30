@@ -137,7 +137,7 @@ fun SideBar(navController: NavHostController, signOut: () -> Unit, toggleDrawerS
         Spacer(Modifier.height(12.dp))
         itemsManager.itemsList.forEach { item ->
             NavigationDrawerItem(
-                icon = { Icon(item.icon, contentDescription = null) },
+                icon = { Icon(item.icon, contentDescription = null, tint = MaterialTheme.colorScheme.onBackground) },
                 label = { Text(item.title) },
                 selected = false,
                 onClick = {
