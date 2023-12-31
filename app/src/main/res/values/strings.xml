@@ -16,7 +16,7 @@
     <string name="send_link">Send link</string>
     <string name="create_account">Create Account</string>
     <string name="passed_time_message">You can\'t chose time in the past! </string>
-    <string name="description">Description </string>
+    <string name="description">Location Description / Additional Info </string>
     <string name="date">Date </string>
     <string name="time">Time </string>
     <string name="edit">Edit </string>
