@@ -3,9 +3,8 @@ package com.example.chessgo.frontend.irlMenu.searching
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -111,14 +110,8 @@ fun SearchingScreen(navController: NavHostController) {
         ) {
             AnimatedVisibility(
                 visible = isInfoBoxVisible,
-                enter = fadeIn(
-                    // Overwrites the initial value of alpha to 0.4f for fade in, 0 by default
-                    initialAlpha = 0.4f
-                ),
-                exit = fadeOut(
-                    // Overwrites the default animation with tween
-                    animationSpec = tween(durationMillis = 250)
-                )
+                enter = slideInVertically (),
+                exit = slideOutVertically ()
             ) {
                 InfoAboutEvent(chosenMarker, viewModel, navController)
             }
