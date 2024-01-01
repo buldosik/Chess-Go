@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">chessgo</string>
+    <string name="app_name">ChessGo</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="forgot_password_activity">ForgotPasswordActivity</string>
     <string name="title_activity_map">MapActivity</string>
@@ -7,7 +7,12 @@
     <string name="title_activity_creating_menu">CreatingMenu</string>
     <string name="title_activity_irlmenu">IRLMenuActivity</string>
 
-    <string name="enter_line">Chessgo</string>
+    <string name="enter_line">ChessGo</string>
     <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="forgot_password_tooltip">Please, enter your email and we will send you link for password reset</string>
+    <string name="forgot_password_Meme">Forgot password?</string>
+    <string name="send_link">Send link</string>
+    <string name="create_account">Create Account</string>
 </resources>

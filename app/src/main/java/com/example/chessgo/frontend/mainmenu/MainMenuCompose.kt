@@ -2,7 +2,7 @@ package com.example.chessgo.frontend.mainmenu
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,151 +10,214 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.chessgo.R
-import com.example.chessgo.frontend.navigation.navigateToEnteringScreen
-import com.example.chessgo.frontend.navigation.navigateToIrlMenu
-import com.example.chessgo.frontend.navigation.navigateToOnlineMenu
+import com.example.chessgo.frontend.navigation.*
 import kotlinx.coroutines.launch
+
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainMenuScreen(
-    navController: NavHostController,
-) {
+fun MainMenuScreen(navController: NavHostController = rememberNavController() ) {
 
-    val context = LocalContext.current
     val viewModel = remember { MainMenuViewModel() }
 
-    val scaffoldState = rememberScaffoldState()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            AppBar(
-                onNavigationIconClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
-                    }
-                }
-            )
-        },
-        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+
+    val toggleDrawerState: () -> Unit = {
+        scope.launch {
+            if (drawerState.isOpen)
+                drawerState.close()
+            else
+                drawerState.open()
+        }
+    }
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
         drawerContent = {
-            DrawerHeader(modifier = Modifier)
-            DrawerBody(
-                items = listOf(
-                    MenuItem(
-                        id = "home",
-                        title = "Home",
-                        contentDescription = "Go to home screen",
-                        icon = Icons.Default.Home
-                    ),
-                    MenuItem(
-                        id = "settings",
-                        title = "Settings",
-                        contentDescription = "Go to settings screen",
-                        icon = Icons.Default.Settings
-                    ),
-                    MenuItem(
-                        id = "help",
-                        title = "Help",
-                        contentDescription = "Get help",
-                        icon = Icons.Default.Info
-                    ),
-                    MenuItem(
-                        id = "signOut",
-                        title = "Sign Out",
-                        contentDescription = "signOut",
-                        icon = Icons.Default.ExitToApp
-                    ),
-                ),
-                onItemClick = {
-                    if (it.id == "signOut") {
-                        viewModel.signOut()
-                        navController.navigateToEnteringScreen()
-                    }
+            SideBar(navController, { viewModel.signOut() }, toggleDrawerState)
+        },
+        content = {
+            Column {
+                TopBar (toggleDrawerState)
+                MainContent(navController = navController)
+            }
+        }
+    )
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun TopBar(toggleDrawerState: () -> Unit) {
+    CenterAlignedTopAppBar(
+        title = {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 2.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val iconPainter = painterResource(id = R.drawable.pawn_icon)
+                    Image(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .padding(vertical = 2.dp),
+                        painter = iconPainter,
+                        contentDescription = null
+                    )
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        style = MaterialTheme.typography.headlineMedium,
+                    )
                 }
+            }
+        },
+        navigationIcon = {
+            IconButton(onClick = toggleDrawerState) {
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "Toggle drawer",
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        },
+
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+        )
+    )
+}
+
+@Composable
+fun SideBar(navController: NavHostController, signOut: () -> Unit, toggleDrawerState: () -> Unit) {
+    val itemsManager = SideMenuItemsManager(signOut)
+    ModalDrawerSheet {
+        val imagePainter = painterResource(id = R.drawable.enter_screen_figures)
+        Image(
+            painter = imagePainter,
+            contentDescription = null,
+            modifier = Modifier.size(200.dp)
+        )
+        Spacer(Modifier.height(12.dp))
+        itemsManager.itemsList.forEach { item ->
+            NavigationDrawerItem(
+                icon = { Icon(item.icon, contentDescription = null, tint = MaterialTheme.colorScheme.onBackground) },
+                label = { Text(item.title) },
+                selected = false,
+                onClick = {
+                    toggleDrawerState()
+                    item.onClick(navController)
+                },
+                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
             )
         }
-    ) {
-        MainContent(
-            onIrlClick = { navController.navigateToIrlMenu() },
-            onOnlineClick = { navController.navigateToOnlineMenu() },
-        )
     }
 }
 
 @Composable
-fun MainContent(onIrlClick: () -> Unit, onOnlineClick: () -> Unit){
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 4.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+fun MainContent(navController: NavHostController){
+    val itemManager = MainMenuItemsManager()
+    Surface(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
 
-        ) {
-        Row() {
-            //Spacer(modifier = Modifier.height(20.dp))
-            // ToDo make it normal size & structure
-            // That is just how it should be, not copy from chess.com)))
-            val imagePainter = painterResource(id = R.drawable.map_chess_icon)
-            Image(
-                painter = imagePainter,
-                contentDescription = null,
-                modifier = Modifier
-                    //.fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp)
-            )
-            Button(
-                onClick = { onIrlClick() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp)
             ) {
-                Text(text = "Play Irl")
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Row() {
-            // ToDo make it normal size & structure
-            // That is just how it should be, not copy from chess.com)))
-            val imagePainter = painterResource(id = R.drawable.board)
-            Image(
-                painter = imagePainter,
-                contentDescription = null,
-                modifier = Modifier
-                    //.fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp)
-                    //.align(Alignment.CenterVertically)
-            )
-            Button(
-                onClick = { onOnlineClick() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp)
-            ) {
-                Text(text = "Play Online")
+            items(itemManager.itemsList.size) {item ->
+                MainContentItem(navController = navController, item = itemManager.itemsList[item])
             }
         }
     }
+}
+
+@Composable
+fun MainContentItem(navController: NavHostController, item: MainMenuItem) {
+    Button(modifier = Modifier
+        .fillMaxSize()
+        .padding(8.dp),
+        shape = MaterialTheme.shapes.small,
+        onClick = { item.onClick(navController) },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary,
+            disabledContainerColor = MaterialTheme.colorScheme.primary,
+            disabledContentColor = MaterialTheme.colorScheme.primary
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 2.dp)
+        ) {
+            val imagePainter = painterResource(id = item.imageID)
+            Image(
+                painter = imagePainter,
+                contentDescription = null,
+                modifier = Modifier
+                    .height(150.dp)
+                    .padding(end = 10.dp),
+            )
+            Column {
+                Row {
+                    Text(
+                        text = item.title,
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+                    /*Icon(
+                        modifier = Modifier.padding(start = 4.dp, top = 4.dp),
+                        imageVector = item.icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondary
+                    )*/
+                }
+                Text(
+                    modifier = Modifier.padding(top = 6.dp),
+                    text = item.description,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    MainMenuScreen()
 }
