@@ -70,7 +70,7 @@ fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingTools, navCon
 
         val geocoderUtils = GeocoderUtils()
 
-        searchingTools.searchingIRLManager.getInfoAboutEvent(chosenMarkerGID) {
+        searchingTools.getInfoAboutPoint(chosenMarkerGID) {
             if (it != null) {
                 gameIrl = it
                 geocoderUtils.getAddressFromPoint(context, gameIrl.position, loadDataCallback)
@@ -146,7 +146,7 @@ fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingTools, navCon
             )
             Button(
                 onClick = {
-                    // ToDo apply to event
+                    searchingTools.addEnemyToEvent(gameIrl.gid, context)
                     navController.navigateToMainMenu()
                 },
                 modifier = Modifier
