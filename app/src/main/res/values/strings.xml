@@ -24,4 +24,6 @@
     <string name="longitude">Longitude </string>
     <string name="create_event">Create Event </string>
     <string name="time_pattern">HH:mm</string>
+    <string name="address">Address</string>
+    <string name="position">Position</string>
 </resources>

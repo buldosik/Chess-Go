@@ -1,23 +1,22 @@
 package com.example.chessgo.frontend.irlMenu.creating
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Map
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.chessgo.R
+import com.example.chessgo.backend.global.GeocoderUtils
+import com.example.chessgo.backend.global.LoadDataCallback
 import com.example.chessgo.frontend.navigation.navigateToMainMenu
 import com.google.android.gms.maps.model.LatLng
 import java.time.LocalDate
@@ -57,14 +58,22 @@ fun CreatingScreen(navController: NavHostController = rememberNavController()) {
     var pickedPoint by remember {
         mutableStateOf(LatLng(0.0,0.0))
     }
+    var pickedAddress by remember {
+        mutableStateOf("")
+    }
 
     var isPlacePickerVisible by remember {
+        mutableStateOf(false)
+    }
+    var isAddressExists by remember {
         mutableStateOf(false)
     }
     // Function to show/hide the PlacePicker
     val togglePlacePicker: () -> Unit = {
         isPlacePickerVisible = !isPlacePickerVisible
     }
+
+    val geocoderUtils = GeocoderUtils()
 
     val passedTimeMessage = stringResource(id = R.string.passed_time_message)
 
@@ -79,11 +88,6 @@ fun CreatingScreen(navController: NavHostController = rememberNavController()) {
                 .background(MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Description(
-                description = description,
-                onValueChange = {newDescription ->
-                    description = newDescription
-                })
 
             DateContainer(
                 date = pickedDate,
@@ -94,21 +98,52 @@ fun CreatingScreen(navController: NavHostController = rememberNavController()) {
 
             TimeContainer(
                 time = pickedTime,
+                date = pickedDate,
                 onTimeChange = {newTime ->
                     Log.d(TAG, "Selected time: $newTime")
                     pickedTime = newTime
                 })
 
-            // ToDo Update it--------------------------------------
-            Position(position = pickedPoint) {
-                togglePlacePicker()
+            if(isAddressExists) {
+                Address(address = pickedAddress) {
+                    togglePlacePicker()
+                }
+            }
+            else {
+                Position(position = pickedPoint) {
+                    togglePlacePicker()
+                }
             }
 
-            // Create button
+            Spacer(modifier = Modifier.size(16.dp))
+
+            Description(
+                description = description,
+                onValueChange = {newDescription ->
+                    description = newDescription
+                })
+
+            Spacer(modifier = Modifier.size(16.dp))
+            
             CreateButton(
                 onClick = {
                     // Sending to db
-                    // ToDo add check for date & time
+                    if(LocalDate.now().isAfter(pickedDate)) {
+                        Toast.makeText(
+                            context,
+                            passedTimeMessage,
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                        return@CreateButton
+                    }
+                    if(LocalDate.now().isEqual(pickedDate) && LocalTime.now().isAfter(pickedTime)) {
+                        Toast.makeText(
+                            context,
+                            passedTimeMessage,
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                        return@CreateButton
+                    }
                     assistant.createEvent(
                         description = description,
                         date = pickedDate,
@@ -121,7 +156,18 @@ fun CreatingScreen(navController: NavHostController = rememberNavController()) {
         if (isPlacePickerVisible) {
             PlacePicker(onPlacePickerVisibilityChanged = {newPickedPoint->
                 pickedPoint = newPickedPoint
-                togglePlacePicker() })
+                geocoderUtils.getAddressFromPoint(context, pickedPoint, object: LoadDataCallback<String> {
+                    override fun onDataLoaded(response: String) {
+                        pickedAddress = response
+                        isAddressExists = true
+                    }
+
+                    override fun onDataNotAvailable(errorCode: Int, reasonMsg: String) {
+                        Log.d(TAG, "Error code: $errorCode, Message : $reasonMsg")
+                        isAddressExists = false
+                    }
+                }) },
+                togglePlacePicker = { togglePlacePicker() })
         }
     }
 
@@ -129,6 +175,9 @@ fun CreatingScreen(navController: NavHostController = rememberNavController()) {
 @Composable
 fun Description(description: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
+        modifier = Modifier
+            .height(100.dp)
+            .width(300.dp),
         value = description,
         onValueChange = { updated -> onValueChange(updated) },
         enabled = true,
@@ -146,66 +195,6 @@ fun Description(description: String, onValueChange: (String) -> Unit) {
             unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
         )
     )
-}
-
-@Composable
-private fun standardOutlineTextColors() : TextFieldColors {
-    return OutlinedTextFieldDefaults.colors(
-        disabledTextColor = MaterialTheme.colorScheme.onBackground,
-        disabledContainerColor = MaterialTheme.colorScheme.background,
-        disabledBorderColor = MaterialTheme.colorScheme.primary,
-        disabledLabelColor = MaterialTheme.colorScheme.onBackground,
-    )
-}
-
-@Composable
-fun Position(position: LatLng, onClickEdit: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Assuming LatLng is a data class with two Double properties: latitude and longitude
-        OutlinedTextField(
-            value = position.latitude.toString(),
-            onValueChange = {  },
-            label = { Text(
-                    text = stringResource(id = R.string.latitude),
-                    style = MaterialTheme.typography.titleMedium,
-            ) },
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 8.dp),
-            enabled = false,
-            colors = standardOutlineTextColors()
-        )
-
-        OutlinedTextField(
-            value = position.longitude.toString(),
-            onValueChange = {  },
-            label = { Text(
-                    text = stringResource(id = R.string.longitude),
-                    style = MaterialTheme.typography.titleMedium
-                ) },
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 8.dp),
-            enabled = false,
-            colors = standardOutlineTextColors()
-        )
-
-        Button(
-            onClick = { onClickEdit() },
-            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Map,
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
-        }
-    }
 }
 
 @Composable
