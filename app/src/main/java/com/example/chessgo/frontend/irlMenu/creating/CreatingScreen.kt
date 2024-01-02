@@ -2,7 +2,6 @@ package com.example.chessgo.frontend.irlMenu.creating
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -90,13 +89,11 @@ fun CreatingScreen(navController: NavHostController = rememberNavController()) {
 
     Surface (
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 64.dp, start = 16.dp, end = 16.dp, bottom = 32.dp)
-                .background(MaterialTheme.colorScheme.background),
+                .padding(top = 64.dp, start = 16.dp, end = 16.dp, bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -191,7 +188,6 @@ fun Description(description: String, onValueChange: (String) -> Unit) {
             unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
             focusedBorderColor = MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = MaterialTheme.colorScheme.primary,
-            // ToDo make more gray
             focusedLabelColor = MaterialTheme.colorScheme.onBackground,
             unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
         )
@@ -202,11 +198,11 @@ fun Description(description: String, onValueChange: (String) -> Unit) {
 fun CreateButton(onClick: () -> Unit) {
     Button(
         onClick = { onClick() },
-        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
     ){
         Text(text = stringResource(id = R.string.create_event),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
 }

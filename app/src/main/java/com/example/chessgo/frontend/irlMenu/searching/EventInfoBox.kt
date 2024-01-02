@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
@@ -20,8 +21,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.chessgo.R
 import com.example.chessgo.backend.GameIRL
 import com.example.chessgo.backend.global.GeocoderUtils
 import com.example.chessgo.backend.global.LoadDataCallback
@@ -149,9 +152,14 @@ fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingTools, navCon
                     searchingTools.addEnemyToEvent(gameIrl.gid, context)
                     navController.navigateToMainMenu()
                 },
-                modifier = Modifier
+                modifier = Modifier,
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer)
             ) {
-                Text("Apply")
+                androidx.compose.material3.Text(
+                    text = stringResource(id = R.string.apply),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             }
         }
     }

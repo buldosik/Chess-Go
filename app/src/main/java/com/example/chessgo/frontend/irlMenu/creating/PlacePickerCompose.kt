@@ -165,7 +165,7 @@ fun BoxInfo(text: String, onCancel: () -> Unit, onConfirm: () -> Unit) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary),
+                .background(MaterialTheme.colorScheme.background),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
@@ -178,7 +178,7 @@ fun BoxInfo(text: String, onCancel: () -> Unit, onConfirm: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.Cancel,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.onPrimary,
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
             Text(
@@ -197,7 +197,7 @@ fun BoxInfo(text: String, onCancel: () -> Unit, onConfirm: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.onPrimary,
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }
