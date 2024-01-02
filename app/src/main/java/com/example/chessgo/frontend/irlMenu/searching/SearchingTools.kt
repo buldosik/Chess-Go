@@ -2,13 +2,12 @@ package com.example.chessgo.frontend.irlMenu.searching
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.ViewModel
 import com.example.chessgo.backend.EventIRL
 import com.example.chessgo.backend.irl.SearchingIRLManager
 
 private const val TAG = "SearchingMenuViewModel"
 
-class SearchingMenuViewModel : ViewModel() {
+class SearchingTools {
     val searchingIRLManager = SearchingIRLManager()
     val points = mutableStateListOf<EventIRL>()
     fun getPoints() {

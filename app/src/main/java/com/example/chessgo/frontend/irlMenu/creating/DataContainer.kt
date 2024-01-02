@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.chessgo.R
+import com.example.chessgo.frontend.irlMenu.standardOutlineTextColors
 import com.google.android.gms.maps.model.LatLng
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
@@ -123,17 +124,6 @@ fun Position(position: LatLng, onClickEdit: () -> Unit) {
         onClick = { onClickEdit() },
         icon = Icons.Default.Map,
         isError = false
-    )
-}
-
-
-@Composable
-private fun standardOutlineTextColors() : TextFieldColors {
-    return OutlinedTextFieldDefaults.colors(
-        disabledTextColor = MaterialTheme.colorScheme.onBackground,
-        disabledContainerColor = MaterialTheme.colorScheme.background,
-        disabledBorderColor = MaterialTheme.colorScheme.primary,
-        disabledLabelColor = MaterialTheme.colorScheme.onBackground,
     )
 }
 

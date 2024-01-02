@@ -65,12 +65,23 @@ fun CreatingScreen(navController: NavHostController = rememberNavController()) {
     var isPlacePickerVisible by remember {
         mutableStateOf(false)
     }
+    val togglePlacePicker: () -> Unit = {
+        isPlacePickerVisible = !isPlacePickerVisible
+    }
+
     var isAddressExists by remember {
         mutableStateOf(false)
     }
-    // Function to show/hide the PlacePicker
-    val togglePlacePicker: () -> Unit = {
-        isPlacePickerVisible = !isPlacePickerVisible
+    val loadDataCallback = object: LoadDataCallback<String> {
+        override fun onDataLoaded(response: String) {
+            pickedAddress = response
+            isAddressExists = true
+        }
+
+        override fun onDataNotAvailable(errorCode: Int, reasonMsg: String) {
+            Log.d(TAG, "Error code: $errorCode, Message : $reasonMsg")
+            isAddressExists = false
+        }
     }
 
     val geocoderUtils = GeocoderUtils()
@@ -156,17 +167,7 @@ fun CreatingScreen(navController: NavHostController = rememberNavController()) {
         if (isPlacePickerVisible) {
             PlacePicker(onPlacePickerVisibilityChanged = {newPickedPoint->
                 pickedPoint = newPickedPoint
-                geocoderUtils.getAddressFromPoint(context, pickedPoint, object: LoadDataCallback<String> {
-                    override fun onDataLoaded(response: String) {
-                        pickedAddress = response
-                        isAddressExists = true
-                    }
-
-                    override fun onDataNotAvailable(errorCode: Int, reasonMsg: String) {
-                        Log.d(TAG, "Error code: $errorCode, Message : $reasonMsg")
-                        isAddressExists = false
-                    }
-                }) },
+                geocoderUtils.getAddressFromPoint(context, pickedPoint, loadDataCallback) },
                 togglePlacePicker = { togglePlacePicker() })
         }
     }
