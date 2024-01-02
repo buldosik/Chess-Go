@@ -1,7 +1,6 @@
 package com.example.chessgo.frontend.registration.sign_up
 
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -110,15 +109,7 @@ fun SignUpScreen(navController: NavHostController = rememberNavController()) {
             SignUpButton(
                 offset = offsetState,
                 onClick = {
-                    if (assistant.passwordValidator(password)) {
-                        assistant.onSignUpClick(email, username, password)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Your password doesn't meet criteria",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    assistant.onSignUpClick(email, username, password)
                 }
             )
 

@@ -16,10 +16,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -102,7 +102,7 @@ fun TopBar(toggleDrawerState: () -> Unit) {
                     )
                     Text(
                         text = stringResource(id = R.string.app_name),
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         style = MaterialTheme.typography.headlineMedium,
                     )
                 }
@@ -113,13 +113,13 @@ fun TopBar(toggleDrawerState: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.Menu,
                     contentDescription = "Toggle drawer",
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         },
 
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
         )
     )
 }
@@ -137,7 +137,7 @@ fun SideBar(navController: NavHostController, signOut: () -> Unit, toggleDrawerS
         Spacer(Modifier.height(12.dp))
         itemsManager.itemsList.forEach { item ->
             NavigationDrawerItem(
-                icon = { Icon(item.icon, contentDescription = null) },
+                icon = { Icon(item.icon, contentDescription = null, tint = MaterialTheme.colorScheme.onBackground) },
                 label = { Text(item.title) },
                 selected = false,
                 onClick = {
@@ -168,16 +168,16 @@ fun MainContent(navController: NavHostController){
 
 @Composable
 fun MainContentItem(navController: NavHostController, item: MainMenuItem) {
-    Button(modifier = Modifier
+    ElevatedButton(modifier = Modifier
         .fillMaxSize()
         .padding(8.dp),
         shape = MaterialTheme.shapes.small,
         onClick = { item.onClick(navController) },
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary,
-            disabledContainerColor = MaterialTheme.colorScheme.primary,
-            disabledContentColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+            //disabledContainerColor = MaterialTheme.colorScheme.primary,
+            //disabledContentColor = MaterialTheme.colorScheme.primary
         )
     ) {
         Row(

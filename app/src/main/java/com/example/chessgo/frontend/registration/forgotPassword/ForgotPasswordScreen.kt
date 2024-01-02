@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +49,9 @@ fun ForgotPasswordScreen(navController: NavHostController = rememberNavControlle
 
     Surface {
         Column(
-            modifier = Modifier.fillMaxSize().offset(y = offsetState.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .offset(y = offsetState.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -67,10 +69,10 @@ fun ForgotPasswordScreen(navController: NavHostController = rememberNavControlle
             )
 
             var email: String by remember { mutableStateOf("") }
-            TextField(
+            OutlinedTextField(
                 value = email,
-                label = { Text(text = "Email") },
-                onValueChange = { email = it }
+                onValueChange = { updated -> email = updated },
+                label = { Text("Email") },
             )
             Spacer(modifier = Modifier.height(25.dp))
             Button(
