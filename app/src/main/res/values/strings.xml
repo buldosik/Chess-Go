@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">chessgo</string>
+    <string name="app_name">ChessGo</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="forgot_password_activity">ForgotPasswordActivity</string>
     <string name="title_activity_map">MapActivity</string>
@@ -7,16 +7,34 @@
     <string name="title_activity_creating_menu">CreatingMenu</string>
     <string name="title_activity_irlmenu">IRLMenuActivity</string>
 
-    <string name="enter_line">Chessgo</string>
+    <string name="enter_line">ChessGo</string>
     <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>
     <string name="take_photo">Take Photo</string>
     <string name="added_img_success">Result successfully added!</string>
-    <string name="added_img_fail">Result successfully added!</string>
+    <string name="added_img_fail">Failed to add photo!</string>
     <string name="unable_to_safe">Capture and confirm a new photo to save your result!</string>
     <string name="default_picture">Default picture</string>
     <string name="selected_image">Selected image</string>
     <string name="last_taken_image">Last taken image</string>
     <string name="rejected_permission_info">Grant camera permission in settings to capture and add results.</string>
 
+
+    <string name="welcome_back">Welcome Back</string>
+    <string name="forgot_password_tooltip">Please, enter your email and we will send you link for password reset</string>
+    <string name="forgot_password_message">Forgot password?</string>
+    <string name="send_link">Send link</string>
+    <string name="create_account">Create Account</string>
+    <string name="passed_time_message">You can\'t chose time in the past! </string>
+    <string name="description">Location Description / Additional Info </string>
+    <string name="date">Date </string>
+    <string name="time">Time </string>
+    <string name="edit">Edit </string>
+    <string name="latitude">Latitude </string>
+    <string name="longitude">Longitude </string>
+    <string name="create_event">Create Event </string>
+    <string name="time_pattern">HH:mm</string>
+    <string name="address">Address</string>
+    <string name="position">Position</string>
+    <string name="apply">Apply</string>
 </resources>

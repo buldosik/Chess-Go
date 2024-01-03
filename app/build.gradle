@@ -105,6 +105,9 @@ dependencies {
     implementation "androidx.camera:camera-camera2:1.0.0"
 
 
+    // For overlaying screen by another screen
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
