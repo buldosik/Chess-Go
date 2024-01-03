@@ -40,8 +40,6 @@ sealed class Screen(val route: String) {
 }
 
 val screens = listOf(
-
-    Screen.CameraTesting,
     Screen.EnteringScene,
     Screen.SignInScene,
     Screen.SignUpScene,
@@ -52,6 +50,7 @@ val screens = listOf(
     Screen.SearchingMenu,
     Screen.MyEventsMenu,
     Screen.OnlineMenu,
+    Screen.CameraTesting,
 )
 
 @Composable
@@ -62,8 +61,6 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
         is Screen.SignUpScene -> SignUpScreen(navController = navController)
         is Screen.ForgotPassword -> ForgotPasswordScreen(navController = navController)
         is Screen.MainMenu -> MainMenuScreen(navController = navController)
-        //added
-        is Screen.CameraTesting -> CameraScreen(navController = navController)
         //
         is Screen.IrlMenu -> IRLMenuScreen(navController = navController)
         is Screen.CreatingMenu -> CreatingMenu(navController = navController)
@@ -72,13 +69,13 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
         is Screen.MyEventsMenu -> IRLMenuScreen(navController = navController)
 
         is Screen.OnlineMenu -> OnlineMenuScreen(navController = navController)
+        //added
+        is Screen.CameraTesting -> CameraScreen(navController = navController)
     }
 }
 
 
-fun NavController.navigateToCameraScreen() {
-    navigate("CameraScreen")
-}
+
 fun NavController.navigateToEnteringScreen() {
     navigate("EnteringScreen")
 }
@@ -111,4 +108,7 @@ fun NavController.navigateToMyEventsMenu() {
 
 fun NavController.navigateToOnlineMenu() {
     navigate("OnlineMenuScreen")
+}
+fun NavController.navigateToCameraScreen() {
+    navigate("CameraScreen")
 }
