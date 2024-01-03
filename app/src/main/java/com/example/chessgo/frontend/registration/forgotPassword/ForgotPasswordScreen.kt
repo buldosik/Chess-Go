@@ -56,7 +56,7 @@ fun ForgotPasswordScreen(navController: NavHostController = rememberNavControlle
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = stringResource(id = R.string.forgot_password_Meme),
+                text = stringResource(id = R.string.forgot_password_message),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )

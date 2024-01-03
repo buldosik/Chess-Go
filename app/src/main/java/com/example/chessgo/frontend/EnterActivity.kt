@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.chessgo.backend.global.ClientManager
 import com.example.chessgo.frontend.navigation.AppNavHost
-import com.example.chessgo.ui.theme.ChessgoTheme
+import com.example.chessgo.ui.theme.ChessGoTheme
 import com.google.firebase.auth.FirebaseAuth
 
 class EnterActivity : ComponentActivity() {
@@ -26,7 +26,7 @@ class EnterActivity : ComponentActivity() {
         }
 
         setContent {
-            ChessgoTheme () {
+            ChessGoTheme () {
                 AppNavHost(isLogged)
             }
         }
