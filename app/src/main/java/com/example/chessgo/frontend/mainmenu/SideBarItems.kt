@@ -7,18 +7,20 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.navigation.NavController
 import com.example.chessgo.frontend.navigation.navigateToEnteringScreen
+import com.example.chessgo.frontend.navigation.navigateToPrivacyPolicyScreen
 
 private const val TAG = "SideBarItems"
 
 class SideMenuItemsManager(signOut: () -> Unit) {
     var itemsList = listOf<SideMenuItem>(Settings(), Info(), SignOut(signOut))
-    // Easy adding in future updates
-    /*fun addSettings() {
-        itemsList = itemsList + Settings()
-    }
     fun addInfo() {
         itemsList += Info()
     }
+// Easy adding in future updates
+    /*fun addSettings() {
+        itemsList = itemsList + Settings()
+    }
+
     fun addSignOut(signOut: () -> Unit) {
         itemsList += SignOut(signOut)
     }*/
@@ -37,7 +39,7 @@ class Info : SideMenuItem(
     icon = Icons.Default.Info) {
     override fun onClick(navController: NavController) {
         Log.d(TAG, "Info")
-        //TODO("Not yet implemented")
+        navController.navigateToPrivacyPolicyScreen()
     }
 }
 class SignOut(val signOut: () -> Unit) : SideMenuItem(

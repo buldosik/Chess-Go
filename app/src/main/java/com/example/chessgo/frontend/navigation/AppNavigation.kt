@@ -8,6 +8,7 @@ import com.example.chessgo.frontend.irlMenu.creating.CreatingMenu
 import com.example.chessgo.frontend.irlMenu.searching.SearchingScreen
 import com.example.chessgo.frontend.mainmenu.MainMenuScreen
 import com.example.chessgo.frontend.onlinegame.OnlineMenuScreen
+import com.example.chessgo.frontend.privacypolicy.PrivacyPolicy
 import com.example.chessgo.frontend.registration.enterApp.GreetingScreen
 import com.example.chessgo.frontend.registration.forgotPassword.ForgotPasswordScreen
 import com.example.chessgo.frontend.registration.sign_in.SignInScreen
@@ -33,6 +34,7 @@ sealed class Screen(val route: String) {
     object SearchingMenu : Screen("SearchingScreen")
     object MyEventsMenu : Screen("MyEventsScreen")
     object OnlineMenu : Screen("OnlineMenuScreen")
+    object PrivacyPolicy: Screen("PrivacyPolicyScreen")
 }
 
 val screens = listOf(
@@ -46,6 +48,7 @@ val screens = listOf(
     Screen.SearchingMenu,
     Screen.MyEventsMenu,
     Screen.OnlineMenu,
+    Screen.PrivacyPolicy
 )
 
 @Composable
@@ -64,8 +67,10 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
         is Screen.MyEventsMenu -> IRLMenuScreen(navController = navController)
 
         is Screen.OnlineMenu -> OnlineMenuScreen(navController = navController)
+        is Screen.PrivacyPolicy ->PrivacyPolicy(navController = navController)
     }
 }
+
 
 fun NavController.navigateToEnteringScreen() {
     navigate("EnteringScreen")
@@ -99,4 +104,7 @@ fun NavController.navigateToMyEventsMenu() {
 
 fun NavController.navigateToOnlineMenu() {
     navigate("OnlineMenuScreen")
+}
+fun NavController.navigateToPrivacyPolicyScreen() {
+    navigate("PrivacyPolicyScreen")
 }
