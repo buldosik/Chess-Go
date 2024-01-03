@@ -3,6 +3,7 @@ package com.example.chessgo.backend.irl
 import android.util.Log
 import com.example.chessgo.backend.EventIRL
 import com.example.chessgo.backend.GameIRL
+import com.example.chessgo.backend.global.ClientManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -49,5 +50,13 @@ class SearchingIRLManager {
                 callback(null)
             }
     }
-
+    fun applyToEvent(gid: String, callback: () -> Unit) {
+        firestore.collection("events").document(gid)
+            .update("enemy", ClientManager.getClient().uid)
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener {
+                    e -> Log.w(TAG, "Error updating document", e)
+                    callback()
+            }
+    }
 }

@@ -16,14 +16,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.chessgo.R
 import com.example.chessgo.frontend.navigation.navigateToSignIn
 import com.example.chessgo.frontend.navigation.navigateToSignUp
 
 @Composable
-fun GreetingScreen(navController: NavHostController) {
+fun GreetingScreen(navController: NavHostController = rememberNavController()) {
     Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -34,10 +36,11 @@ fun GreetingScreen(navController: NavHostController) {
             Text(
                 text = stringResource(id = R.string.enter_line),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 32.dp)
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier
+                    .padding(bottom = 32.dp)
+                    .align(Alignment.CenterHorizontally)
             )
-
 
             val imagePainter = painterResource(id = R.drawable.enter_screen_figures)
             Image(
@@ -75,9 +78,8 @@ fun GreetingScreen(navController: NavHostController) {
 }
 
 
-/*@Preview
+@Preview
 @Composable
 fun Preview() {
-    val navController = NavHostController()
-    GreetingScreen(enterActivity = enterActivity)
-}*/
+    GreetingScreen()
+}

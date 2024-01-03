@@ -3,6 +3,7 @@ package com.example.chessgo.backend.irl
 import android.util.Log
 import com.example.chessgo.backend.EventIRL
 import com.example.chessgo.backend.GameIRL
+import com.example.chessgo.backend.global.ClientManager
 import com.example.chessgo.backend.global.TimeConverter
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ktx.firestore
@@ -15,13 +16,14 @@ private const val TAG = "CreatingManager"
 class CreatingIRLManager {
     private val firestore = Firebase.firestore
     fun addNewEventToFirestore(description : String = "", date : LocalDate, time : LocalTime, position : LatLng) {
-        val newEvent = GameIRL(
+        val newGame = GameIRL(
             date = TimeConverter.localDateTimeToDate(date.atTime(time)),
             description = description,
             position = position,
+            host = ClientManager.getClient().uid
         )
         firestore.collection("events")
-            .add(newEvent)
+            .add(newGame)
             .addOnSuccessListener { documentRef ->
                 Log.d(TAG, "DocumentSnapshot written with ID: ${documentRef.id}")
                 addNewEventToMap(position, documentRef.id)
@@ -45,5 +47,4 @@ class CreatingIRLManager {
                 // ToDo throw error
             }
     }
-
 }
