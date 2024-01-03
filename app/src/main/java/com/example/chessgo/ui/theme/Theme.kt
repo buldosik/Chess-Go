@@ -77,14 +77,13 @@ fun ChessGoTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colors = if (!darkTheme) {
+    val colorScheme = if (!darkTheme) {
         LightColors
     } else {
         DarkColors
     }
-
     MaterialTheme(
-        colorScheme = colors,
+        colorScheme = colorScheme,
         typography = Typography,
         shapes = shapes,
         content = content

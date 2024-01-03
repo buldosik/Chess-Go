@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,7 @@ fun EmailField(offset: Float = 0f, email: String, onValueChange: (String) -> Uni
         modifier = Modifier
             .padding(0.dp, 0.dp, 0.dp, 16.dp)
             .offset (y = offset.dp),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
     )
 }
 
@@ -58,6 +60,7 @@ fun PasswordField(offset: Float = 0f, password: String, onPasswordChange: (Strin
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             autoCorrect = false,
+            keyboardType = KeyboardType.Password
         ),
     )
 }
