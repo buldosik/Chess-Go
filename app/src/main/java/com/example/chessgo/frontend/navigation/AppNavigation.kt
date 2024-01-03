@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.chessgo.frontend.irlMenu.IRLMenuScreen
 import com.example.chessgo.frontend.irlMenu.creating.CreatingMenu
+import com.example.chessgo.frontend.irlMenu.myevents.MyEventsScreen
 import com.example.chessgo.frontend.irlMenu.searching.SearchingScreen
 import com.example.chessgo.frontend.mainmenu.MainMenuScreen
 import com.example.chessgo.frontend.onlinegame.OnlineMenuScreen
@@ -61,7 +62,7 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
         is Screen.CreatingMenu -> CreatingMenu(navController = navController)
         is Screen.SearchingMenu -> SearchingScreen(navController = navController)
         // ToDo Update compose
-        is Screen.MyEventsMenu -> IRLMenuScreen(navController = navController)
+        is Screen.MyEventsMenu -> MyEventsScreen(navController = navController)
 
         is Screen.OnlineMenu -> OnlineMenuScreen(navController = navController)
     }

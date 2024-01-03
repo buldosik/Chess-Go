@@ -22,13 +22,15 @@ class GameIRL(
             val description = document.get("description")
             val date = document.getDate("date")
 
+            val host = document.get("host") as String
+            val enemy = document.get("enemy") as String
             val dataMap = document.get("position") as? Map<*, *>
             val latitude = (dataMap?.get("latitude") as? Double) ?: 0.0
             val longitude = (dataMap?.get("longitude") as? Double) ?: 0.0
 
             val position = LatLng(latitude, longitude)
 
-            return GameIRL(gid = gui, position = position, date = date!!, description = description.toString())
+            return GameIRL(gid = gui, position = position, date = date!!, host = host, enemy = enemy, description = description.toString())
         }
     }
 
