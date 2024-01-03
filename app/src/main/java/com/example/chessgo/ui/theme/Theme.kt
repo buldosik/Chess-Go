@@ -58,17 +58,13 @@ fun ChessgoTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val ColorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val colorScheme = when {
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
     MaterialTheme(
-        colorScheme = ColorScheme,
+        colorScheme = colorScheme,
         typography = Typography,
         shapes = shapes,
         content = content
