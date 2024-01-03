@@ -3,6 +3,7 @@ package com.example.chessgo.frontend.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.example.chessgo.frontend.CameraScreen
 import com.example.chessgo.frontend.irlMenu.IRLMenuScreen
 import com.example.chessgo.frontend.irlMenu.creating.CreatingScreen
 import com.example.chessgo.frontend.irlMenu.myevents.MyEventsScreen
@@ -25,6 +26,7 @@ import com.example.chessgo.frontend.registration.sign_up.SignUpScreen
  */
 
 sealed class Screen(val route: String) {
+
     object EnteringScene : Screen("EnteringScreen")
     object SignInScene : Screen("SignInScreen")
     object SignUpScene : Screen("SignUpScreen")
@@ -35,7 +37,9 @@ sealed class Screen(val route: String) {
     object SearchingMenu : Screen("SearchingScreen")
     object MyEventsMenu : Screen("MyEventsScreen")
     object OnlineMenu : Screen("OnlineMenuScreen")
+    object CameraTesting : Screen("CameraScreen")
     object PrivacyPolicy: Screen("PrivacyPolicyScreen")
+
 }
 
 val screens = listOf(
@@ -49,6 +53,7 @@ val screens = listOf(
     Screen.SearchingMenu,
     Screen.MyEventsMenu,
     Screen.OnlineMenu,
+    Screen.CameraTesting,
     Screen.PrivacyPolicy
 )
 
@@ -60,7 +65,7 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
         is Screen.SignUpScene -> SignUpScreen(navController = navController)
         is Screen.ForgotPassword -> ForgotPasswordScreen(navController = navController)
         is Screen.MainMenu -> MainMenuScreen(navController = navController)
-
+        //
         is Screen.IrlMenu -> IRLMenuScreen(navController = navController)
         is Screen.CreatingMenu -> CreatingScreen(navController = navController)
         is Screen.SearchingMenu -> SearchingScreen(navController = navController)
@@ -68,9 +73,15 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
         is Screen.MyEventsMenu -> MyEventsScreen(navController = navController)
 
         is Screen.OnlineMenu -> OnlineMenuScreen(navController = navController)
+        //added
+        is Screen.CameraTesting -> CameraScreen(navController = navController)
+
         is Screen.PrivacyPolicy ->PrivacyPolicy(navController = navController)
+
     }
 }
+
+
 
 fun NavController.navigateToEnteringScreen() {
     navigate("EnteringScreen")
@@ -104,6 +115,10 @@ fun NavController.navigateToMyEventsMenu() {
 
 fun NavController.navigateToOnlineMenu() {
     navigate("OnlineMenuScreen")
+}
+
+fun NavController.navigateToCameraScreen() {
+    navigate("CameraScreen")
 }
 fun NavController.navigateToPrivacyPolicyScreen() {
     navigate("PrivacyPolicyScreen")
