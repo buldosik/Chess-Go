@@ -23,6 +23,14 @@ class PhotoPickerManager : FileProvider(
         private val imageUris: MutableState<Uri?> = mutableStateOf(null)
         private val storage = Firebase.storage
         private val storageRef = storage.reference
+        private var _currentEvent: String = ""
+        var currentEvent: String
+            get() {
+                return _currentEvent
+            }
+            set(value) {
+                _currentEvent = value
+            }
         /**
          * Gets a temporary image URI for capturing an image using the device's camera.
          *
