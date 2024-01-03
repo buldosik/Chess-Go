@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -148,10 +147,8 @@ fun ParagraphSection(text: String){
     Text(
         text = text,
         modifier = Modifier.padding(top = 20.dp, start = 5.dp),
-        color = MaterialTheme.colorScheme.onPrimary,
-        fontSize = MaterialTheme.typography.headlineSmall.fontSize,
-        fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
-        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onBackground,
+        style = MaterialTheme.typography.headlineSmall
     )
 }
 /**
@@ -164,10 +161,8 @@ fun SectionTitle(text : String){
     Text(
         text = text,
         modifier = Modifier.padding(top = 15.dp, start = 10.dp),
-        color = MaterialTheme.colorScheme.onPrimary,
-        fontSize = MaterialTheme.typography.titleLarge.fontSize,
-        fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
-        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onBackground,
+        style = MaterialTheme.typography.titleLarge,
     )
 }
 /**
@@ -180,9 +175,8 @@ fun SectionBodyNormal(text: String){
     Text(
         text = text,
         modifier = Modifier.padding(top = 15.dp, start = 10.dp),
-        color = MaterialTheme.colorScheme.onPrimary,
-        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-        fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
+        color = MaterialTheme.colorScheme.onBackground,
+        style = MaterialTheme.typography.bodyLarge,
     )
 }
 /**
@@ -195,9 +189,8 @@ fun SectionBodyTabbed(text:String){
     Text(
         text = text,
         modifier = Modifier.padding(top = 15.dp, start = 40.dp),
-        color = MaterialTheme.colorScheme.onPrimary,
-        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-        fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
+        color = MaterialTheme.colorScheme.onBackground,
+        style = MaterialTheme.typography.bodyLarge,
     )
 }
 @Preview
