@@ -42,7 +42,7 @@ private val defaultCameraPosition1 = CameraPosition.fromLatLngZoom(center, 2f)
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun SearchingScreen(navController: NavHostController) {
-    val searchingTools = remember { SearchingTools() }
+    val searchingTools = remember { SearchingViewModel() }
     LaunchedEffect(Unit) {
         searchingTools.getPoints()
     }

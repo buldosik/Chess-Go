@@ -43,7 +43,7 @@ private const val TAG = "CreatingMenuCompose"
 fun CreatingScreen(navController: NavHostController = rememberNavController()) {
 
     val context = LocalContext.current
-    val assistant = remember { CreatingTools() }
+    val assistant = remember { CreatingViewModel() }
 
     var description by remember {
         mutableStateOf("")

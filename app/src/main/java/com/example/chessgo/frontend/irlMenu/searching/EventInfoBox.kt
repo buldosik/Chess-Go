@@ -41,7 +41,7 @@ import java.util.Date
 private const val TAG = "EVENT_INFO_BOX"
 
 @Composable
-fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingTools, navController: NavHostController) {
+fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingViewModel, navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)

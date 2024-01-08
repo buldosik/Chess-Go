@@ -2,19 +2,17 @@ package com.example.chessgo.frontend.registration.sign_in
 
 
 import android.content.ContentValues
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.backend.registration.sign_in.SignInManager
 import com.example.chessgo.frontend.navigation.navigateToMainMenu
 import com.google.firebase.auth.FirebaseUser
 
-class SignInTools(
-    val navController: NavHostController,
-    val context: Context
-) {
+class SignInViewModel(
+    val navController: NavHostController
+): ViewModel() {
     private val signInManager: SignInManager = SignInManager()
 
     private fun signInWithEmailAndPassword(email: String, password: String, callback: (Results<FirebaseUser?>) -> Unit) {
@@ -23,7 +21,7 @@ class SignInTools(
         }
     }
 
-    fun onLoginClick(email: String, password: String) {
+    fun onLoginClick(email: String, password: String, callback: (String) -> Unit) {
         if (email.isEmpty() || password.isEmpty()) {
             Log.w(ContentValues.TAG, "createUserWithEmail:no password or email")
             var info = ""
@@ -33,11 +31,7 @@ class SignInTools(
                 info += "Enter email"
             else if (password.isEmpty())
                 info += "Enter password"
-            Toast.makeText(
-                context,
-                info,
-                Toast.LENGTH_SHORT,
-            ).show()
+            callback(info)
             return
         }
         signInWithEmailAndPassword(email, password) { result ->
@@ -49,11 +43,7 @@ class SignInTools(
                     val exception = result.exception
                     // If sign in fails, display a message to the user.
                     Log.w(ContentValues.TAG, "createUserWithEmail:failure", exception)
-                    Toast.makeText(
-                        context,
-                        "Login failed",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    callback("Login failed")
                 }
             }
         }
