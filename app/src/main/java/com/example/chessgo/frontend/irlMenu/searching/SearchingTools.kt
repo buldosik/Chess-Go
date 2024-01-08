@@ -14,6 +14,7 @@ class SearchingTools {
     private val searchingIRLManager = SearchingIRLManager()
     val points = mutableStateListOf<EventIRL>()
     fun getPoints() {
+        Log.d(TAG, "GETTING EVENTS")
         searchingIRLManager.getAllEvents { eventIRLS: MutableList<EventIRL> ->
             eventIRLS.forEach {
                 Log.d(TAG, "Marker data: ${it.position}")

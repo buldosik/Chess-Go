@@ -23,13 +23,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,11 +59,13 @@ private const val TAG = "MyEventsMenuCompose"
 
 @Composable
 fun MyEventsScreen(navController: NavHostController = rememberNavController()) {
-    val viewModel = remember { ListingViewModel() }
+    val viewModel = remember {ListingViewModel()}
+    LaunchedEffect(Unit) {
+        viewModel.getGames()
+    }
     var isGameInfo by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    viewModel.getGames()
 
     val toggleGameInfo: () -> Unit = {
         isGameInfo = !isGameInfo
@@ -134,7 +136,7 @@ fun GameItem(
     val context = LocalContext.current
 
     Surface(
-        shape = RoundedCornerShape(16.dp),
+        shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .animateContentSize(
                 animationSpec = tween(
@@ -150,18 +152,20 @@ fun GameItem(
                 if (!isExpanded)
                     onGameClick(index)
                 isExpanded = !isExpanded
-            }
-            .background(MaterialTheme.colorScheme.secondary),
+            },
+        color = MaterialTheme.colorScheme.background,
         shadowElevation = 10.dp
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = gameIRL.description,
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Start
             )
@@ -169,12 +173,14 @@ fun GameItem(
             val sdf = SimpleDateFormat("dd MMMM yyyy, HH:mm")
             Text(
                 text = sdf.format(gameIRL.date),
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.End
             )
             AnimatedVisibility(visible = isExpanded) {
-                Column {
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
                     Spacer(modifier = Modifier.height(30.dp))
                     val geocoder = Geocoder(context)
                     val address: String = try {
@@ -185,14 +191,15 @@ fun GameItem(
                     }
                     Text(
                         text = "Address: $address",
-                        color = MaterialTheme.colorScheme.onSecondary,
-                        style = MaterialTheme.typography.titleMedium
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center
                     )
                     PlaceOnMap(viewModel = viewModel)
                     Button(
                         modifier = Modifier.padding(top = 10.dp),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colorScheme.primary
+                            backgroundColor = MaterialTheme.colorScheme.primaryContainer
                         ),
                         onClick = {
                         viewModel.listingIRLManager.signOffGame(viewModel.currentGame)
@@ -201,7 +208,7 @@ fun GameItem(
                         Log.d(TAG, viewModel.games.toString())
                         Thread.sleep(1_00)
                     }) {
-                        Text(text = "Sign off", color = MaterialTheme.colorScheme.onPrimary)
+                        Text(text = "Sign off", color = MaterialTheme.colorScheme.onPrimaryContainer)
                     }
                 }
             }
