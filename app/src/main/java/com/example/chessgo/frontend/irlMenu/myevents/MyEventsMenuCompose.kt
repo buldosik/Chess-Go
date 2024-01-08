@@ -7,6 +7,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -154,13 +155,13 @@ fun GameItem(
                 isExpanded = !isExpanded
             },
         color = MaterialTheme.colorScheme.background,
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
         shadowElevation = 10.dp
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .background(MaterialTheme.colorScheme.background),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -199,7 +200,7 @@ fun GameItem(
                     Button(
                         modifier = Modifier.padding(top = 10.dp),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colorScheme.primaryContainer
+                            backgroundColor = MaterialTheme.colorScheme.primary
                         ),
                         onClick = {
                         viewModel.listingIRLManager.signOffGame(viewModel.currentGame)
@@ -208,7 +209,7 @@ fun GameItem(
                         Log.d(TAG, viewModel.games.toString())
                         Thread.sleep(1_00)
                     }) {
-                        Text(text = "Sign off", color = MaterialTheme.colorScheme.onPrimaryContainer)
+                        Text(text = "Sign off", color = MaterialTheme.colorScheme.onPrimary)
                     }
                 }
             }

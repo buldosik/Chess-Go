@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.chessgo.backend.registration.Results
 import com.example.chessgo.backend.registration.sign_in.SignInManager
-import com.example.chessgo.frontend.navigation.navigateToMainMenu
+import com.example.chessgo.frontend.navigation.navigateToLoading
 import com.google.firebase.auth.FirebaseUser
 
 class SignInViewModel(
@@ -37,7 +37,7 @@ class SignInViewModel(
         signInWithEmailAndPassword(email, password) { result ->
             when(result){
                 is Results.Success -> {
-                    navController.navigateToMainMenu()
+                    navController.navigateToLoading()
                 }
                 is Results.Failure -> {
                     val exception = result.exception
