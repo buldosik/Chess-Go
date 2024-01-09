@@ -3,10 +3,10 @@ package com.example.chessgo.frontend.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.chessgo.frontend.CameraScreen
 import com.example.chessgo.frontend.irlMenu.IRLMenuScreen
 import com.example.chessgo.frontend.irlMenu.creating.CreatingScreen
 import com.example.chessgo.frontend.irlMenu.myevents.MyEventsScreen
+import com.example.chessgo.frontend.irlMenu.result.ResultScreen
 import com.example.chessgo.frontend.irlMenu.searching.SearchingScreen
 import com.example.chessgo.frontend.loading.LoadingScreen
 import com.example.chessgo.frontend.mainmenu.MainMenuScreen
@@ -39,8 +39,8 @@ sealed class Screen(val route: String) {
     object SearchingMenu : Screen("SearchingScreen")
     object MyEventsMenu : Screen("MyEventsScreen")
     object OnlineMenu : Screen("OnlineMenuScreen")
-    object CameraTesting : Screen("CameraScreen")
     object PrivacyPolicy: Screen("PrivacyPolicyScreen")
+    object ResultMenu: Screen("ResultScreen")
 
 }
 
@@ -56,8 +56,8 @@ val screens = listOf(
     Screen.SearchingMenu,
     Screen.MyEventsMenu,
     Screen.OnlineMenu,
-    Screen.CameraTesting,
-    Screen.PrivacyPolicy
+    Screen.PrivacyPolicy,
+    Screen.ResultMenu
 )
 
 @Composable
@@ -80,9 +80,11 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
 
         is Screen.OnlineMenu -> OnlineMenuScreen(navController = navController)
         //added
-        is Screen.CameraTesting -> CameraScreen(navController = navController)
+//        is Screen.CameraTesting -> CameraScreen(navController = navController)
 
-        is Screen.PrivacyPolicy ->PrivacyPolicy(navController = navController)
+        is Screen.PrivacyPolicy -> PrivacyPolicy(navController = navController)
+
+        is Screen.ResultMenu -> ResultScreen(navController = navController)
 
     }
 }
@@ -109,9 +111,6 @@ fun NavController.navigateToLoading() {
 fun NavController.navigateToMainMenu() {
     navigate("MainMenuScreen")
 }
-fun NavController.navigateToIrlMenu() {
-    navigate("IrlMenuScreen")
-}
 
 fun NavController.navigateToCreatingMenu() {
     navigate("CreatingMenuScreen")
@@ -127,9 +126,10 @@ fun NavController.navigateToOnlineMenu() {
     navigate("OnlineMenuScreen")
 }
 
-fun NavController.navigateToCameraScreen() {
-    navigate("CameraScreen")
-}
 fun NavController.navigateToPrivacyPolicyScreen() {
     navigate("PrivacyPolicyScreen")
+}
+
+fun NavController.navigateToResultScreen() {
+    navigate("ResultScreen")
 }

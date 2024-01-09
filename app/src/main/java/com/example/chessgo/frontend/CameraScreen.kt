@@ -34,7 +34,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.chessgo.R
 
 private const val cameraPermission = Manifest.permission.CAMERA
@@ -44,12 +43,9 @@ private const val cameraPermission = Manifest.permission.CAMERA
  * @param navController The NavController for handling navigation.
  */
 @Composable
-fun CameraScreen(
-    navController: NavHostController
-) {
-
+fun CameraScreen(togglePlacePicker: () -> Unit) {
     val context = LocalContext.current
-    val cameraViewModel = CameraViewModel(navController)
+    val cameraViewModel = CameraViewModel(togglePlacePicker)
     val rejectPermissionText = stringResource(id = R.string.rejected_permission_info)
     //defines button's color
     val buttonState = remember {

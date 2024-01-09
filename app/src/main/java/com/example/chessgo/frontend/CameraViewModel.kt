@@ -5,14 +5,11 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
+import com.example.chessgo.backend.global.ClientManager
 import com.example.chessgo.backend.global.PhotoPickerManager
-import com.example.chessgo.backend.registration.Results
-import com.example.chessgo.frontend.navigation.navigateToMyEventsMenu
 
 private const val TAG = "SignUpViewModel"
 /**
@@ -20,9 +17,7 @@ private const val TAG = "SignUpViewModel"
  *
  * @param navController The NavController for handling navigation.
  */
-class CameraViewModel(
-    val navController: NavHostController
-) : ViewModel(){
+class CameraViewModel(val togglePlacePicker: () -> Unit) : ViewModel() {
 
     /**
      * Handles the click event when the user confirms a photo.
@@ -33,19 +28,10 @@ class CameraViewModel(
     fun onConfirmPhotoClick(uri: Uri?, context: Context) {
 
         if (uri != null) {
-            PhotoPickerManager.uploadImageToStorage(uri, context) { result ->
-                when (result) {
-                    is Results.Success -> {
-                        navController.navigateToMyEventsMenu()
-                    }
-                    is Results.Failure -> {
-                        val exception = result.exception
-                        Log.w(TAG, "safeUserToStore:failure", exception)
-                        makeToast("Failed to safe image", context)
-                    }
-                }
-            }
-        }else{
+            ClientManager.pictureUri = uri
+            ClientManager.isPictureChanged = true
+            togglePlacePicker()
+        } else{
             makeToast("Take new photo first", context)
         }
     }

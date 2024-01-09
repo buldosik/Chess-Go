@@ -26,9 +26,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,6 +44,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.chessgo.backend.GameIRL
+import com.example.chessgo.backend.global.ClientManager
+import com.example.chessgo.frontend.navigation.navigateToResultScreen
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.GoogleMap
@@ -112,7 +114,7 @@ fun MyEventsScreen(navController: NavHostController = rememberNavController()) {
             ) {
                 itemsIndexed(viewModel.games) {index, item ->
                     if (index != viewModel.games.size - 1)
-                        GameItem(gameIRL = item, index, viewModel, onGameClick)
+                        GameItem(navController, item, index, viewModel, onGameClick)
                     else
                         EmptyItem()
                 }
@@ -128,6 +130,7 @@ fun MyEventsScreen(navController: NavHostController = rememberNavController()) {
 @SuppressLint("SimpleDateFormat")
 @Composable
 fun GameItem(
+    navController: NavHostController,
     gameIRL: GameIRL,
     index: Int,
     viewModel: ListingViewModel,
@@ -197,6 +200,17 @@ fun GameItem(
                         textAlign = TextAlign.Center
                     )
                     PlaceOnMap(viewModel = viewModel)
+                    Button(
+                        modifier = Modifier.padding(top = 10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colorScheme.primary
+                        ),
+                        onClick = {
+                            ClientManager.userGameIRL = gameIRL
+                            navController.navigateToResultScreen()
+                        }) {
+                        Text(text = "Result", color = MaterialTheme.colorScheme.onPrimary)
+                    }
                     Button(
                         modifier = Modifier.padding(top = 10.dp),
                         colors = ButtonDefaults.buttonColors(

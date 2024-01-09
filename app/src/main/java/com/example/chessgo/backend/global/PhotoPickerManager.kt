@@ -10,7 +10,6 @@ import com.example.chessgo.backend.registration.Results
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.File
-import java.util.UUID
 
 /**
  * PhotoPickerManager is a utility class for managing image-related operations, such as getting image URIs,
@@ -71,12 +70,17 @@ class PhotoPickerManager : FileProvider(
          */
         fun uploadImageToStorage(uri: Uri?, context: Context, callback: (Results<Uri>) -> Unit) {
             //TODO change to event uid wh
-            val uniqueImageName = UUID.randomUUID()
+            val uid = ClientManager.getClient().uid
+            val gameIRL = ClientManager.userGameIRL
 
-            val pictureName = "gameresult"
+            var pictureName = "gameresult"
+
+            pictureName += if (gameIRL.host == uid) "host" else "enemy"
+
+            val pathToImage = "results/${gameIRL.gid}/$pictureName.jpg"
 
             val imagePathRef = storageRef.
-                child("results/$uniqueImageName/$pictureName.jpg")
+                child(pathToImage)
 
             val byteArray: ByteArray? = uri?.let {
                 context.contentResolver
@@ -90,6 +94,7 @@ class PhotoPickerManager : FileProvider(
                     .addOnSuccessListener { _->
                         // Image uploaded successfully
                         // Get the download URL and include it in the success result
+                        ClientManager.currentPicture = pathToImage
                         imagePathRef.downloadUrl.addOnSuccessListener { downloadUri ->
                             callback(Results.Success(downloadUri))
                         }
