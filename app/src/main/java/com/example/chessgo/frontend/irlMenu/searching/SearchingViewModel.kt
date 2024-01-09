@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
 import com.example.chessgo.backend.EventIRL
 import com.example.chessgo.backend.GameIRL
 import com.example.chessgo.backend.global.ClientManager
@@ -11,10 +12,11 @@ import com.example.chessgo.backend.irl.SearchingIRLManager
 
 private const val TAG = "SearchingMenuViewModel"
 
-class SearchingTools {
+class SearchingViewModel: ViewModel() {
     private val searchingIRLManager = SearchingIRLManager()
     val points = mutableStateListOf<EventIRL>()
     fun getPoints() {
+        Log.d(TAG, "GETTING EVENTS")
         val clientInfo = ClientManager.getClient()
         searchingIRLManager.getAllEvents { eventIRLS: MutableList<EventIRL> ->
             eventIRLS.forEach {

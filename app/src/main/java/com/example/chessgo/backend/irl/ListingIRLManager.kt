@@ -16,6 +16,7 @@ class ListingIRLManager {
             .addOnSuccessListener { documents ->
                 val gamesList = mutableListOf<GameIRL>()
                 val uid = ClientManager.getClient().uid
+                Log.d(TAG, "CLIENT: $uid")
                 for (document in documents) {
                     Log.d(TAG, "${document.id} => ${document.data}")
                     val event = GameIRL.toGameIRL(document)

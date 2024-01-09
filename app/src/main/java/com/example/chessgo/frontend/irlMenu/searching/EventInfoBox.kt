@@ -32,6 +32,8 @@ import com.example.chessgo.backend.global.TimeConverter
 import com.example.chessgo.frontend.irlMenu.standardOutlineTextColors
 import com.example.chessgo.frontend.navigation.navigateToMainMenu
 import com.google.android.gms.maps.model.LatLng
+import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Date
@@ -39,7 +41,7 @@ import java.util.Date
 private const val TAG = "EVENT_INFO_BOX"
 
 @Composable
-fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingTools, navController: NavHostController) {
+fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingViewModel, navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)
@@ -73,24 +75,27 @@ fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingTools, navCon
 
         val geocoderUtils = GeocoderUtils()
 
+        var description by remember {
+            mutableStateOf("")
+        }
+        var pickedDate by remember {
+            mutableStateOf(LocalDate.now())
+        }
+        var pickedTime by remember {
+            mutableStateOf(LocalTime.now())
+        }
+        var pickedPoint by remember {
+            mutableStateOf(gameIrl.position)
+        }
+
         searchingTools.getInfoAboutPoint(chosenMarkerGID) {
             if (it != null) {
                 gameIrl = it
                 geocoderUtils.getAddressFromPoint(context, gameIrl.position, loadDataCallback)
+                description = gameIrl.description
+                pickedDate = TimeConverter.convertToLocalDateViaInstant(gameIrl.date)
+                pickedTime = TimeConverter.convertToLocalTimeViaInstant(gameIrl.date)
             }
-        }
-
-        val description by remember {
-            mutableStateOf(gameIrl.description)
-        }
-        val pickedDate by remember {
-            mutableStateOf(TimeConverter.convertToLocalDateViaInstant(gameIrl.date))
-        }
-        val pickedTime by remember {
-            mutableStateOf(TimeConverter.convertToLocalTimeViaInstant(gameIrl.date))
-        }
-        val pickedPoint by remember {
-            mutableStateOf(gameIrl.position)
         }
 
         Column(
