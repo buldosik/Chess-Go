@@ -3,6 +3,7 @@ package com.example.chessgo.frontend.irlMenu.myevents
 import android.annotation.SuppressLint
 import android.location.Geocoder
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -45,6 +46,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.chessgo.backend.GameIRL
 import com.example.chessgo.backend.global.ClientManager
+import com.example.chessgo.frontend.navigation.navigateToMainMenu
 import com.example.chessgo.frontend.navigation.navigateToResultScreen
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
@@ -228,6 +230,9 @@ fun GameItem(
                 }
             }
         }
+    }
+    BackHandler {
+        navController.navigateToMainMenu()
     }
 }
 
