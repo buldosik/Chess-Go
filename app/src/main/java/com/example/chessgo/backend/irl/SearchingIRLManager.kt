@@ -2,6 +2,7 @@ package com.example.chessgo.backend.irl
 
 import android.util.Log
 import com.example.chessgo.backend.EventIRL
+import com.example.chessgo.backend.EventIRL.Companion.toEventIRL
 import com.example.chessgo.backend.GameIRL
 import com.example.chessgo.backend.global.ClientManager
 import com.google.firebase.firestore.ktx.firestore
@@ -18,7 +19,7 @@ class SearchingIRLManager {
                 val eventList = mutableListOf<EventIRL>()
                 for (document in documents) {
                     Log.d(TAG, "${document.id} => ${document.data}")
-                    var event = EventIRL.toEventIRL(document)
+                    val event = toEventIRL(document)
                     Log.d(TAG, "Converted ${event.position}")
                     eventList.add(event)
 
@@ -57,6 +58,13 @@ class SearchingIRLManager {
             .addOnFailureListener {
                     e -> Log.w(TAG, "Error updating document", e)
                     callback()
+            }
+        firestore.collection("events_on_map").document(gid)
+            .update("isFull", true)
+            .addOnSuccessListener { Log.d(TAG, "Map DocumentSnapshot successfully updated!") }
+            .addOnFailureListener {
+                e -> Log.w(TAG, "Error updating map document", e)
+                callback()
             }
     }
 }
