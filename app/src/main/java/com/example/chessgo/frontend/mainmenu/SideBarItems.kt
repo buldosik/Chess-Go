@@ -2,18 +2,20 @@ package com.example.chessgo.frontend.mainmenu
 
 import android.util.Log
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddModerator
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.navigation.NavController
 import com.example.chessgo.frontend.navigation.navigateToEnteringScreen
+import com.example.chessgo.frontend.navigation.navigateToModeratingScreen
 import com.example.chessgo.frontend.navigation.navigateToPrivacyPolicyScreen
 
 private const val TAG = "SideBarItems"
 
 class SideMenuItemsManager(signOut: () -> Unit) {
-    var itemsList = listOf<SideMenuItem>(Settings(), Info(), SignOut(signOut))
-
+    var itemsList = listOf<SideMenuItem>(Settings(), Info(), Moderator() ,SignOut(signOut))
+    
 // Easy adding in future updates
     /*fun addSettings() {
         itemsList = itemsList + Settings()
@@ -49,5 +51,15 @@ class SignOut(val signOut: () -> Unit) : SideMenuItem(
         Log.d(TAG, "SignOut")
         signOut()
         navController.navigateToEnteringScreen()
+    }
+}
+
+class Moderator : SideMenuItem(
+    title = "Moderate",
+    icon = Icons.Default.AddModerator
+){
+    override fun onClick(navController: NavController) {
+        Log.d(TAG, "StartModeration")
+        navController.navigateToModeratingScreen()
     }
 }

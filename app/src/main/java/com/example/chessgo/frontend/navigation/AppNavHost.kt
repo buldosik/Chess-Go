@@ -5,6 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.chessgo.backend.global.ClientManager
+import com.example.chessgo.backend.registration.sign_in.SignInManager
 
 @Composable
 fun AppNavHost(isLogged: Boolean) {

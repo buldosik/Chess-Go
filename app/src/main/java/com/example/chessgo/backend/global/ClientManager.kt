@@ -9,7 +9,7 @@ private const val TAG = "ClientManager"
 class ClientManager {
     companion object {
         private lateinit var client : User
-        fun initClient(user: User) {
+        private fun initClient(user: User) {
             this.client = user
             Log.d(TAG, "User init successful")
         }
@@ -22,6 +22,7 @@ class ClientManager {
                 Log.e(TAG, "Error initializing client", exception)
             }
         }
+
         fun getClient(): User {return client}
         fun setClientInfo(uid : String = client.uid,
                           name : String = client.username,

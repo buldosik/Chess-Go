@@ -67,10 +67,11 @@ fun MainMenuScreen(navController: NavHostController = rememberNavController() ) 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            SideBar(navController, { viewModel.signOut() }, toggleDrawerState)
+            SideBar(navController, { viewModel.signOut() }, viewModel.getModeratingPermissions(), toggleDrawerState)
         },
         content = {
             Column {
+
                 TopBar (toggleDrawerState)
                 MainContent(navController = navController)
             }
@@ -125,8 +126,14 @@ fun TopBar(toggleDrawerState: () -> Unit) {
 }
 
 @Composable
-fun SideBar(navController: NavHostController, signOut: () -> Unit, toggleDrawerState: () -> Unit) {
+fun SideBar(navController: NavHostController, signOut: () -> Unit, isModerator: Boolean, toggleDrawerState: () -> Unit) {
     val itemsManager = SideMenuItemsManager(signOut)
+    val filteredItemsList = if (isModerator) {
+        itemsManager.itemsList
+    } else {
+        itemsManager.itemsList.filterNot {it is Moderator}
+    }
+    System.out.println(filteredItemsList.size)
     ModalDrawerSheet {
         val imagePainter = painterResource(id = R.drawable.enter_screen_figures)
         Image(
@@ -135,7 +142,7 @@ fun SideBar(navController: NavHostController, signOut: () -> Unit, toggleDrawerS
             modifier = Modifier.size(200.dp)
         )
         Spacer(Modifier.height(12.dp))
-        itemsManager.itemsList.forEach { item ->
+        filteredItemsList.forEach { item ->
             NavigationDrawerItem(
                 icon = { Icon(item.icon, contentDescription = null, tint = MaterialTheme.colorScheme.onBackground) },
                 label = { Text(item.title) },

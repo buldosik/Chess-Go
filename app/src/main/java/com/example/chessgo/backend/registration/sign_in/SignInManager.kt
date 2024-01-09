@@ -22,7 +22,6 @@ class SignInManager {
                 callback(Results.Failure(exception))
             }
     }
-
     fun getPhotoUrl(): String? {
         val user = auth.currentUser
         return user?.photoUrl?.toString()
