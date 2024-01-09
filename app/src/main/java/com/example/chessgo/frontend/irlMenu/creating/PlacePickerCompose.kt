@@ -92,14 +92,13 @@ fun PlacePicker(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 48.dp, horizontal = 24.dp)
+            .padding(top = 24.dp, bottom = 48.dp)
             .background(MaterialTheme.colorScheme.background)
     ) {
         // Adding map on full field
         GoogleMap(
             modifier = Modifier
-                .matchParentSize()
-                .padding(8.dp),
+                .matchParentSize(),
             googleMapOptionsFactory = {
                 GoogleMapOptions().mapId("PICKING_POINT_MAP_ID")
             },

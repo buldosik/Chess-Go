@@ -1,39 +1,38 @@
 package com.example.chessgo.frontend
 
 
+import android.Manifest
+import android.content.Context
+import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import android.Manifest
-import android.content.Context
-import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.runtime.MutableState
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.chessgo.R
 
 private const val cameraPermission = Manifest.permission.CAMERA
@@ -110,18 +109,22 @@ fun CameraScreen(togglePlacePicker: () -> Unit) {
                         cameraPermissionLauncher = cameraPermissionLauncher
                     )
                 , text = stringResource(id = R.string.take_photo),
-                color = ButtonDefaults.outlinedButtonColors(
-                    contentColor = if (buttonState.value) MaterialTheme.colorScheme.onPrimary else Color.White,
-                    containerColor = if (buttonState.value) Color.White else MaterialTheme.colorScheme.onPrimary,
+                color = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    disabledContainerColor = MaterialTheme.colorScheme.primary,
+                    disabledContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 borderColor = BorderStroke(4.dp, MaterialTheme.colorScheme.onPrimary)
             )
             ButtonFunction(
                 onClick =onSubmitClick(cameraViewModel = cameraViewModel, context = context)
             , text = "Submit",
-                color = ButtonDefaults.outlinedButtonColors(
-                    contentColor = if (buttonState.value) Color.White else MaterialTheme.colorScheme.onPrimary,
-                    containerColor = if (buttonState.value) MaterialTheme.colorScheme.onPrimary else Color.White,
+                color = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    disabledContainerColor = MaterialTheme.colorScheme.secondary,
+                    disabledContentColor = MaterialTheme.colorScheme.onSecondary
                 ),
                 borderColor = BorderStroke(4.dp, MaterialTheme.colorScheme.onPrimary)
             )
