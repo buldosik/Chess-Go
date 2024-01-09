@@ -60,7 +60,7 @@ class SearchingIRLManager {
                     callback()
             }
         firestore.collection("events_on_map").document(gid)
-            .update("isFull", true)
+            .update("full", true)
             .addOnSuccessListener { Log.d(TAG, "Map DocumentSnapshot successfully updated!") }
             .addOnFailureListener {
                 e -> Log.w(TAG, "Error updating map document", e)
