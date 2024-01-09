@@ -33,11 +33,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.chessgo.R
 import com.example.chessgo.frontend.keyboardAsState
+import com.example.chessgo.frontend.navigation.navigateToSignIn
 
 @Composable
 fun ForgotPasswordScreen(navController: NavHostController = rememberNavController()) {
     val context = LocalContext.current
-    val sender = remember { ForgotPasswordTools(navController, context)}
+    val sender = remember { ForgotPasswordViewModel()}
 
     val isKeyboardOpen by keyboardAsState() // true or false
     // Create an animated offset state for the InputTextFields
@@ -79,7 +80,12 @@ fun ForgotPasswordScreen(navController: NavHostController = rememberNavControlle
                 //colors = ButtonDefaults.outlinedButtonColors(),
                 onClick = {
                     if (email.isNotEmpty()) {
-                        sender.sendResetLink(email)
+                        sender.sendResetLink(email) {message ->
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                            if (message == "Success") {
+                                navController.navigateToSignIn()
+                            }
+                        }
                     }
                     else {
                         Toast.makeText(context, "Email is empty", Toast.LENGTH_SHORT).show()

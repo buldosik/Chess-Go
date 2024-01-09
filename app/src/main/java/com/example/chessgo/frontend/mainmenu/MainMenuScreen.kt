@@ -1,6 +1,7 @@
 package com.example.chessgo.frontend.mainmenu
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,6 +63,11 @@ fun MainMenuScreen(navController: NavHostController = rememberNavController() ) 
             else
                 drawerState.open()
         }
+    }
+
+    BackHandler {
+        if(drawerState.isOpen)
+            toggleDrawerState()
     }
 
     ModalNavigationDrawer(

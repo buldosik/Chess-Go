@@ -1,8 +1,6 @@
 package com.example.chessgo.frontend.registration.sign_up
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.chessgo.backend.registration.Results
@@ -12,41 +10,30 @@ import com.example.chessgo.frontend.navigation.navigateToSignIn
 
 private const val TAG = "SignUpViewModel"
 
-class SignUpTools(
+class SignUpViewModel(
     val navController: NavHostController,
-    val context: Context
 ) : ViewModel(){
     private val signUpManager = SignUpManager()
 
-    fun onSignUpClick(email: String, username: String, password: String) {
+    fun onSignUpClick(email: String, username: String, password: String, callback: (String) -> Unit) {
         if(email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(
-                context,
-                "One or more fields are empty",
-                Toast.LENGTH_SHORT
-            ).show()
+            callback("One or more fields are empty")
             return
         }
         if(!validatePassword(password)) {
-            Toast.makeText(
-                context,
-                "Your password doesn't meet criteria",
-                Toast.LENGTH_SHORT
-            ).show()
+            callback("Your password doesn't meet criteria")
             return
         }
-        createUser(email, username, password)
+        createUser(email, username, password) {message ->
+            callback(message)
+        }
     }
 
-    private fun createUser(email: String, username: String, password: String) {
+    private fun createUser(email: String, username: String, password: String, callback: (String) -> Unit) {
         signUpManager.createUserWithEmailAndPassword(email, password) { result ->
             when (result) {
                 is Results.Success -> {
-                    Toast.makeText(
-                        context,
-                        "Verify email",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    callback("Verify email")
                     signUpManager.createUserData(result.data, email, username)
                     signUpManager.signOut()
                     navController.navigateToSignIn()
@@ -56,11 +43,7 @@ class SignUpTools(
                     val exception = result.exception
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", exception)
-                    Toast.makeText(
-                        context,
-                        "Registration failed",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                    callback("Registration failed")
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.example.chessgo.frontend.registration.sign_in
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -53,7 +54,7 @@ private const val TAG = "SignInScreen"
 @Composable
 fun SignInScreen(navController: NavHostController = rememberNavController()) {
     val context = LocalContext.current
-    val viewModel  = remember { SignInTools(navController, context) }
+    val viewModel  = remember { SignInViewModel(navController) }
 
 
     var email: String by remember { mutableStateOf("") }
@@ -122,7 +123,13 @@ fun SignInScreen(navController: NavHostController = rememberNavController()) {
 
         LogInButton(
             offset = offsetState,
-            onClick = { viewModel.onLoginClick(email, password) },
+            onClick = { viewModel.onLoginClick(email, password) {message ->
+                Toast.makeText(
+                    context,
+                    message,
+                    Toast.LENGTH_SHORT,
+                ).show()
+            } },
         )
         SignUpButton(
             offset = offsetState,

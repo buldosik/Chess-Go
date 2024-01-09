@@ -8,6 +8,7 @@ import com.example.chessgo.frontend.irlMenu.creating.CreatingScreen
 import com.example.chessgo.frontend.irlMenu.myevents.MyEventsScreen
 import com.example.chessgo.frontend.irlMenu.result.ResultScreen
 import com.example.chessgo.frontend.irlMenu.searching.SearchingScreen
+import com.example.chessgo.frontend.loading.LoadingScreen
 import com.example.chessgo.frontend.mainmenu.MainMenuScreen
 import com.example.chessgo.frontend.onlinegame.OnlineMenuScreen
 import com.example.chessgo.frontend.privacypolicy.PrivacyPolicy
@@ -31,6 +32,7 @@ sealed class Screen(val route: String) {
     object SignInScene : Screen("SignInScreen")
     object SignUpScene : Screen("SignUpScreen")
     object ForgotPassword : Screen("ForgotPasswordScreen")
+    object Loading : Screen("LoadingScreen")
     object MainMenu : Screen("MainMenuScreen")
     object IrlMenu : Screen("IrlMenuScreen")
     object CreatingMenu : Screen("CreatingMenuScreen")
@@ -47,6 +49,7 @@ val screens = listOf(
     Screen.SignInScene,
     Screen.SignUpScene,
     Screen.ForgotPassword,
+    Screen.Loading,
     Screen.MainMenu,
     Screen.IrlMenu,
     Screen.CreatingMenu,
@@ -64,6 +67,9 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
         is Screen.SignInScene -> SignInScreen(navController = navController)
         is Screen.SignUpScene -> SignUpScreen(navController = navController)
         is Screen.ForgotPassword -> ForgotPasswordScreen(navController = navController)
+
+        is Screen.Loading -> LoadingScreen(navController = navController)
+
         is Screen.MainMenu -> MainMenuScreen(navController = navController)
         //
         is Screen.IrlMenu -> IRLMenuScreen(navController = navController)
@@ -96,6 +102,10 @@ fun NavController.navigateToSignUp() {
 }
 fun NavController.navigateToForgotPassword() {
     navigate("ForgotPasswordScreen")
+}
+
+fun NavController.navigateToLoading() {
+    navigate("LoadingScreen")
 }
 
 fun NavController.navigateToMainMenu() {

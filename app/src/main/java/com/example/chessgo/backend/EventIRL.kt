@@ -11,18 +11,22 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
  */
 data class EventIRL(
     val gui: String = "",
+    val isFull: Boolean = false,
+    val hostUID: String = "",
     val position: LatLng = LatLng(0.0, 0.0),
 ) {
     companion object {
         fun toEventIRL(document: QueryDocumentSnapshot) : EventIRL {
             val gui = document.id
+            val isFull = document.get("full") as? Boolean ?: false
+            val hostUID = document.get("hostUID") as? String ?: ""
             val dataMap = document.get("position") as? Map<*, *>
             val latitude = (dataMap?.get("latitude") as? Double) ?: 0.0
             val longitude = (dataMap?.get("longitude") as? Double) ?: 0.0
 
             val position = LatLng(latitude, longitude)
 
-            return EventIRL(gui = gui, position = position,)
+            return EventIRL(gui = gui, isFull = isFull, hostUID = hostUID, position = position)
         }
     }
 }
