@@ -1,6 +1,8 @@
 package com.example.chessgo.backend.global
 
+import android.net.Uri
 import android.util.Log
+import com.example.chessgo.backend.GameIRL
 import com.example.chessgo.backend.User
 import com.google.firebase.auth.FirebaseUser
 
@@ -9,6 +11,10 @@ private const val TAG = "ClientManager"
 class ClientManager {
     companion object {
         private lateinit var client : User
+        lateinit var userGameIRL : GameIRL
+        lateinit var currentPicture : String
+        var pictureUri : Uri? = null
+        var isPictureChanged = false
         fun initClient(user: User) {
             this.client = user
             Log.d(TAG, "User init successful")

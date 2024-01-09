@@ -1,15 +1,14 @@
 package com.example.chessgo.frontend.irlMenu.myevents
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
 import com.example.chessgo.backend.GameIRL
 import com.example.chessgo.backend.global.TimeConverter
 import com.example.chessgo.backend.irl.ListingIRLManager
 import com.google.android.gms.maps.model.LatLng
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 
-class ListingViewModel {
+class ListingViewModel : ViewModel() {
     val listingIRLManager = ListingIRLManager()
     val games = mutableStateListOf<GameIRL>()
     lateinit var currentGame: GameIRL
