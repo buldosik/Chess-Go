@@ -16,6 +16,7 @@ class ListingIRLManager {
             .addOnSuccessListener { documents ->
                 val gamesList = mutableListOf<GameIRL>()
                 val uid = ClientManager.getClient().uid
+                Log.d(TAG, "CLIENT: $uid")
                 for (document in documents) {
                     Log.d(TAG, "${document.id} => ${document.data}")
                     val event = GameIRL.toGameIRL(document)
@@ -34,6 +35,12 @@ class ListingIRLManager {
 
     fun signOffGame(gameIRL: GameIRL) {
         val document = firestore.collection("events").document(gameIRL.gid)
+        val map_document = firestore.collection("events_on_map").document(gameIRL.gid)
+
+        map_document.get()
+            .addOnFailureListener() {
+                //TODO
+            }
 
         document.get()
             .addOnSuccessListener() {
@@ -41,16 +48,21 @@ class ListingIRLManager {
                 val uid = ClientManager.getClient().uid
                 if (game.host == "" || game.enemy == "") {
                     document.delete()
+                    map_document.delete()
                 } else {
                     if (game.host == uid) {
-                        document.update("host", game.enemy)
+                        document.delete()
+                        map_document.delete()
                     } else {
                         document.update("enemy", "")
+                        map_document.update("full", false)
                     }
                 }
             }
             .addOnFailureListener() {
                 // TODO
             }
+
+
     }
 }

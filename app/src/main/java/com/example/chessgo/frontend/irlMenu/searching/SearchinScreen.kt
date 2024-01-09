@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,9 +42,10 @@ private val defaultCameraPosition1 = CameraPosition.fromLatLngZoom(center, 2f)
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun SearchingScreen(navController: NavHostController) {
-    val searchingTools = remember { SearchingTools() }
-    searchingTools.getPoints()
-
+    val searchingTools = remember { SearchingViewModel() }
+    LaunchedEffect(Unit) {
+        searchingTools.getPoints()
+    }
     // Observing and controlling the camera's state can be done with a CameraPositionState
     val cameraPositionState = rememberCameraPositionState {
         position = defaultCameraPosition1
@@ -58,59 +60,61 @@ fun SearchingScreen(navController: NavHostController) {
         mutableStateOf("")
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 48.dp, top = 24.dp),
-        //color = MaterialTheme.colorScheme.background
-    ) {
-        GoogleMap(
-            modifier = Modifier.fillMaxSize(),
-            googleMapOptionsFactory = {
-                GoogleMapOptions().mapId("SEARCHING_MAP_ID")
-            },
-            cameraPositionState = cameraPositionState,
-            properties = mapProperties,
-            onPOIClick = {
-                Log.d(TAG, "POI clicked: ${it.name}")
-                isInfoBoxVisible = false
-            },
-            onMapClick = {
-                Log.d(TAG, "Map clicked: $it")
-                isInfoBoxVisible = false
-            }
+    Surface() {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 48.dp, top = 24.dp),
+            //color = MaterialTheme.colorScheme.background
         ) {
-            // Adding all markers to map
-            searchingTools.points.forEach { point ->
-                Log.d(TAG, "Marker Spawned: ${point.position}")
-                Marker(
-                    state = MarkerState(position = point.position),
-                    title = point.gui,
-                    onClick = {
-                        Log.d(TAG, "Marker Clicked: ${it.title}")
-                        chosenMarker = it.title.toString()
-                        isInfoBoxVisible = true
-                        true
-                    }
-                )
-            }
-        }
-
-        AnimatedVisibility(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            visible = isInfoBoxVisible,
-            enter = fadeIn (),
-            exit = fadeOut ()
-        ) {
-            Surface(
-                modifier = Modifier
-                    .height(350.dp)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 32.dp),
-                shape = MaterialTheme.shapes.small,
-                color = Color.Transparent
+            GoogleMap(
+                modifier = Modifier.fillMaxSize(),
+                googleMapOptionsFactory = {
+                    GoogleMapOptions().mapId("SEARCHING_MAP_ID")
+                },
+                cameraPositionState = cameraPositionState,
+                properties = mapProperties,
+                onPOIClick = {
+                    Log.d(TAG, "POI clicked: ${it.name}")
+                    isInfoBoxVisible = false
+                },
+                onMapClick = {
+                    Log.d(TAG, "Map clicked: $it")
+                    isInfoBoxVisible = false
+                }
             ) {
-                EventInfoBox(chosenMarker, searchingTools, navController)
+                // Adding all markers to map
+                searchingTools.points.forEach { point ->
+                    Log.d(TAG, "Marker Spawned: ${point.position}")
+                    Marker(
+                        state = MarkerState(position = point.position),
+                        title = point.gui,
+                        onClick = {
+                            Log.d(TAG, "Marker Clicked: ${it.title}")
+                            chosenMarker = it.title.toString()
+                            isInfoBoxVisible = true
+                            true
+                        }
+                    )
+                }
+            }
+
+            AnimatedVisibility(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                visible = isInfoBoxVisible,
+                enter = fadeIn (),
+                exit = fadeOut ()
+            ) {
+                Surface(
+                    modifier = Modifier
+                        .height(350.dp)
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 32.dp),
+                    shape = MaterialTheme.shapes.small,
+                    color = Color.Transparent
+                ) {
+                    EventInfoBox(chosenMarker, searchingTools, navController)
+                }
             }
         }
     }

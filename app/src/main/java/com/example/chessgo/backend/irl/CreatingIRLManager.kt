@@ -35,7 +35,8 @@ class CreatingIRLManager {
     }
     private fun addNewEventToMap(position: LatLng, gid: String) {
         val newEvent = EventIRL(
-            position = position
+            position = position,
+            hostUID = ClientManager.getClient().uid
         )
         firestore.collection("events_on_map").document(gid)
             .set(newEvent)
