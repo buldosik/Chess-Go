@@ -8,12 +8,16 @@ import androidx.lifecycle.ViewModel
 import com.example.chessgo.backend.EventIRL
 import com.example.chessgo.backend.GameIRL
 import com.example.chessgo.backend.global.ClientManager
+import com.example.chessgo.backend.global.GeocoderUtils
+import com.example.chessgo.backend.global.LoadDataCallback
 import com.example.chessgo.backend.irl.SearchingIRLManager
+import com.google.android.gms.maps.model.LatLng
 
 private const val TAG = "SearchingMenuViewModel"
 
 class SearchingViewModel: ViewModel() {
     private val searchingIRLManager = SearchingIRLManager()
+    private val geocoderUtils = GeocoderUtils()
     val points = mutableStateListOf<EventIRL>()
     fun getPoints() {
         Log.d(TAG, "GETTING EVENTS")
@@ -38,6 +42,7 @@ class SearchingViewModel: ViewModel() {
         searchingIRLManager.getInfoAboutEvent(gid, callback)
     }
 
+
     fun addEnemyToEvent(gid: String, context: Context) {
         searchingIRLManager.applyToEvent(gid) {
             Toast.makeText(
@@ -46,6 +51,10 @@ class SearchingViewModel: ViewModel() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    fun getAddressFromPoint(context: Context, position: LatLng, loadDataCallback: LoadDataCallback<String>) {
+        geocoderUtils.getAddressFromPoint(context, position, loadDataCallback)
     }
 
 }
