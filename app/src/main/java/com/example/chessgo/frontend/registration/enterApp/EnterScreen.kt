@@ -60,7 +60,8 @@ fun GreetingScreen(navController: NavHostController = rememberNavController()) {
                 onClick = { navController.navigateToSignIn() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 32.dp)
+                    .padding(vertical = 8.dp, horizontal = 32.dp),
+
             ) {
                 Text(
                     text = stringResource(id = R.string.log_in),

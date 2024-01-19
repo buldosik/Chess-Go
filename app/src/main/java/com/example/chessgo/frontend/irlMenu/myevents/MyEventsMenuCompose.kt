@@ -1,7 +1,6 @@
 package com.example.chessgo.frontend.irlMenu.myevents
 
 import android.annotation.SuppressLint
-import android.location.Geocoder
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -27,6 +26,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,6 +46,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.chessgo.backend.GameIRL
 import com.example.chessgo.backend.global.ClientManager
+import com.example.chessgo.backend.global.LoadDataCallback
 import com.example.chessgo.frontend.navigation.navigateToMainMenu
 import com.example.chessgo.frontend.navigation.navigateToResultScreen
 import com.google.android.gms.maps.GoogleMapOptions
@@ -57,7 +58,6 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.text.SimpleDateFormat
 
 private const val TAG = "MyEventsMenuCompose"
@@ -189,20 +189,43 @@ fun GameItem(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Spacer(modifier = Modifier.height(30.dp))
-                    val geocoder = Geocoder(context)
-                    val address: String = try {
-                        val arrAddress = geocoder.getFromLocation(viewModel.currentGame.position.latitude, viewModel.currentGame.position.longitude, 1)
-                        arrAddress?.get(0)?.getAddressLine(0).toString()
-                    } catch (e: IOException) {
-                        "latitude - ${viewModel.currentGame.position.latitude}, longitude - ${viewModel.currentGame.position.longitude}"
+
+                    // Loading address
+                    var isLoading by remember {
+                        mutableStateOf(true)
                     }
-                    Text(
-                        text = "Address: $address",
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center
-                    )
+                    var address by remember {
+                        mutableStateOf("")
+                    }
+
+                    val loadDataCallback = object: LoadDataCallback<String> {
+                        override fun onDataLoaded(response: String) {
+                            address = response
+                            isLoading = false
+                        }
+
+                        override fun onDataNotAvailable(errorCode: Int, reasonMsg: String) {
+                            Log.d(TAG, "Error code: $errorCode, Message : $reasonMsg")
+                        }
+                    }
+                    LaunchedEffect(key1 = viewModel.currentGame) {
+                        viewModel.getAddress(context, loadDataCallback)
+                    }
+                    if (!isLoading) {
+                        Text(
+                            text = "Address: $address",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleMedium,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    else {
+                        CircularProgressIndicator()
+                    }
+
                     PlaceOnMap(viewModel = viewModel)
+
+                    // Result button
                     Button(
                         modifier = Modifier.padding(top = 10.dp),
                         colors = ButtonDefaults.buttonColors(
@@ -214,17 +237,17 @@ fun GameItem(
                         }) {
                         Text(text = "Result", color = MaterialTheme.colorScheme.onPrimary)
                     }
+
+                    // SignOff button
                     Button(
                         modifier = Modifier.padding(top = 10.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = MaterialTheme.colorScheme.primary
                         ),
                         onClick = {
-                        viewModel.listingIRLManager.signOffGame(viewModel.currentGame)
-                        isExpanded = !isExpanded
-                        viewModel.games.remove(viewModel.currentGame)
-                        Log.d(TAG, viewModel.games.toString())
-                        Thread.sleep(1_00)
+                            viewModel.removeCurrentGame()
+                            isExpanded = !isExpanded
+                            Log.d(TAG, viewModel.games.toString())
                     }) {
                         Text(text = "Sign off", color = MaterialTheme.colorScheme.onPrimary)
                     }
