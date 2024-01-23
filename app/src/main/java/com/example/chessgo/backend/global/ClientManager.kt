@@ -10,6 +10,7 @@ private const val TAG = "ClientManager"
 
 class ClientManager {
     companion object {
+        lateinit var currentLobbyId: String
         private lateinit var client : User
         lateinit var userGameIRL : GameIRL
         lateinit var currentPicture : String

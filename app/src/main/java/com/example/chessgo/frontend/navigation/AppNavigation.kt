@@ -8,9 +8,10 @@ import com.example.chessgo.frontend.irlMenu.creating.CreatingScreen
 import com.example.chessgo.frontend.irlMenu.myevents.MyEventsScreen
 import com.example.chessgo.frontend.irlMenu.result.ResultScreen
 import com.example.chessgo.frontend.irlMenu.searching.SearchingScreen
-import com.example.chessgo.frontend.loading.LoadingScreen
+import com.example.chessgo.frontend.loading.EnterLoadingScreen
 import com.example.chessgo.frontend.mainmenu.MainMenuScreen
 import com.example.chessgo.frontend.onlinegame.OnlineMenuScreen
+import com.example.chessgo.frontend.onlinegame.random.RandomOnlineGameScreen
 import com.example.chessgo.frontend.privacypolicy.PrivacyPolicy
 import com.example.chessgo.frontend.registration.enterApp.GreetingScreen
 import com.example.chessgo.frontend.registration.forgotPassword.ForgotPasswordScreen
@@ -32,15 +33,20 @@ sealed class Screen(val route: String) {
     object SignInScene : Screen("SignInScreen")
     object SignUpScene : Screen("SignUpScreen")
     object ForgotPassword : Screen("ForgotPasswordScreen")
+
     object Loading : Screen("LoadingScreen")
+
     object MainMenu : Screen("MainMenuScreen")
+    object PrivacyPolicy: Screen("PrivacyPolicyScreen")
+
     object IrlMenu : Screen("IrlMenuScreen")
     object CreatingMenu : Screen("CreatingMenuScreen")
     object SearchingMenu : Screen("SearchingScreen")
     object MyEventsMenu : Screen("MyEventsScreen")
-    object OnlineMenu : Screen("OnlineMenuScreen")
-    object PrivacyPolicy: Screen("PrivacyPolicyScreen")
     object ResultMenu: Screen("ResultScreen")
+
+    object OnlineMenu : Screen("OnlineMenuScreen")
+    object RandomOnlineGame : Screen("RandomOnlineScreen")
 
 }
 
@@ -49,15 +55,20 @@ val screens = listOf(
     Screen.SignInScene,
     Screen.SignUpScene,
     Screen.ForgotPassword,
+
     Screen.Loading,
+
     Screen.MainMenu,
+    Screen.PrivacyPolicy,
+
     Screen.IrlMenu,
     Screen.CreatingMenu,
     Screen.SearchingMenu,
     Screen.MyEventsMenu,
+    Screen.ResultMenu,
+
     Screen.OnlineMenu,
-    Screen.PrivacyPolicy,
-    Screen.ResultMenu
+    Screen.RandomOnlineGame,
 )
 
 @Composable
@@ -68,24 +79,20 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
         is Screen.SignUpScene -> SignUpScreen(navController = navController)
         is Screen.ForgotPassword -> ForgotPasswordScreen(navController = navController)
 
-        is Screen.Loading -> LoadingScreen(navController = navController)
+        is Screen.Loading -> EnterLoadingScreen(navController = navController)
 
         is Screen.MainMenu -> MainMenuScreen(navController = navController)
-        //
+        is Screen.PrivacyPolicy -> PrivacyPolicy(navController = navController)
+
         is Screen.IrlMenu -> IRLMenuScreen(navController = navController)
         is Screen.CreatingMenu -> CreatingScreen(navController = navController)
         is Screen.SearchingMenu -> SearchingScreen(navController = navController)
         // ToDo Update compose
         is Screen.MyEventsMenu -> MyEventsScreen(navController = navController)
-
-        is Screen.OnlineMenu -> OnlineMenuScreen(navController = navController)
-        //added
-//        is Screen.CameraTesting -> CameraScreen(navController = navController)
-
-        is Screen.PrivacyPolicy -> PrivacyPolicy(navController = navController)
-
         is Screen.ResultMenu -> ResultScreen(navController = navController)
 
+        is Screen.OnlineMenu -> OnlineMenuScreen(navController = navController)
+        is Screen.RandomOnlineGame -> RandomOnlineGameScreen(navController = navController)
     }
 }
 
@@ -111,6 +118,9 @@ fun NavController.navigateToLoading() {
 fun NavController.navigateToMainMenu() {
     navigate("MainMenuScreen")
 }
+fun NavController.navigateToPrivacyPolicyScreen() {
+    navigate("PrivacyPolicyScreen")
+}
 
 fun NavController.navigateToCreatingMenu() {
     navigate("CreatingMenuScreen")
@@ -121,15 +131,13 @@ fun NavController.navigateToSearchingMenu() {
 fun NavController.navigateToMyEventsMenu() {
     navigate("MyEventsScreen")
 }
+fun NavController.navigateToResultScreen() {
+    navigate("ResultScreen")
+}
 
 fun NavController.navigateToOnlineMenu() {
     navigate("OnlineMenuScreen")
 }
-
-fun NavController.navigateToPrivacyPolicyScreen() {
-    navigate("PrivacyPolicyScreen")
-}
-
-fun NavController.navigateToResultScreen() {
-    navigate("ResultScreen")
+fun NavController.navigateToRandomOnlineGame() {
+    navigate("RandomOnlineScreen")
 }
