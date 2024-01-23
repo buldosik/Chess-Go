@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.chessgo.frontend.irlMenu.IRLMenuScreen
 import com.example.chessgo.frontend.irlMenu.creating.CreatingScreen
+import com.example.chessgo.frontend.irlMenu.moderation.ModerationScreen
 import com.example.chessgo.frontend.irlMenu.myevents.MyEventsScreen
 import com.example.chessgo.frontend.irlMenu.result.ResultScreen
 import com.example.chessgo.frontend.irlMenu.searching.SearchingScreen
@@ -38,6 +39,7 @@ sealed class Screen(val route: String) {
 
     object MainMenu : Screen("MainMenuScreen")
     object PrivacyPolicy: Screen("PrivacyPolicyScreen")
+    object ModerationMenu: Screen("ModerationScreen")
 
     object IrlMenu : Screen("IrlMenuScreen")
     object CreatingMenu : Screen("CreatingMenuScreen")
@@ -69,6 +71,7 @@ val screens = listOf(
 
     Screen.OnlineMenu,
     Screen.RandomOnlineGame,
+    Screen.ModerationMenu
 )
 
 @Composable
@@ -83,6 +86,7 @@ fun HandleScreen(screen: Screen, navController: NavHostController) {
 
         is Screen.MainMenu -> MainMenuScreen(navController = navController)
         is Screen.PrivacyPolicy -> PrivacyPolicy(navController = navController)
+        is Screen.ModerationMenu -> ModerationScreen(navController = navController)
 
         is Screen.IrlMenu -> IRLMenuScreen(navController = navController)
         is Screen.CreatingMenu -> CreatingScreen(navController = navController)
@@ -120,6 +124,9 @@ fun NavController.navigateToMainMenu() {
 }
 fun NavController.navigateToPrivacyPolicyScreen() {
     navigate("PrivacyPolicyScreen")
+}
+fun NavController.navigateToModerationScreen() {
+    navigate("ModerationScreen")
 }
 
 fun NavController.navigateToCreatingMenu() {

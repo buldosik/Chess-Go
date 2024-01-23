@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.chessgo.R
 import com.example.chessgo.backend.GameIRL
-import com.example.chessgo.backend.global.GeocoderUtils
 import com.example.chessgo.backend.global.LoadDataCallback
 import com.example.chessgo.backend.global.TimeConverter
 import com.example.chessgo.frontend.irlMenu.standardOutlineTextColors
@@ -73,8 +73,6 @@ fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingViewModel, na
             }
         }
 
-        val geocoderUtils = GeocoderUtils()
-
         var description by remember {
             mutableStateOf("")
         }
@@ -88,13 +86,16 @@ fun EventInfoBox(chosenMarkerGID: String, searchingTools: SearchingViewModel, na
             mutableStateOf(gameIrl.position)
         }
 
-        searchingTools.getInfoAboutPoint(chosenMarkerGID) {
-            if (it != null) {
-                gameIrl = it
-                geocoderUtils.getAddressFromPoint(context, gameIrl.position, loadDataCallback)
-                description = gameIrl.description
-                pickedDate = TimeConverter.convertToLocalDateViaInstant(gameIrl.date)
-                pickedTime = TimeConverter.convertToLocalTimeViaInstant(gameIrl.date)
+        LaunchedEffect(key1 = chosenMarkerGID) {
+            searchingTools.getInfoAboutPoint(chosenMarkerGID) {
+                if (it != null) {
+                    gameIrl = it
+                    searchingTools.getAddressFromPoint(context, gameIrl.position, loadDataCallback)
+                    description = gameIrl.description
+                    pickedDate = TimeConverter.convertToLocalDateViaInstant(gameIrl.date)
+                    pickedTime = TimeConverter.convertToLocalTimeViaInstant(gameIrl.date)
+                    pickedPoint = gameIrl.position
+                }
             }
         }
 
